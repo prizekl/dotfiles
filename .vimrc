@@ -1,5 +1,5 @@
 " ~/.vimrc
-" :g/^$/    
+" :g/^$/
 " :g/>/norm ctwself.assertEqual(JA,
 " :'<,'>Tab /=
 " macros :norm @q"
@@ -79,6 +79,9 @@ Plug 'vim-airline/vim-airline'
 Plug 'ryanoasis/vim-devicons'
 call plug#end()
 
+" --UndoTree
+nnoremap <Leader>b :UndotreeToggle<CR>
+
 " --Emmet
 let g:user_emmet_leader_key='<Leader>'
 imap ,, <Leader>,
@@ -87,30 +90,11 @@ imap ,, <Leader>,
 let g:vista_default_executive = 'coc'
 nmap <Leader>t :Vista finder<CR>
 let g:vista_fzf_preview = ['right:50%']
-function Toggy()
-  let vistawinnr = bufwinnr('__vista__')
-  let minimapwinnr = bufwinnr('-MINIMAP-')
-  if vistawinnr!= -1
-    echo('closing vista and opening minimap')
-    Vista!
-    Minimap
-  elseif minimapwinnr != -1
-    echo('closing minimap and opening vista')
-    MinimapClose
-    Vista
-  else
-    echo('opening minimap')
-    Minimap
-  endif
-endfunction
-nnoremap <C-t> :call Toggy()<CR>
+nnoremap <C-t> :Vista!!<CR>
 
 " --FZF
 nmap <C-p> :Files<CR>
 nmap <C-f> :Buffers<CR>
-
-" --UndoTree
-nnoremap <Leader>b :UndotreeToggle<CR>
 
 " --Context
 let g:context_enabled = 1
@@ -137,27 +121,24 @@ let g:indentLine_bufNameExclude = ['_.*', 'NERD_tree.*']
 " {{{ User Interface }}}
 
 " --Colors
-" tmux color fix
 if exists('$TMUX')
  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 endif
 set fillchars+=vert:│,eob:\ 
 set signcolumn=yes
-" set termguicolors
+set termguicolors
 set background=dark
 colo codedark
 let g:minimap_width = 10
 hi MinimapCurrentLine guifg=#00adb5
 let g:minimap_highlight = 'MinimapCurrentLine'
-nmap <Leader>m :MinimapClose<CR>
+nmap <Leader>m :MinimapToggle<CR>
 
 " {{{ COC }}}
 
-" --COC EXPLORER
+" --COC Plugins
 nnoremap <C-n> :CocCommand explorer<CR>
-
-" --Snippets
 command EditSnippets execute 'CocCommand snippets.editSnippets'
 
 " --UI
@@ -170,7 +151,6 @@ highlight CocErrorSign guifg=#c7463e
 nnoremap <silent> <space>d :<C-u>CocList diagnostics<cr>
 " Remap keys for applying codeAction to the current buffer.
 nmap <leader>ac  <Plug>(coc-codeaction)
-
 set updatetime=300
 set shortmess+=c
 inoremap <silent><expr> <TAB>
@@ -203,7 +183,7 @@ xmap <leader>a  <Plug>(coc-codeaction-selected)
 nmap <leader>a  <Plug>(coc-codeaction-selected)
 command! -nargs=0 Format :call CocAction('format')
 " Add `:OR` command for organize imports of the current buffer.
-command! -nargs=0 OR   :call CocAction('runCommand', 'editor.action.organizeImport')
+command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport')
 
 " {{{ DEPRECATED CONFIGS }}}
 
@@ -312,3 +292,20 @@ command! -nargs=0 OR   :call CocAction('runCommand', 'editor.action.organizeImpo
 "   endif
 " endfunction
 " nnoremap <silent> <Leader>f :call Debuf()<CR>
+" function Toggy()
+"   let vistawinnr = bufwinnr('__vista__')
+"   let minimapwinnr = bufwinnr('-MINIMAP-')
+"   if vistawinnr!= -1
+"     echo('closing vista and opening minimap')
+"     Vista!
+"     Minimap
+"   elseif minimapwinnr != -1
+"     echo('closing minimap and opening vista')
+"     MinimapClose
+"     Vista
+"   else
+"     echo('opening minimap')
+"     Minimap
+"   endif
+" endfunction
+" nnoremap <C-t> :call Toggy()<CR>
