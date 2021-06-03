@@ -14,23 +14,6 @@ nnoremap <Leader>x /\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgn
 nnoremap <Leader>X ?\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgN
 nnoremap ,m :!python3 %
 
-"buffer management
-function Debuf()
-  echo("[buffer list]")
-  ls t
-  call inputsave()
-  const buffername = input('debuf: ', '', 'buffer')
-  call inputrestore()
-  if buffername == "aec"
-    %bdelete|edit#|bdelete#
-  elseif len(buffername) >= 1
-    for i in split(buffername)
-      execute "bd " . i
-    endfor
-  endif
-endfunction
-nnoremap <silent> <Leader>f :call Debuf()<CR>
-
 " --Vim Defaults
 syntax on
 set encoding=utf8
@@ -86,20 +69,17 @@ Plug 'mbbill/undotree'
 "Syntax Highlighting
 let g:polyglot_disabled = ['typescript', 'sensible']
 Plug 'sheerun/vim-polyglot'
-"Colorschemes
-Plug 'tomasiser/vim-code-dark'
-Plug 'romgrk/doom-one.vim'
-Plug 'sainnhe/gruvbox-material'
 "Git support
 " Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 "Appearance
+Plug 'tomasiser/vim-code-dark'
 Plug 'Yggdroot/indentLine'
 Plug 'vim-airline/vim-airline'
 Plug 'ryanoasis/vim-devicons'
 call plug#end()
 
-" --emmet
+" --Emmet
 let g:user_emmet_leader_key='<Leader>'
 imap ,, <Leader>,
 
@@ -130,7 +110,7 @@ nmap <C-p> :Files<CR>
 nmap <C-f> :Buffers<CR>
 
 " --UndoTree
-nnoremap <Leader>u :UndotreeToggle<CR>
+nnoremap <Leader>b :UndotreeToggle<CR>
 
 " --Context
 let g:context_enabled = 1
@@ -154,9 +134,6 @@ let g:indentLine_fileTypeExclude=['coc-explorer']
 let g:indentLine_bufTypeExclude = ['help', 'terminal']
 let g:indentLine_bufNameExclude = ['_.*', 'NERD_tree.*']
 
-" --Colorscheme Settings
-let g:gruvbox_material_background = 'soft'
-
 " {{{ User Interface }}}
 
 " --Colors
@@ -167,7 +144,7 @@ if exists('$TMUX')
 endif
 set fillchars+=vert:│,eob:\ 
 set signcolumn=yes
-set termguicolors
+" set termguicolors
 set background=dark
 colo codedark
 let g:minimap_width = 10
@@ -319,3 +296,19 @@ command! -nargs=0 OR   :call CocAction('runCommand', 'editor.action.organizeImpo
 " autocmd VimEnter * hi! airline_tabfill ctermbg=None guibg=NONE
 " let g:airline_theme = 'cool'
 " let g:airline_powerline_fonts = 0
+"buffer management
+" function Debuf()
+"   echo("[buffer list]")
+"   ls t
+"   call inputsave()
+"   const buffername = input('debuf: ', '', 'buffer')
+"   call inputrestore()
+"   if buffername == "aec"
+"     %bdelete|edit#|bdelete#
+"   elseif len(buffername) >= 1
+"     for i in split(buffername)
+"       execute "bd " . i
+"     endfor
+"   endif
+" endfunction
+" nnoremap <silent> <Leader>f :call Debuf()<CR>
