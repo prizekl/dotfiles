@@ -4,8 +4,6 @@
 " :'<,'>Tab /=
 " macros :norm @q"
 " case sensitive :%s/foo\C/bar/g
-" :CocCommand eslint.showOutputChannel
-" :nohl
 
 " --Mappings
 imap jk <Esc>
@@ -137,11 +135,9 @@ nmap <Leader>m :MinimapToggle<CR>
 
 " {{{ COC }}}
 
-" --COC Plugins
 nnoremap <C-n> :CocCommand explorer<CR>
 command EditSnippets execute 'CocCommand snippets.editSnippets'
 
-" --UI
 let g:coc_disable_transparent_cursor = 1
 highlight CocHintSign ctermfg=yellow guifg=#ff0000
 highlight CocHintFloat ctermfg=yellow guifg=#ff0000
