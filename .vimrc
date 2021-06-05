@@ -54,7 +54,6 @@ Plug 'mattn/emmet-vim'
 "Navigation
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'wfxr/minimap.vim'
 Plug 'liuchengxu/vista.vim'
 Plug 'wellle/context.vim'
 "Utilities (auto-brackets, comments, column-align)
@@ -86,8 +85,8 @@ imap ,, <Leader>,
 
 " --Vista (replaces tagbar for now)
 let g:vista_default_executive = 'coc'
-nmap <Leader>t :Vista finder<CR>
 let g:vista_fzf_preview = ['right:50%']
+nmap <Leader>t :Vista finder<CR>
 nnoremap <C-t> :Vista!!<CR>
 
 " --FZF
@@ -128,10 +127,6 @@ set signcolumn=yes
 set termguicolors
 set background=dark
 colo codedark
-let g:minimap_width = 10
-hi MinimapCurrentLine guifg=#00adb5
-let g:minimap_highlight = 'MinimapCurrentLine'
-nmap <Leader>m :MinimapToggle<CR>
 
 " {{{ COC }}}
 
