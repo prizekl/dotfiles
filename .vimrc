@@ -300,3 +300,13 @@ command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport
 "   endif
 " endfunction
 " nnoremap <C-t> :call Toggy()<CR>
+" function! s:enter_explorer()
+"   if &filetype == 'coc-explorer'
+"     set rnu
+"   endif
+" endfunction
+" augroup CocExplorerCustom
+"   autocmd!
+"   autocmd BufEnter * call <SID>enter_explorer()
+" augroup END
+

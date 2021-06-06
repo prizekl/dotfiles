@@ -1,6 +1,6 @@
 # export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --no-ignore-vcs'
 # PS1='%S%F{cyan}%n%F{cyan} %F{cyan}%1~ %F{cyan}%#%s%F{reset} '
-PS1='%F{208}%n%F{208} %F{208}%1~ %F{208}%#%F{reset} '
+PS1='%F{cyan}%n%F{cyan} %F{cyan}%1~ %F{cyan}%#%F{reset} '
 
 autoload -Uz vcs_info
 precmd_vcs_info() { vcs_info }
