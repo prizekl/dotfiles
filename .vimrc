@@ -32,6 +32,7 @@ set smartcase
 set wildmenu
 set ruler
 set number
+set relativenumber
 set shiftwidth=2
 set tabstop=2
 set smartindent
@@ -127,6 +128,7 @@ set signcolumn=yes
 set termguicolors
 set background=dark
 colo codedark
+set indentkeys-=<:>
 
 " {{{ COC }}}
 
