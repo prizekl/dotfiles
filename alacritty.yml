@@ -30,13 +30,13 @@ font:
     y: 0
 draw_bold_text_with_bright_colors: true
 
-#Cursor
-cursor:
-  style:
-    blinking: Always
-    shape: Block
-
 colors:
   cursor:
     text: CellBackground
     cursor: '#c0c0c0'
+
+#Cursor
+# cursor:
+#   style:
+#     blinking: Always
+#     shape: Block

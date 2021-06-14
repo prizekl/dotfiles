@@ -18,5 +18,5 @@ fi
 export BAT_THEME="Visual Studio Dark+"
 
 if [ "$TMUX" = "" ]; then
-  tmux new -s Alpha
+  tmux
 fi
