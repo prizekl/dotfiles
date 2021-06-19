@@ -1,4 +1,4 @@
-" ~/.vimrc
+" ~/.vimrc cut cmd+opt+v
 " :g/^$/
 " :g/>/norm ctwself.assertEqual(JA,
 " :'<,'>Tab /=
@@ -86,7 +86,7 @@ imap ,, <Leader>,
 
 " --Vista (replaces tagbar for now)
 let g:vista_default_executive = 'coc'
-let g:vista_fzf_preview = ['right:50%']
+let g:vista_fzf_preview = ['right:0%']
 nmap <Leader>t :Vista finder<CR>
 nnoremap <C-t> :Vista!!<CR>
 
