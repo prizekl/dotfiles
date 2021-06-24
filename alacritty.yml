@@ -35,7 +35,6 @@ colors:
     text: CellBackground
     cursor: '#c0c0c0'
 
-#Cursor
 # cursor:
 #   style:
 #     blinking: Always

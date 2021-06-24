@@ -1,5 +1,5 @@
 " ~/.vimrc cut cmd+opt+v
-" :g/^$/
+" qq (macro) /pattern a(^MEa)^M
 " :g/>/norm ctwself.assertEqual(JA,
 " :'<,'>Tab /=
 " macros :norm @q"
@@ -7,6 +7,7 @@
 
 " --Mappings
 imap jk <Esc>
+nnoremap <Leader>f :b#<CR>
 nnoremap <Leader>cd :cd %:p:h<CR> :pwd<CR>
 nnoremap <Leader>x /\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgn
 nnoremap <Leader>X ?\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgN
@@ -84,7 +85,7 @@ nnoremap <Leader>b :UndotreeToggle<CR>
 let g:user_emmet_leader_key='<Leader>'
 imap ,, <Leader>,
 
-" --Vista (replaces tagbar for now)
+" --Vista (replaces tagbar for now) 
 let g:vista_default_executive = 'coc'
 let g:vista_fzf_preview = ['right:0%']
 nmap <Leader>t :Vista finder<CR>
@@ -93,6 +94,7 @@ nnoremap <C-t> :Vista!!<CR>
 " --FZF
 nmap <C-p> :Files<CR>
 nmap <C-f> :Buffers<CR>
+let $FZF_DEFAULT_COMMAND = 'rg --files --hidden'
 
 " --Context
 let g:context_enabled = 1
@@ -313,4 +315,3 @@ command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport
 "   autocmd!
 "   autocmd BufEnter * call <SID>enter_explorer()
 " augroup END
-
