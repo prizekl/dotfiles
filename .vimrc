@@ -130,7 +130,7 @@ set signcolumn=yes
 set termguicolors
 set background=dark
 colo codedark
-set indentkeys-=<:>
+set indentkeys-=<:> "??
 
 " {{{ COC }}}
 
@@ -179,7 +179,6 @@ endfunction
 xmap <leader>a  <Plug>(coc-codeaction-selected)
 nmap <leader>a  <Plug>(coc-codeaction-selected)
 command! -nargs=0 Format :call CocAction('format')
-" Add `:OR` command for organize imports of the current buffer.
 command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport')
 
 " {{{ DEPRECATED CONFIGS }}}
