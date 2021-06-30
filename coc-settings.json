@@ -2,8 +2,8 @@
 
     "diagnostic.checkCurrentLine": true,
 
-    "diagnostic.errorSign"   : "•", "diagnostic.warningSign" : "•",
-    "diagnostic.infoSign"    : "•", "diagnostic.hintSign"    : "•",
+    "diagnostic.errorSign"   : "▬", "diagnostic.warningSign" : "▬",
+    "diagnostic.infoSign"    : "▬", "diagnostic.hintSign"    : "▬",
     "suggest.completionItemKindLabels": {
         "keyword"       : "\uf1de", "variable"      : "\ue79b",
         "value"         : "\uf89f", "operator"      : "\u03a8",
@@ -25,8 +25,8 @@
     "explorer.buffer.root.template": "[icon & 1] BUFFERS",
     "explorer.file.root.template": "[icon & 1] PROJECT ([root])",
     "explorer.file.child.template": "[git | 2] [selection | clip | 1] [indent][icon | 1] [diagnosticError & 1][filename omitCenter 1][modified][readonly] [linkIcon & 1][link growRight 1 omitCenter 5]",
-    "explorer.file.autoReveal": false,
     "explorer.file.showHiddenFiles": true,
+    /* "explorer.file.autoReveal": false, */
 
     "emmet.includeLanguages": {"javascript": "javascriptreact"},
 

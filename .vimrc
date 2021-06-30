@@ -73,16 +73,19 @@ Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-fugitive'
 "Appearance
 Plug 'tomasiser/vim-code-dark'
+Plug 'Yggdroot/indentLine'
 Plug 'vim-airline/vim-airline'
 Plug 'ryanoasis/vim-devicons'
 call plug#end()
 
-" --UndoTree
-nnoremap <Leader>b :UndotreeToggle<CR>
-
 " --Emmet
 let g:user_emmet_leader_key='<Leader>'
 imap ,, <Leader>,
+
+" --FZF
+nmap <C-p> :Files<CR>
+nmap <C-f> :Buffers<CR>
+let $FZF_DEFAULT_COMMAND = 'rg --files --hidden'
 
 " --Vista (replaces tagbar for now) 
 let g:vista_default_executive = 'coc'
@@ -90,17 +93,24 @@ let g:vista_fzf_preview = ['right:0%']
 nmap <Leader>t :Vista finder<CR>
 nnoremap <C-t> :Vista!!<CR>
 
-" --FZF
-nmap <C-p> :Files<CR>
-nmap <C-f> :Buffers<CR>
-let $FZF_DEFAULT_COMMAND = 'rg --files --hidden'
-
 " --Context
 let g:context_enabled = 1
 let g:context_filetype_blacklist = ['coc-explorer']
 
 " --DelimitMate
 let delimitMate_matchpairs = "(:),[:],{:},<:>"
+
+" --UndoTree
+nnoremap <Leader>b :UndotreeToggle<CR>
+
+" --IndentLines
+let g:vim_json_conceal = 0
+let g:indentLine_showFirstIndentLevel = 1
+let g:indentLine_first_char = '│'
+let g:indentLine_char = '│'
+let g:indentLine_fileTypeExclude=['coc-explorer']
+let g:indentLine_bufTypeExclude = ['help', 'terminal']
+let g:indentLine_bufNameExclude = ['_.*', 'NERD_tree.*']
 
 " --Airline
 let g:airline#extensions#tabline#enabled = 1
@@ -304,12 +314,3 @@ command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport
 "   autocmd!
 "   autocmd BufEnter * call <SID>enter_explorer()
 " augroup END
-"
-" Plug 'Yggdroot/indentLine'
-" let g:vim_json_conceal = 0
-" let g:indentLine_char = '│'
-" let g:indentLine_first_char = '│'
-" let g:indentLine_showFirstIndentLevel = 1
-" let g:indentLine_fileTypeExclude=['coc-explorer']
-" let g:indentLine_bufTypeExclude = ['help', 'terminal']
-" let g:indentLine_bufNameExclude = ['_.*', 'NERD_tree.*']
