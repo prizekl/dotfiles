@@ -73,7 +73,6 @@ Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-fugitive'
 "Appearance
 Plug 'tomasiser/vim-code-dark'
-Plug 'Yggdroot/indentLine'
 Plug 'vim-airline/vim-airline'
 Plug 'ryanoasis/vim-devicons'
 call plug#end()
@@ -108,15 +107,6 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 let g:airline#extensions#tabline#show_tab_count = 0
 let g:airline#extensions#whitespace#enabled = 0
-
-" --Indentline
-let g:vim_json_conceal = 0
-let g:indentLine_char = '│'
-let g:indentLine_first_char = '│'
-let g:indentLine_showFirstIndentLevel = 1
-let g:indentLine_fileTypeExclude=['coc-explorer']
-let g:indentLine_bufTypeExclude = ['help', 'terminal']
-let g:indentLine_bufNameExclude = ['_.*', 'NERD_tree.*']
 
 " {{{ User Interface }}}
 
@@ -314,3 +304,12 @@ command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport
 "   autocmd!
 "   autocmd BufEnter * call <SID>enter_explorer()
 " augroup END
+"
+" Plug 'Yggdroot/indentLine'
+" let g:vim_json_conceal = 0
+" let g:indentLine_char = '│'
+" let g:indentLine_first_char = '│'
+" let g:indentLine_showFirstIndentLevel = 1
+" let g:indentLine_fileTypeExclude=['coc-explorer']
+" let g:indentLine_bufTypeExclude = ['help', 'terminal']
+" let g:indentLine_bufNameExclude = ['_.*', 'NERD_tree.*']
