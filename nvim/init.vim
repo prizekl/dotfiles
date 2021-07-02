@@ -15,23 +15,14 @@ nnoremap ,m :!python3 %
 
 " --Vim Defaults
 syntax on
-set encoding=utf8
-set fileencoding=utf-8
-set nocompatible
 set hidden
 set noswapfile
 set nobackup
 set nowritebackup
-set belloff=all
-set backspace=2
 set clipboard=unnamed
 set mouse=a
-set incsearch
-set hlsearch
 set ignorecase
 set smartcase
-set wildmenu
-set ruler
 set number
 set relativenumber
 set shiftwidth=2
@@ -48,10 +39,9 @@ if empty(glob(data_dir . '/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.config/nvim/plugged')
 "COC (auto-complete, linting, snippets, formatter, file explorer)
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'dsznajder/vscode-es7-javascript-react-snippets', { 'do': 'yarn install --frozen-lockfile && yarn compile' }
 Plug 'mattn/emmet-vim'
 "Navigation
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -66,7 +56,7 @@ Plug 'tpope/vim-abolish'
 Plug 'godlygeek/tabular'
 Plug 'mbbill/undotree'
 "Syntax Highlighting
-let g:polyglot_disabled = ['typescript', 'sensible']
+let g:polyglot_disabled = ['sensible']
 Plug 'sheerun/vim-polyglot'
 "Git support
 " Plug 'airblade/vim-gitgutter'
@@ -125,7 +115,7 @@ if exists('$TMUX')
  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 endif
-set fillchars+=vert:│,eob:\ 
+set fillchars+=eob:\ 
 set signcolumn=yes
 set termguicolors
 set background=dark
