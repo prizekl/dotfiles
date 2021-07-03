@@ -1,4 +1,4 @@
-" ~/.vimrc cut cmd+opt+v
+" ~/.vimrc
 " qq (macro) /pattern a(^MEa)^M
 " :g/>/norm ctwself.assertEqual(JA,
 " :'<,'>Tab /=
@@ -74,6 +74,7 @@ set termguicolors
 set background=dark
 colo codedark
 set indentkeys-=<:> "??
+set cursorline
 set guicursor=
 
 " --Gitsigns
@@ -90,7 +91,7 @@ require('gitsigns').setup {
 EOF
 highlight GitGutterAdd    guifg=#587c0c ctermfg=2
 highlight GitGutterChange guifg=#0c7d9d ctermfg=3
-highlight GitGutterDelete guifg=#C70039 ctermfg=1
+highlight GitGutterDelete guifg=#94151b ctermfg=1
 
 " --Emmet
 let g:user_emmet_leader_key='<Leader>'
@@ -123,15 +124,18 @@ require'nvim-treesitter.configs'.setup {
   ensure_installed = { "python", "html", "css", "javascript", "typescript", "tsx", "graphql", "yaml", "json", "dockerfile" },
   highlight = { enable = true },
   indent = { enable = true, },
+  -- nvim-ts-autotag
   autotag = { enable = true, },
 }
 EOF
 
 " --Indent-blankline
 let g:indent_blankline_show_first_indent_level = v:true
+let g:indent_blankline_use_treesitter = v:true
 let g:indent_blankline_char = '│'
 let g:indent_blankline_filetype_exclude = ['coc-explorer', 'vista']
 let g:indent_blankline_buftype_exclude = ['help', 'terminal']
+let g:indent_blankline_show_trailing_blankline_indent = v:false
 set colorcolumn=99999 "fix ghost column highlight
 
 " --Airline
@@ -144,13 +148,12 @@ let g:airline#extensions#whitespace#enabled = 0
 
 nnoremap <C-n> :CocCommand explorer<CR>
 command EditSnippets execute 'CocCommand snippets.editSnippets'
-
 let g:coc_disable_transparent_cursor = 1
 highlight CocHintSign ctermfg=yellow guifg=#ff0000
 highlight CocHintFloat ctermfg=yellow guifg=#ff0000
 highlight CocErrorSign guifg=#c7463e
 
-" --COC Defaults
+" --COC defaults
 nnoremap <silent> <space>d :<C-u>CocList diagnostics<cr>
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
