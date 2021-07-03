@@ -4,6 +4,7 @@
 " :'<,'>Tab /=
 " macros :norm @q"
 " case sensitive :%s/foo\C/bar/g
+" <leader>hp preview hunk | hs stage | hu undo | hr reset to git
 
 " --Mappings
 imap jk <Esc>
