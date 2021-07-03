@@ -1,0 +1,268 @@
+
+
+times in msec
+ clock   self+sourced   self:  sourced script
+ clock   elapsed:              other lines
+
+000.011  000.011: --- NVIM STARTING ---
+001.283  001.273: locale set
+007.351  006.067: inits 1
+007.387  000.037: window checked
+007.394  000.006: parsing arguments
+007.732  000.338: expanding arguments
+007.828  000.096: inits 2
+008.319  000.491: init highlight
+008.321  000.002: waiting for UI
+011.771  003.450: done waiting for UI
+011.798  000.027: initialized screen early for UI
+014.354  000.291  000.291: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/syntax/syncolor.vim
+014.941  001.096  000.805: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/syntax/synload.vim
+023.873  008.753  008.753: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/filetype.vim
+026.709  001.783  001.783: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/scripts.vim
+027.168  013.916  002.283: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/syntax/syntax.vim
+029.935  002.512  002.512: sourcing /Users/prize/.local/share/nvim/site/autoload/plug.vim
+034.863  002.086  002.086: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/ftoff.vim
+043.979  000.034  000.034: sourcing /Users/prize/.config/nvim/plugged/nvim-treesitter/ftdetect/gdscript.vim
+044.097  000.026  000.026: sourcing /Users/prize/.config/nvim/plugged/nvim-treesitter/ftdetect/gomod.vim
+044.221  000.038  000.038: sourcing /Users/prize/.config/nvim/plugged/nvim-treesitter/ftdetect/query.vim
+044.575  000.030  000.030: sourcing /Users/prize/.config/nvim/plugged/vim-fugitive/ftdetect/fugitive.vim
+045.967  008.898  008.771: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/filetype.vim
+046.596  000.051  000.051: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/ftplugin.vim
+047.474  000.069  000.069: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/indent.vim
+048.405  000.150  000.150: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/syntax/syncolor.vim
+049.555  000.139  000.139: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/syntax/syncolor.vim
+050.668  000.187  000.187: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/syntax/syncolor.vim
+051.665  000.143  000.143: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/syntax/syncolor.vim
+061.875  012.791  012.322: sourcing /Users/prize/.config/nvim/plugged/vim-code-dark/colors/codedark.vim
+094.644  081.893  041.419: sourcing /Users/prize/.config/nvim/init.vim
+094.661  000.971: sourcing vimrc file(s)
+095.575  000.149  000.149: sourcing /Users/prize/.config/nvim/plugged/coc.nvim/autoload/coc/rpc.vim
+096.632  000.853  000.853: sourcing /Users/prize/.config/nvim/plugged/coc.nvim/autoload/coc/util.vim
+097.444  000.437  000.437: sourcing /Users/prize/.config/nvim/plugged/coc.nvim/autoload/coc/client.vim
+102.499  007.287  005.848: sourcing /Users/prize/.config/nvim/plugged/coc.nvim/plugin/coc.vim
+104.777  001.960  001.960: sourcing /Users/prize/.config/nvim/plugged/emmet-vim/plugin/emmet.vim
+105.914  000.837  000.837: sourcing /Users/prize/.config/nvim/plugged/fzf/plugin/fzf.vim
+108.031  001.806  001.806: sourcing /Users/prize/.config/nvim/plugged/fzf.vim/plugin/fzf.vim
+108.846  000.186  000.186: sourcing /Users/prize/.config/nvim/plugged/vista.vim/plugin/vista.vim
+110.777  000.361  000.361: sourcing /Users/prize/.config/nvim/plugged/delimitMate/autoload/delimitMate.vim
+114.256  004.977  004.616: sourcing /Users/prize/.config/nvim/plugged/delimitMate/plugin/delimitMate.vim
+116.172  000.702  000.702: sourcing /Users/prize/.config/nvim/plugged/vim-sandwich/plugin/operator/sandwich.vim
+116.537  000.198  000.198: sourcing /Users/prize/.config/nvim/plugged/vim-sandwich/plugin/sandwich.vim
+116.794  000.180  000.180: sourcing /Users/prize/.config/nvim/plugged/vim-sandwich/plugin/textobj/sandwich.vim
+117.245  000.170  000.170: sourcing /Users/prize/.config/nvim/plugged/vim-commentary/plugin/commentary.vim
+118.233  000.703  000.703: sourcing /Users/prize/.config/nvim/plugged/vim-abolish/plugin/abolish.vim
+118.700  000.202  000.202: sourcing /Users/prize/.config/nvim/plugged/tabular/plugin/Tabular.vim
+119.126  000.134  000.134: sourcing /Users/prize/.config/nvim/plugged/undotree/plugin/undotree.vim
+121.110  001.750  001.750: sourcing /Users/prize/.config/nvim/plugged/nvim-ts-autotag/plugin/nvim-ts-autotag.vim
+122.180  000.694  000.694: sourcing /Users/prize/.config/nvim/plugged/nvim-treesitter/plugin/nvim-treesitter.vim
+125.119  002.526  002.526: sourcing /Users/prize/.config/nvim/plugged/vim-fugitive/plugin/fugitive.vim
+125.965  000.115  000.115: sourcing /Users/prize/.config/nvim/plugged/plenary.nvim/plugin/plenary.vim
+127.405  000.063  000.063: sourcing /Users/prize/.config/nvim/plugged/indent-blankline.nvim/autoload/indent_blankline/helper.vim
+131.531  004.894  004.831: sourcing /Users/prize/.config/nvim/plugged/indent-blankline.nvim/plugin/indent_blankline.vim
+133.337  000.144  000.144: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/init.vim
+134.064  000.156  000.156: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/parts.vim
+134.596  000.041  000.041: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/formatter/short_path.vim
+136.275  000.240  000.240: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/util.vim
+136.402  003.872  003.291: sourcing /Users/prize/.config/nvim/plugged/vim-airline/plugin/airline.vim
+138.012  000.281  000.281: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline.vim
+139.672  002.984  002.703: sourcing /Users/prize/.config/nvim/plugged/vim-devicons/plugin/webdevicons.vim
+142.311  000.564  000.564: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/plugin/gzip.vim
+142.494  000.036  000.036: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/plugin/health.vim
+143.125  000.512  000.512: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/plugin/man.vim
+146.838  000.716  000.716: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/pack/dist/opt/matchit/plugin/matchit.vim
+147.710  004.420  003.703: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/plugin/matchit.vim
+148.066  000.225  000.225: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/plugin/matchparen.vim
+148.878  000.696  000.696: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/plugin/netrwPlugin.vim
+149.277  000.260  000.260: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/plugin/rplugin.vim
+149.589  000.199  000.199: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/plugin/shada.vim
+149.750  000.047  000.047: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/plugin/spellfile.vim
+150.078  000.223  000.223: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/plugin/tarPlugin.vim
+150.302  000.121  000.121: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/plugin/tohtml.vim
+150.445  000.041  000.041: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/plugin/tutor.vim
+150.823  000.253  000.253: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/plugin/zipPlugin.vim
+155.423  016.987: loading plugins
+155.782  000.359: loading packages
+156.837  000.298  000.298: sourcing /Users/prize/.config/nvim/plugged/tabular/autoload/tabular.vim
+159.178  002.972  002.674: sourcing /Users/prize/.config/nvim/plugged/tabular/after/plugin/TabularMaps.vim
+159.916  001.162: loading after plugins
+159.934  000.017: inits 3
+161.978  002.044: reading ShaDa
+162.811  000.083  000.083: sourcing /Users/prize/.config/nvim/plugged/indent-blankline.nvim/autoload/indent_blankline.vim
+164.068  000.396  000.396: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions.vim
+164.569  000.087  000.087: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/quickfix.vim
+165.007  000.074  000.074: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/netrw.vim
+165.456  000.062  000.062: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/fzf.vim
+166.458  000.108  000.108: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/section.vim
+167.036  000.211  000.211: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/highlighter.vim
+167.325  001.326  001.007: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/term.vim
+167.735  000.054  000.054: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/undotree.vim
+168.303  000.241  000.241: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/hunks.vim
+168.782  000.051  000.051: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/vista.vim
+169.367  000.247  000.247: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/branch.vim
+169.782  000.072  000.072: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/fugitiveline.vim
+170.215  000.078  000.078: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/nvimlsp.vim
+170.586  000.072  000.072: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/coc.vim
+171.168  000.204  000.204: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/po.vim
+171.627  000.171  000.171: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/wordcount.vim
+172.372  000.447  000.447: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/tabline.vim
+172.827  000.116  000.116: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/tabline/autoshow.vim
+173.585  000.243  000.243: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/tabline/tabs.vim
+174.449  000.282  000.282: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/tabline/buffers.vim
+175.049  000.085  000.085: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/keymap.vim
+175.990  000.118  000.118: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/searchcount.vim
+187.378  000.213  000.213: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/themes.vim
+187.680  000.902  000.688: sourcing /Users/prize/.config/nvim/plugged/vim-code-dark/autoload/airline/themes/codedark.vim
+214.420  000.444  000.444: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/builder.vim
+215.644  000.277  000.277: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/default.vim
+272.325  104.217: opening buffers
+275.725  003.401: BufEnter autocommands
+275.728  000.003: editing files in windows
+276.246  000.517: VimEnter autocommands
+276.249  000.003: UIEnter autocommands
+276.913  000.317  000.317: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/autoload/provider/clipboard.vim
+276.923  000.357: before starting main loop
+278.428  001.385  001.385: sourcing /Users/prize/.config/nvim/plugged/coc.nvim/autoload/coc/float.vim
+279.663  000.145  000.145: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/tabline/ctrlspace.vim
+280.073  000.139  000.139: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/tabline/tabws.vim
+280.707  000.154  000.154: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/tabline/builder.vim
+281.099  000.083  000.083: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/tabline/buflist.vim
+284.159  000.055  000.055: sourcing /Users/prize/.config/nvim/plugged/vim-devicons/autoload/airline/extensions/tabline/formatters/webdevicons.vim
+284.530  000.087  000.087: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/tabline/formatters/unique_tail_improved.vim
+284.863  000.071  000.071: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/tabline/formatters/default.vim
+293.846  004.662  004.662: sourcing /Users/prize/.config/nvim/plugged/vim-fugitive/autoload/fugitive.vim
+297.435  013.730: first screen update
+297.438  000.003: --- NVIM STARTED ---
+
+
+times in msec
+ clock   self+sourced   self:  sourced script
+ clock   elapsed:              other lines
+
+000.010  000.010: --- NVIM STARTING ---
+001.154  001.144: locale set
+007.204  006.050: inits 1
+007.241  000.037: window checked
+007.248  000.007: parsing arguments
+007.608  000.360: expanding arguments
+007.698  000.089: inits 2
+008.196  000.499: init highlight
+008.198  000.002: waiting for UI
+011.491  003.293: done waiting for UI
+011.505  000.014: initialized screen early for UI
+014.432  000.370  000.370: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/syntax/syncolor.vim
+015.026  002.041  001.671: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/syntax/synload.vim
+023.726  008.514  008.514: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/filetype.vim
+025.749  000.833  000.833: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/scripts.vim
+026.306  013.834  002.445: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/syntax/syntax.vim
+028.699  002.052  002.052: sourcing /Users/prize/.local/share/nvim/site/autoload/plug.vim
+033.603  001.808  001.808: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/ftoff.vim
+042.290  000.023  000.023: sourcing /Users/prize/.config/nvim/plugged/nvim-treesitter/ftdetect/gdscript.vim
+042.377  000.017  000.017: sourcing /Users/prize/.config/nvim/plugged/nvim-treesitter/ftdetect/gomod.vim
+042.471  000.028  000.028: sourcing /Users/prize/.config/nvim/plugged/nvim-treesitter/ftdetect/query.vim
+042.630  000.017  000.017: sourcing /Users/prize/.config/nvim/plugged/vim-fugitive/ftdetect/fugitive.vim
+043.669  007.884  007.799: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/filetype.vim
+044.239  000.045  000.045: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/ftplugin.vim
+044.798  000.040  000.040: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/indent.vim
+045.764  000.144  000.144: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/syntax/syncolor.vim
+046.839  000.129  000.129: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/syntax/syncolor.vim
+047.901  000.187  000.187: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/syntax/syncolor.vim
+048.765  000.130  000.130: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/syntax/syncolor.vim
+058.424  012.034  011.588: sourcing /Users/prize/.config/nvim/plugged/vim-code-dark/colors/codedark.vim
+088.399  076.341  038.500: sourcing /Users/prize/.config/nvim/init.vim
+088.411  000.565: sourcing vimrc file(s)
+089.326  000.094  000.094: sourcing /Users/prize/.config/nvim/plugged/coc.nvim/autoload/coc/rpc.vim
+090.102  000.665  000.665: sourcing /Users/prize/.config/nvim/plugged/coc.nvim/autoload/coc/util.vim
+090.808  000.398  000.398: sourcing /Users/prize/.config/nvim/plugged/coc.nvim/autoload/coc/client.vim
+095.601  006.576  005.419: sourcing /Users/prize/.config/nvim/plugged/coc.nvim/plugin/coc.vim
+097.936  002.013  002.013: sourcing /Users/prize/.config/nvim/plugged/emmet-vim/plugin/emmet.vim
+099.106  000.893  000.893: sourcing /Users/prize/.config/nvim/plugged/fzf/plugin/fzf.vim
+100.188  000.824  000.824: sourcing /Users/prize/.config/nvim/plugged/fzf.vim/plugin/fzf.vim
+100.519  000.090  000.090: sourcing /Users/prize/.config/nvim/plugged/vista.vim/plugin/vista.vim
+101.603  000.410  000.410: sourcing /Users/prize/.config/nvim/plugged/delimitMate/autoload/delimitMate.vim
+104.123  003.388  002.978: sourcing /Users/prize/.config/nvim/plugged/delimitMate/plugin/delimitMate.vim
+105.421  000.565  000.565: sourcing /Users/prize/.config/nvim/plugged/vim-sandwich/plugin/operator/sandwich.vim
+105.688  000.186  000.186: sourcing /Users/prize/.config/nvim/plugged/vim-sandwich/plugin/sandwich.vim
+105.940  000.181  000.181: sourcing /Users/prize/.config/nvim/plugged/vim-sandwich/plugin/textobj/sandwich.vim
+106.350  000.164  000.164: sourcing /Users/prize/.config/nvim/plugged/vim-commentary/plugin/commentary.vim
+107.390  000.815  000.815: sourcing /Users/prize/.config/nvim/plugged/vim-abolish/plugin/abolish.vim
+107.879  000.202  000.202: sourcing /Users/prize/.config/nvim/plugged/tabular/plugin/Tabular.vim
+108.282  000.125  000.125: sourcing /Users/prize/.config/nvim/plugged/undotree/plugin/undotree.vim
+109.859  001.351  001.351: sourcing /Users/prize/.config/nvim/plugged/nvim-ts-autotag/plugin/nvim-ts-autotag.vim
+110.767  000.654  000.654: sourcing /Users/prize/.config/nvim/plugged/nvim-treesitter/plugin/nvim-treesitter.vim
+112.719  001.708  001.708: sourcing /Users/prize/.config/nvim/plugged/vim-fugitive/plugin/fugitive.vim
+113.270  000.061  000.061: sourcing /Users/prize/.config/nvim/plugged/plenary.nvim/plugin/plenary.vim
+113.856  000.028  000.028: sourcing /Users/prize/.config/nvim/plugged/indent-blankline.nvim/autoload/indent_blankline/helper.vim
+116.052  002.514  002.486: sourcing /Users/prize/.config/nvim/plugged/indent-blankline.nvim/plugin/indent_blankline.vim
+116.880  000.135  000.135: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/init.vim
+117.446  000.110  000.110: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/parts.vim
+117.821  000.026  000.026: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/formatter/short_path.vim
+119.111  000.164  000.164: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/util.vim
+119.203  002.895  002.459: sourcing /Users/prize/.config/nvim/plugged/vim-airline/plugin/airline.vim
+120.941  000.289  000.289: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline.vim
+122.254  002.732  002.443: sourcing /Users/prize/.config/nvim/plugged/vim-devicons/plugin/webdevicons.vim
+123.623  000.299  000.299: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/plugin/gzip.vim
+123.740  000.023  000.023: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/plugin/health.vim
+123.914  000.093  000.093: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/plugin/man.vim
+125.974  000.380  000.380: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/pack/dist/opt/matchit/plugin/matchit.vim
+126.339  002.343  001.963: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/plugin/matchit.vim
+126.664  000.205  000.205: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/plugin/matchparen.vim
+127.397  000.638  000.638: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/plugin/netrwPlugin.vim
+127.723  000.206  000.206: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/plugin/rplugin.vim
+127.947  000.130  000.130: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/plugin/shada.vim
+128.079  000.038  000.038: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/plugin/spellfile.vim
+128.351  000.187  000.187: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/plugin/tarPlugin.vim
+128.540  000.100  000.100: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/plugin/tohtml.vim
+128.677  000.054  000.054: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/plugin/tutor.vim
+129.104  000.270  000.270: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/plugin/zipPlugin.vim
+132.225  011.290: loading plugins
+132.427  000.201: loading packages
+133.306  000.257  000.257: sourcing /Users/prize/.config/nvim/plugged/tabular/autoload/tabular.vim
+135.026  002.249  001.993: sourcing /Users/prize/.config/nvim/plugged/tabular/after/plugin/TabularMaps.vim
+135.571  000.895: loading after plugins
+135.584  000.013: inits 3
+137.544  001.960: reading ShaDa
+138.378  000.040  000.040: sourcing /Users/prize/.config/nvim/plugged/indent-blankline.nvim/autoload/indent_blankline.vim
+139.163  000.287  000.287: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions.vim
+139.488  000.069  000.069: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/quickfix.vim
+139.879  000.048  000.048: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/netrw.vim
+140.199  000.048  000.048: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/fzf.vim
+141.069  000.091  000.091: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/section.vim
+141.617  000.204  000.204: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/highlighter.vim
+141.891  001.201  000.906: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/term.vim
+142.255  000.047  000.047: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/undotree.vim
+142.627  000.105  000.105: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/hunks.vim
+142.941  000.041  000.041: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/vista.vim
+143.472  000.238  000.238: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/branch.vim
+143.846  000.069  000.069: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/fugitiveline.vim
+144.232  000.068  000.068: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/nvimlsp.vim
+144.577  000.068  000.068: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/coc.vim
+145.135  000.193  000.193: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/po.vim
+145.580  000.174  000.174: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/wordcount.vim
+146.167  000.320  000.320: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/tabline.vim
+146.540  000.094  000.094: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/tabline/autoshow.vim
+147.175  000.162  000.162: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/tabline/tabs.vim
+147.856  000.361  000.361: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/tabline/buffers.vim
+148.568  000.086  000.086: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/keymap.vim
+149.466  000.109  000.109: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/searchcount.vim
+160.011  000.136  000.136: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/themes.vim
+160.272  000.810  000.674: sourcing /Users/prize/.config/nvim/plugged/vim-code-dark/autoload/airline/themes/codedark.vim
+187.341  000.357  000.357: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/builder.vim
+188.161  000.174  000.174: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/default.vim
+242.364  099.650: opening buffers
+246.029  003.665: BufEnter autocommands
+246.033  000.004: editing files in windows
+246.514  000.481: VimEnter autocommands
+246.517  000.003: UIEnter autocommands
+247.153  000.300  000.300: sourcing /usr/local/Cellar/neovim/0.5.0/share/nvim/runtime/autoload/provider/clipboard.vim
+247.162  000.345: before starting main loop
+248.601  001.324  001.324: sourcing /Users/prize/.config/nvim/plugged/coc.nvim/autoload/coc/float.vim
+249.608  000.132  000.132: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/tabline/ctrlspace.vim
+249.990  000.124  000.124: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/tabline/tabws.vim
+250.588  000.145  000.145: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/tabline/builder.vim
+251.121  000.185  000.185: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/tabline/buflist.vim
+254.118  000.050  000.050: sourcing /Users/prize/.config/nvim/plugged/vim-devicons/autoload/airline/extensions/tabline/formatters/webdevicons.vim
+254.473  000.079  000.079: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/tabline/formatters/unique_tail_improved.vim
+254.841  000.087  000.087: sourcing /Users/prize/.config/nvim/plugged/vim-airline/autoload/airline/extensions/tabline/formatters/default.vim
+264.339  005.093  005.093: sourcing /Users/prize/.config/nvim/plugged/vim-fugitive/autoload/fugitive.vim
+267.856  013.474: first screen update
+267.859  000.003: --- NVIM STARTED ---

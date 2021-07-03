@@ -4,11 +4,6 @@
 " :'<,'>Tab /=
 " macros :norm @q"
 " case sensitive :%s/foo\C/bar/g
-"
-" if exists('$TMUX')
-"  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-"  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-" endif
 
 " --Mappings
 imap jk <Esc>
@@ -35,8 +30,6 @@ set tabstop=2
 set smartindent
 set expandtab
 
-" {{{ Plugins }}}
-
 " --vim-plug
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
 if empty(glob(data_dir . '/autoload/plug.vim'))
@@ -52,7 +45,6 @@ Plug 'mattn/emmet-vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'liuchengxu/vista.vim'
-" Plug 'wellle/context.vim'
 "Utilities (auto-brackets, comments, column-align)
 Plug 'Raimondi/delimitMate'
 Plug 'machakann/vim-sandwich'
@@ -60,18 +52,44 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-abolish'
 Plug 'godlygeek/tabular'
 Plug 'mbbill/undotree'
-"Syntax Highlighting
-let g:polyglot_disabled = ['sensible']
-Plug 'sheerun/vim-polyglot'
+Plug 'windwp/nvim-ts-autotag'
+" Plug 'wellle/context.vim' waiting for 0.5.1 bug fix
+"Treesitter
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 "Git support
-" Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
+Plug 'lewis6991/gitsigns.nvim'
+Plug 'nvim-lua/plenary.nvim'
 "Appearance
 Plug 'tomasiser/vim-code-dark'
-Plug 'Yggdroot/indentLine'
+Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'vim-airline/vim-airline'
 Plug 'ryanoasis/vim-devicons'
 call plug#end()
+
+" --Vanilla UI
+set fillchars+=eob:\ 
+set signcolumn=yes
+set termguicolors
+set background=dark
+colo codedark
+set indentkeys-=<:> "??
+
+" --Gitsigns
+lua <<EOF
+require('gitsigns').setup {
+  signs = {
+    add = {hl = 'GitSignsAdd', text = '┃', numhl='GitSignsAddNr', linehl='GitSignsAddLn'},
+    change = {hl = 'GitSignsChange', text = '┃', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+    delete = {hl = 'GitSignsDelete', text = '▁', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+    topdelete = {hl = 'GitSignsDelete', text = '▔', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+    changedelete = {hl = 'GitSignsChange', text = '┃', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+    },
+  }
+EOF
+highlight GitGutterAdd    guifg=#587c0c ctermfg=2
+highlight GitGutterChange guifg=#0c7d9d ctermfg=3
+highlight GitGutterDelete guifg=#C70039 ctermfg=1
 
 " --Emmet
 let g:user_emmet_leader_key='<Leader>'
@@ -98,30 +116,28 @@ let delimitMate_matchpairs = "(:),[:],{:},<:>"
 " --UndoTree
 nnoremap <Leader>b :UndotreeToggle<CR>
 
-" --IndentLines
-let g:vim_json_conceal = 0
-let g:indentLine_showFirstIndentLevel = 1
-let g:indentLine_first_char = '│'
-let g:indentLine_char = '│'
-let g:indentLine_fileTypeExclude=['coc-explorer']
-let g:indentLine_bufTypeExclude = ['help', 'terminal']
-let g:indentLine_bufNameExclude = ['_.*', 'NERD_tree.*']
+" --Treesitter, nvim-ts-autotag
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = { "python", "html", "css", "javascript", "typescript", "tsx", "graphql", "yaml", "json", "dockerfile" },
+  highlight = { enable = true },
+  indent = { enable = true, },
+  autotag = { enable = true, },
+}
+EOF
+
+" --Indent-blankline
+let g:indent_blankline_show_first_indent_level = v:true
+let g:indent_blankline_char = '│'
+let g:indent_blankline_filetype_exclude = ['coc-explorer', 'vista']
+let g:indent_blankline_buftype_exclude = ['help', 'terminal']
+set colorcolumn=99999 "fix ghost column highlight
 
 " --Airline
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 let g:airline#extensions#tabline#show_tab_count = 0
 let g:airline#extensions#whitespace#enabled = 0
-
-" {{{ User Interface }}}
-
-" --Colors
-set fillchars+=eob:\ 
-set signcolumn=yes
-set termguicolors
-set background=dark
-colo codedark
-set indentkeys-=<:> "??
 
 " {{{ COC }}}
 
