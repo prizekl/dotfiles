@@ -11,7 +11,7 @@ nnoremap <Leader>f :b#<CR>
 nnoremap <Leader>cd :cd %:p:h<CR> :pwd<CR>
 nnoremap <Leader>x /\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgn
 nnoremap <Leader>X ?\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgN
-nnoremap ,m :!python3 %
+nnoremap ,m :!python3 %<CR>
 
 " --Vim Defaults
 syntax on
@@ -74,6 +74,7 @@ set termguicolors
 set background=dark
 colo codedark
 set indentkeys-=<:> "??
+set guicursor=
 
 " --Gitsigns
 lua <<EOF
