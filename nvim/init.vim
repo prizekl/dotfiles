@@ -72,9 +72,8 @@ call plug#end()
 set fillchars+=eob:\ 
 set signcolumn=yes
 set termguicolors
-set background=dark
 colo codedark
-set indentkeys-=<:> "??
+" set indentkeys-=<:> "??
 set cursorline
 set guicursor=
 
@@ -109,9 +108,9 @@ let g:vista_fzf_preview = ['right:0%']
 nmap <Leader>t :Vista finder<CR>
 nnoremap <C-t> :Vista!!<CR>
 
-" --Context
-let g:context_enabled = 1
-let g:context_filetype_blacklist = ['coc-explorer']
+" " --Context (need update on 0.5.1)
+" let g:context_enabled = 1
+" let g:context_filetype_blacklist = ['coc-explorer']
 
 " --DelimitMate
 let delimitMate_matchpairs = "(:),[:],{:},<:>"
@@ -130,7 +129,7 @@ require'nvim-treesitter.configs'.setup {
 }
 EOF
 
-" --Indent-blankline
+" --Indent-blankline (need update)
 let g:indent_blankline_show_first_indent_level = v:true
 let g:indent_blankline_use_treesitter = v:true
 let g:indent_blankline_char = '│'
