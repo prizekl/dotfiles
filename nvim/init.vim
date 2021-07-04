@@ -25,7 +25,6 @@ set mouse=a
 set ignorecase
 set smartcase
 set number
-set relativenumber
 set shiftwidth=2
 set tabstop=2
 set smartindent
@@ -64,8 +63,6 @@ Plug 'nvim-lua/plenary.nvim'
 "Appearance
 Plug 'tomasiser/vim-code-dark'
 Plug 'lukas-reineke/indent-blankline.nvim'
-Plug 'vim-airline/vim-airline'
-Plug 'ryanoasis/vim-devicons'
 call plug#end()
 
 " --Vanilla UI
@@ -73,7 +70,6 @@ set fillchars+=eob:\
 set signcolumn=yes
 set termguicolors
 colo codedark
-" set indentkeys-=<:> "??
 set cursorline
 set guicursor=
 
@@ -91,7 +87,7 @@ require('gitsigns').setup {
 EOF
 highlight GitGutterAdd    guifg=#587c0c ctermfg=2
 highlight GitGutterChange guifg=#0c7d9d ctermfg=3
-highlight GitGutterDelete guifg=#94151b ctermfg=1
+highlight GitGutterDelete guifg=#c7463e ctermfg=1
 
 " --Emmet
 let g:user_emmet_leader_key='<Leader>'
@@ -137,12 +133,6 @@ let g:indent_blankline_filetype_exclude = ['coc-explorer', 'vista']
 let g:indent_blankline_buftype_exclude = ['help', 'terminal']
 let g:indent_blankline_show_trailing_blankline_indent = v:false
 set colorcolumn=99999 "fix ghost column highlight
-
-" --Airline
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
-let g:airline#extensions#tabline#show_tab_count = 0
-let g:airline#extensions#whitespace#enabled = 0
 
 " {{{ COC }}}
 
