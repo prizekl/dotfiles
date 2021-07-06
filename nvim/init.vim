@@ -4,9 +4,13 @@
 " macros :norm @q"
 " case sensitive :%s/foo\C/bar/g
 " <leader>hp preview hunk | hs stage | hu undo | hr reset to git
+"
+" 189 Lines
+" 190 Lines
 
 " --Mappings
 imap jk <Esc>
+let mapleader=" "
 nnoremap <Leader>f :b#<CR>
 nnoremap <Leader>cd :cd %:p:h<CR> :pwd<CR>
 nnoremap <Leader>x /\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgn
@@ -71,6 +75,9 @@ set termguicolors
 colo codedark
 set cursorline
 set guicursor=
+"git diff colors
+hi diffAdded   ctermfg=108 guifg=#87af87
+hi diffRemoved ctermfg=131 guifg=#af5f5f
 
 " --Gitsigns
 lua <<EOF
@@ -89,15 +96,17 @@ highlight GitGutterChange guifg=#0c7d9d ctermfg=3
 highlight GitGutterDelete guifg=#c7463e ctermfg=1
 
 " --Emmet
-let g:user_emmet_leader_key='<Leader>'
-imap ,, <Leader>,
+let g:user_emmet_leader_key='\'
+imap ,, \,
 
 " --FZF
 nmap <C-p> :Files<CR>
 nmap <C-f> :Buffers<CR>
+nmap <C-g> :GFiles?<CR>
+nmap <C-k> :Lines<CR>
 let $FZF_DEFAULT_COMMAND = 'rg --files --hidden'
 
-" --Vista (replaces tagbar for now) 
+" --Vista (replaces tagbar for now)
 let g:vista_default_executive = 'coc'
 let g:vista_fzf_preview = ['right:0%']
 nmap <Leader>t :Vista finder<CR>
@@ -146,7 +155,6 @@ highlight CocErrorSign guifg=#c7463e
 nnoremap <silent> <space>d :<C-u>CocList diagnostics<cr>
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
-" Remap keys for applying codeAction to the current buffer.
 nmap <leader>ac  <Plug>(coc-codeaction)
 set updatetime=300
 set shortmess+=c
