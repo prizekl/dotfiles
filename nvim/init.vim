@@ -1,6 +1,5 @@
 " ~/.vimrc
 " qq (macro) /pattern a(^MEa)^M
-" :g/>/norm ctwself.assertEqual(JA,
 " :'<,'>Tab /=
 " macros :norm @q"
 " case sensitive :%s/foo\C/bar/g
