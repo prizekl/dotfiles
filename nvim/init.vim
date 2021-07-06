@@ -4,9 +4,6 @@
 " macros :norm @q"
 " case sensitive :%s/foo\C/bar/g
 " <leader>hp preview hunk | hs stage | hu undo | hr reset to git
-"
-" 189 Lines
-" 190 Lines
 
 " --Mappings
 imap jk <Esc>
@@ -76,7 +73,7 @@ colo codedark
 set cursorline
 set guicursor=
 "git diff colors
-hi diffAdded   ctermfg=108 guifg=#87af87
+hi diffAdded ctermfg=108 guifg=#87af87
 hi diffRemoved ctermfg=131 guifg=#af5f5f
 
 " --Gitsigns
@@ -91,9 +88,9 @@ require('gitsigns').setup {
     },
   }
 EOF
-highlight GitGutterAdd    guifg=#587c0c ctermfg=2
-highlight GitGutterChange guifg=#0c7d9d ctermfg=3
-highlight GitGutterDelete guifg=#c7463e ctermfg=1
+highlight GitSignsAdd    guifg=#587c0c ctermfg=2
+highlight GitSignsChange guifg=#0c7d9d ctermfg=3
+highlight GitSignsDelete guifg=#c7463e ctermfg=1
 
 " --Emmet
 let g:user_emmet_leader_key='\'
@@ -103,8 +100,9 @@ imap ,, \,
 nmap <C-p> :Files<CR>
 nmap <C-f> :Buffers<CR>
 nmap <C-g> :GFiles?<CR>
-nmap <C-k> :Lines<CR>
 let $FZF_DEFAULT_COMMAND = 'rg --files --hidden'
+let g:fzf_preview_window = ['up:50%', 'ctrl-o']
+command! -bang -nargs=* Rg call fzf#vim#grep('rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1, fzf#vim#with_preview({'options': '--delimiter : --nth 2..'}), <bang>0)
 
 " --Vista (replaces tagbar for now)
 let g:vista_default_executive = 'coc'

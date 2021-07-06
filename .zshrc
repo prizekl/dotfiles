@@ -6,7 +6,7 @@ RPROMPT=\$vcs_info_msg_0_
 # PROMPT=\$vcs_info_msg_0_'%# '
 zstyle ':vcs_info:git:*' formats '%b'
 
-export FZF_DEFAULT_OPTS="--preview 'bat --color=always --style=header,grid --line-range :300 {}'"
+export FZF_DEFAULT_OPTS=" --preview-window=up,50% --preview 'bat --color=always --style=header,grid --line-range :300 {}'"
 
 export BAT_THEME="Visual Studio Dark+"
 
