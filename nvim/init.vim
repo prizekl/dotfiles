@@ -52,10 +52,11 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-abolish'
 Plug 'godlygeek/tabular'
 Plug 'mbbill/undotree'
-Plug 'windwp/nvim-ts-autotag'
-" Plug 'wellle/context.vim' waiting for 0.5.1 bug fix
 "Treesitter
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'jparise/vim-graphql'
+Plug 'windwp/nvim-ts-autotag'
+Plug 'JoosepAlviste/nvim-ts-context-commentstring'
 "Git support
 Plug 'tpope/vim-fugitive'
 Plug 'lewis6991/gitsigns.nvim'
@@ -70,6 +71,7 @@ set fillchars+=eob:\
 set signcolumn=yes
 set termguicolors
 colo codedark
+set statusline=%<%f\ %h%m%r%{FugitiveStatusline()}%=%-14.(%l,%c%V%)\ %P
 set cursorline
 set guicursor=
 "git diff colors
@@ -110,10 +112,6 @@ let g:vista_fzf_preview = ['right:0%']
 nmap <Leader>t :Vista finder<CR>
 nnoremap <C-t> :Vista!!<CR>
 
-" " --Context (need update on 0.5.1)
-" let g:context_enabled = 1
-" let g:context_filetype_blacklist = ['coc-explorer']
-
 " --DelimitMate
 let delimitMate_matchpairs = "(:),[:],{:},<:>"
 
@@ -123,11 +121,13 @@ nnoremap <Leader>b :UndotreeToggle<CR>
 " --Treesitter, nvim-ts-autotag
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = { "python", "html", "css", "javascript", "typescript", "tsx", "graphql", "yaml", "json", "dockerfile" },
+  ensure_installed = { "python", "html", "css", "javascript", "typescript", "tsx", "yaml", "json", "jsdoc", "dockerfile" },
   highlight = { enable = true },
-  indent = { enable = true, },
+  indent = { enable = true },
   -- nvim-ts-autotag
-  autotag = { enable = true, },
+  autotag = { enable = true },
+  -- nvim-commentstring
+  context_commentstring = { enable = true }
 }
 EOF
 
