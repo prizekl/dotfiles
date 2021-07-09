@@ -71,13 +71,14 @@ set fillchars+=eob:\
 set signcolumn=yes
 set termguicolors
 colo codedark
-set statusline=%<%f\ %h%m%r%{FugitiveHead()}%=%-14.(%l,%c%V%)\ %P
-hi statusline guibg=#007ACC guifg=#FFFFFF
 set cursorline
 set guicursor=
 "git diff colors
 hi diffAdded ctermfg=108 guifg=#87af87
 hi diffRemoved ctermfg=131 guifg=#af5f5f
+
+set statusline=%<%f\ %h%m%r%{FugitiveHead()}%=%-14.(%l,%c%V%)\ %P
+hi statusline guibg=#007ACC guifg=#FFFFFF
 
 " --Gitsigns
 lua <<EOF
