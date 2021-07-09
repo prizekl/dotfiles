@@ -71,7 +71,8 @@ set fillchars+=eob:\
 set signcolumn=yes
 set termguicolors
 colo codedark
-set statusline=%<%f\ %h%m%r%{FugitiveStatusline()}%=%-14.(%l,%c%V%)\ %P
+set statusline=%<%f\ %h%m%r%{FugitiveHead()}%=%-14.(%l,%c%V%)\ %P
+hi statusline guibg=#007ACC guifg=#FFFFFF
 set cursorline
 set guicursor=
 "git diff colors
