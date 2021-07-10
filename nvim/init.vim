@@ -55,7 +55,6 @@ Plug 'mbbill/undotree'
 "Treesitter
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'jparise/vim-graphql'
-Plug 'windwp/nvim-ts-autotag'
 Plug 'JoosepAlviste/nvim-ts-context-commentstring'
 "Git support
 Plug 'tpope/vim-fugitive'
@@ -77,7 +76,7 @@ set guicursor=
 hi diffAdded ctermfg=108 guifg=#87af87
 hi diffRemoved ctermfg=131 guifg=#af5f5f
 
-set statusline=%<%f\ %h%m%r%{FugitiveStatusline()}%=%-14.(%l,%c%V%)\ %P
+set statusline=%<%t\ %h%m%r%{FugitiveStatusline()}%=%-14.(%l,%c%V%)\ %P
 hi statusline guibg=#007ACC guifg=#FFFFFF
 
 " --Gitsigns
@@ -126,8 +125,6 @@ require'nvim-treesitter.configs'.setup {
   ensure_installed = { "python", "html", "css", "javascript", "typescript", "tsx", "yaml", "json", "jsdoc", "dockerfile" },
   highlight = { enable = true },
   indent = { enable = true },
-  -- nvim-ts-autotag
-  autotag = { enable = true },
   -- nvim-commentstring
   context_commentstring = { enable = true }
 }
