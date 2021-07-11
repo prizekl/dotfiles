@@ -1,4 +1,4 @@
-" ~/.vimrc
+" ~/.vimrc :f == cwd
 " qq (macro) /pattern a(^MEa)^M
 " :'<,'>Tab /=
 " macros :norm @q"
@@ -12,7 +12,7 @@ nnoremap <Leader>f :b#<CR>
 nnoremap <Leader>cd :cd %:p:h<CR> :pwd<CR>
 nnoremap <Leader>x /\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgn
 nnoremap <Leader>X ?\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgN
-nnoremap ,m :!python3 %<CR>
+nnoremap <Leader>m :!python3 %<CR>
 
 " --Vim Defaults
 syntax on
@@ -70,8 +70,11 @@ set fillchars+=eob:\
 set signcolumn=yes
 set termguicolors
 colo codedark
-set cursorline
 set guicursor=
+
+set cursorline
+hi cursorline guibg=NONE
+
 "git diff colors
 hi diffAdded ctermfg=108 guifg=#87af87
 hi diffRemoved ctermfg=131 guifg=#af5f5f
