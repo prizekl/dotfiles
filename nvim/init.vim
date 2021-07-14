@@ -70,7 +70,6 @@ set fillchars+=eob:\
 set signcolumn=yes
 set termguicolors
 colo codedark
-set guicursor=
 
 set cursorline
 hi cursorline guibg=NONE
@@ -125,7 +124,7 @@ nnoremap <Leader>b :UndotreeToggle<CR>
 " --Treesitter, nvim-ts-autotag
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = { "python", "html", "css", "javascript", "typescript", "tsx", "yaml", "json", "jsdoc", "dockerfile" },
+  ensure_installed = { "python", "html", "css", "javascript", "typescript", "tsx", "yaml", "json", "jsdoc", "dockerfile", "scss", "vue" },
   highlight = { enable = true },
   indent = { enable = true },
   -- nvim-commentstring
@@ -156,6 +155,7 @@ nnoremap <silent> <space>d :<C-u>CocList diagnostics<cr>
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 nmap <leader>ac  <Plug>(coc-codeaction)
+nmap <Leader>aw <Plug>(coc-codeaction-cursor)
 set updatetime=300
 set shortmess+=c
 inoremap <silent><expr> <TAB>
