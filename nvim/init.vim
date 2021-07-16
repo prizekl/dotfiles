@@ -54,7 +54,7 @@ Plug 'godlygeek/tabular'
 Plug 'mbbill/undotree'
 "Treesitter
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'jparise/vim-graphql'
+Plug 'jparise/vim-graphql', {'for': 'graphql'}
 Plug 'JoosepAlviste/nvim-ts-context-commentstring'
 "Git support
 Plug 'tpope/vim-fugitive'
