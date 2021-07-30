@@ -1,5 +1,7 @@
 {
 
+  "coc.preferences.formatOnSaveFiletypes": [ "css", "html", 
+    "javascript", "javascriptreact", "typescript", "typescriptreact" ],
   "diagnostic.checkCurrentLine": true,
 
   "diagnostic.errorSign"   : "▬", "diagnostic.warningSign" : "▬",
@@ -30,12 +32,6 @@
   "emmet.includeLanguages": {"javascript": "javascriptreact"},
 
   "eslint.packageManager": "npm",
-  "eslint.run": "onSave",
-
-  "prettier.statusItemText": "𝒫",
-
-  "javascript.suggestionActions.enabled": true,
-
-  "coc.preferences.formatOnSaveFiletypes": [ "css", "markdown", "html" ]
+  "eslint.run": "onSave"
 
 }

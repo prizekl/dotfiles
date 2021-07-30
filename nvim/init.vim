@@ -14,7 +14,7 @@ nnoremap <Leader>x /\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgn
 nnoremap <Leader>X ?\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgN
 nnoremap <Leader>m :!python3 %<CR>
 
-" --Vim Defaults
+" --Defaults
 syntax on
 set hidden
 set noswapfile
@@ -44,15 +44,14 @@ Plug 'mattn/emmet-vim'
 "Navigation
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'liuchengxu/vista.vim'
+Plug 'liuchengxu/vista.vim', {'do': 'Vista!!'}
 "Utilities (auto-brackets, comments, column-align)
 Plug 'Raimondi/delimitMate'
 Plug 'machakann/vim-sandwich'
 Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-abolish'
-Plug 'godlygeek/tabular'
-Plug 'mbbill/undotree'
-"Treesitter
+Plug 'tpope/vim-abolish', {'do': ':Substitute'}
+Plug 'godlygeek/tabular', {'do': ':Tab'}
+"Treesitter (ft syntax highlighting, indents)
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'jparise/vim-graphql', {'for': 'graphql'}
 Plug 'JoosepAlviste/nvim-ts-context-commentstring'
@@ -70,13 +69,8 @@ set fillchars+=eob:\
 set signcolumn=yes
 set termguicolors
 colo codedark
-
 set cursorline
 hi cursorline guibg=NONE
-
-"git diff colors
-hi diffAdded ctermfg=108 guifg=#87af87
-hi diffRemoved ctermfg=131 guifg=#af5f5f
 
 set statusline=%<%t\ %h%m%r%{FugitiveStatusline()}%=%-14.(%l,%c%V%)\ %P
 hi statusline guibg=#007ACC guifg=#FFFFFF
@@ -96,6 +90,9 @@ EOF
 highlight GitSignsAdd    guifg=#587c0c ctermfg=2
 highlight GitSignsChange guifg=#0c7d9d ctermfg=3
 highlight GitSignsDelete guifg=#c7463e ctermfg=1
+"git diff colors
+hi diffAdded ctermfg=108 guifg=#87af87
+hi diffRemoved ctermfg=131 guifg=#af5f5f
 
 " --Emmet
 let g:user_emmet_leader_key='\'
@@ -109,7 +106,7 @@ let $FZF_DEFAULT_COMMAND = 'rg --files --hidden'
 let g:fzf_preview_window = ['up:50%', 'ctrl-o']
 command! -bang -nargs=* Rg call fzf#vim#grep('rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1, fzf#vim#with_preview({'options': '--delimiter : --nth 2..'}), <bang>0)
 
-" --Vista (replaces tagbar for now)
+" --Vista
 let g:vista_default_executive = 'coc'
 let g:vista_fzf_preview = ['right:0%']
 nmap <Leader>t :Vista finder<CR>
@@ -124,11 +121,11 @@ nnoremap <Leader>b :UndotreeToggle<CR>
 " --Treesitter, nvim-ts-autotag
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = { "python", "html", "css", "javascript", "typescript", "tsx", "yaml", "json", "jsdoc", "dockerfile", "scss", "vue" },
-  highlight = { enable = true },
-  indent = { enable = true },
-  -- nvim-commentstring
-  context_commentstring = { enable = true }
+ensure_installed = { "python", "html", "css", "javascript", "typescript", "tsx", "yaml", "json", "jsdoc", "dockerfile", "scss", "vue" },
+highlight = { enable = true },
+indent = { enable = true },
+-- nvim-commentstring
+context_commentstring = { enable = true }
 }
 EOF
 
@@ -144,11 +141,11 @@ set colorcolumn=99999 "fix ghost column highlight
 " {{{ COC }}}
 
 nnoremap <C-n> :CocCommand explorer<CR>
-command EditSnippets execute 'CocCommand snippets.editSnippets'
-let g:coc_disable_transparent_cursor = 1
 highlight CocHintSign ctermfg=yellow guifg=#ff0000
 highlight CocHintFloat ctermfg=yellow guifg=#ff0000
 highlight CocErrorSign guifg=#c7463e
+let g:coc_disable_transparent_cursor = 1
+autocmd FileType list set winhighlight=CursorLine:CocUnderline
 
 " --COC defaults
 nnoremap <silent> <space>d :<C-u>CocList diagnostics<cr>
@@ -168,7 +165,7 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+      \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 nmap <leader>rn <Plug>(coc-rename)
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
