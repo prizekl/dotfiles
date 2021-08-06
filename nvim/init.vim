@@ -4,6 +4,7 @@
 " macros :norm @q"
 " case sensitive :%s/foo\C/bar/g
 " <leader>hp preview hunk | hs stage | hu undo | hr reset to git
+" rename tag with srtt. delete tag with sdt. Surround a tag with vat,,
 
 " --Mappings
 imap jk <Esc>
@@ -97,6 +98,7 @@ hi diffRemoved ctermfg=131 guifg=#af5f5f
 " --Emmet
 let g:user_emmet_leader_key='\'
 imap ,, \,
+vmap ,, \,
 
 " --FZF
 nmap <C-p> :Files<CR>
