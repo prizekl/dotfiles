@@ -11,12 +11,13 @@ imap jk <Esc>
 let mapleader=" "
 nnoremap <Leader>f :b#<CR>
 nnoremap <Leader>cd :cd %:p:h<CR> :pwd<CR>
-nnoremap <Leader>x /\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgn
-nnoremap <Leader>X ?\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgN
+nnoremap <Leader>w /\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgn
+nnoremap <Leader>W ?\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgN
 nnoremap <Leader>m :!python3 %<CR>
 
 " --Defaults
 syntax on
+set encoding=UTF-8
 set hidden
 set noswapfile
 set nobackup
@@ -86,6 +87,32 @@ require('gitsigns').setup {
     topdelete = {hl = 'GitSignsDelete', text = '▔', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
     changedelete = {hl = 'GitSignsChange', text = '┃', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
     },
+  on_attach = function(bufnr)
+  local function map(mode, lhs, rhs, opts)
+  opts = vim.tbl_extend('force', {noremap = true, silent = true}, opts or {})
+  vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, opts)
+end
+-- Navigation
+map('n', ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", {expr=true})
+map('n', '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", {expr=true})
+-- Actions
+map('n', '<leader>hs', ':Gitsigns stage_hunk<CR>')
+map('v', '<leader>hs', ':Gitsigns stage_hunk<CR>')
+map('n', '<leader>hr', ':Gitsigns reset_hunk<CR>')
+map('v', '<leader>hr', ':Gitsigns reset_hunk<CR>')
+map('n', '<leader>hS', '<cmd>Gitsigns stage_buffer<CR>')
+map('n', '<leader>hu', '<cmd>Gitsigns undo_stage_hunk<CR>')
+map('n', '<leader>hR', '<cmd>Gitsigns reset_buffer<CR>')
+map('n', '<leader>hp', '<cmd>Gitsigns preview_hunk<CR>')
+map('n', '<leader>hb', '<cmd>lua require"gitsigns".blame_line{full=true}<CR>')
+map('n', '<leader>tb', '<cmd>Gitsigns toggle_current_line_blame<CR>')
+map('n', '<leader>hd', '<cmd>Gitsigns diffthis<CR>')
+map('n', '<leader>hD', '<cmd>lua require"gitsigns".diffthis("~")<CR>')
+map('n', '<leader>td', '<cmd>Gitsigns toggle_deleted<CR>')
+-- Text object
+map('o', 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+map('x', 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+  end
   }
 EOF
 highlight GitSignsAdd    guifg=#587c0c ctermfg=2
@@ -117,13 +144,10 @@ nnoremap <C-t> :Vista!!<CR>
 " --DelimitMate
 let delimitMate_matchpairs = "(:),[:],{:},<:>"
 
-" --UndoTree
-nnoremap <Leader>b :UndotreeToggle<CR>
-
 " --Treesitter, nvim-ts-autotag
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
-ensure_installed = { "python", "html", "css", "javascript", "typescript", "tsx", "yaml", "json", "jsdoc", "dockerfile", "scss", "vue" },
+ensure_installed = { "python", "html", "css", "javascript", "typescript", "tsx", "yaml", "json", "jsdoc", "dockerfile", "go" },
 highlight = { enable = true },
 indent = { enable = true },
 -- nvim-commentstring
@@ -142,7 +166,7 @@ set colorcolumn=99999 "fix ghost column highlight
 
 " {{{ COC }}}
 
-nnoremap <C-n> :CocCommand explorer<CR>
+nnoremap <C-n> <Cmd>CocCommand explorer<CR>
 highlight CocHintSign ctermfg=yellow guifg=#ff0000
 highlight CocHintFloat ctermfg=yellow guifg=#ff0000
 highlight CocErrorSign guifg=#c7463e
