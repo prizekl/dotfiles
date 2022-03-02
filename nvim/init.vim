@@ -92,8 +92,8 @@ highlight GitSignsAdd    guifg=#587c0c ctermfg=2
 highlight GitSignsChange guifg=#0c7d9d ctermfg=3
 highlight GitSignsDelete guifg=#c7463e ctermfg=1
 "git diff colors
-hi diffAdded ctermfg=108 guifg=#87af87
-hi diffRemoved ctermfg=131 guifg=#af5f5f
+hi DiffAdd ctermfg=108 guifg=#87af87
+hi DiffDelete ctermfg=131 guifg=#af5f5f
 
 " --Emmet
 let g:user_emmet_leader_key='\'
