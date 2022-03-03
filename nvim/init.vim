@@ -167,8 +167,8 @@ set colorcolumn=99999 "fix ghost column highlight
 " {{{ COC }}}
 
 nnoremap <C-n> <Cmd>CocCommand explorer<CR>
-highlight CocHintSign ctermfg=yellow guifg=#ff0000
-highlight CocHintFloat ctermfg=yellow guifg=#ff0000
+highlight CocHintSign guifg=#FF8C00
+highlight CocHintFloat guifg=#FF8C00
 highlight CocErrorSign guifg=#c7463e
 let g:coc_disable_transparent_cursor = 1
 autocmd FileType list set winhighlight=CursorLine:CocUnderline

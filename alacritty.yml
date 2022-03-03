@@ -13,13 +13,13 @@ background_opacity: 0.90
 #Font
 font:
   normal:
-    family: JetBrainsMono Nerd Font
+    family: JetBrainsMonoNL Nerd Font Mono
     style: Regular
   bold:
-    family: JetBrainsMono Nerd Font
+    family: JetBrainsMonoNL Nerd Font Mono
     style: Bold
   italic:
-    family: JetBrainsMono Nerd Font
+    family: JetBrainsMonoNL Nerd Font Mono
     style: Italic
   size: 13.0
   offset:
@@ -34,8 +34,3 @@ colors:
   cursor:
     text: CellBackground
     cursor: '#c0c0c0'
-
-# cursor:
-#   style:
-#     blinking: Always
-#     shape: Block
