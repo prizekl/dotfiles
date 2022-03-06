@@ -10,6 +10,7 @@
 imap jk <Esc>
 let mapleader=" "
 nnoremap <Leader>f :b#<CR>
+nnoremap <leader>bd :%bd\|e#\|bd#<cr>\|'"zz
 nnoremap <Leader>cd :cd %:p:h<CR> :pwd<CR>
 nnoremap <Leader>w /\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgn
 nnoremap <Leader>W ?\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgN
@@ -173,11 +174,12 @@ highlight CocErrorSign guifg=#c7463e
 let g:coc_disable_transparent_cursor = 1
 autocmd FileType list set winhighlight=CursorLine:CocUnderline
 
+nnoremap <C-m> :CocList outline<CR>
+
 " --COC defaults
 nnoremap <silent> <space>d :<C-u>CocList diagnostics<cr>
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
-nmap <leader>ac  <Plug>(coc-codeaction)
 nmap <Leader>aw <Plug>(coc-codeaction-cursor)
 set updatetime=300
 set shortmess+=c
@@ -191,7 +193,7 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-      \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 nmap <leader>rn <Plug>(coc-rename)
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
@@ -207,6 +209,7 @@ function! s:show_documentation()
     execute '!' . &keywordprg . " " . expand('<cword>')
   endif
 endfunction
+nmap <leader>ac  <Plug>(coc-codeaction)
 xmap <leader>a  <Plug>(coc-codeaction-selected)
 nmap <leader>a  <Plug>(coc-codeaction-selected)
 command! -nargs=0 Format :call CocAction('format')

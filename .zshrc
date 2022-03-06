@@ -8,7 +8,6 @@ zstyle ':vcs_info:git:*' formats '%b'
 
 export FZF_DEFAULT_OPTS=" --preview-window=up,50% --preview 'bat --color=always --style=header,grid --line-range :300 {}'"
 
-alias cdf='cd $(ls -d */ | fzf)'
 alias nvimf='nvim $(fzf)'
 export BAT_THEME="Visual Studio Dark+"
 
