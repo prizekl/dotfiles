@@ -28,8 +28,8 @@ set mouse=a
 set ignorecase
 set smartcase
 set number
-set shiftwidth=2
-set tabstop=2
+set shiftwidth=4
+set tabstop=4
 set smartindent
 set expandtab
 
@@ -43,7 +43,6 @@ endif
 call plug#begin('~/.config/nvim/plugged')
 "COC (auto-complete, linting, snippets, formatter, file explorer)
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'mattn/emmet-vim'
 "Navigation
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
@@ -53,18 +52,20 @@ Plug 'Raimondi/delimitMate'
 Plug 'machakann/vim-sandwich'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-abolish', {'do': ':Substitute'}
-Plug 'godlygeek/tabular', {'do': ':Tab'}
+Plug 'junegunn/vim-easy-align'
 "Treesitter (ft syntax highlighting, indents)
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'jparise/vim-graphql', {'for': 'graphql'}
-Plug 'JoosepAlviste/nvim-ts-context-commentstring'
+"Appearance
+Plug 'tomasiser/vim-code-dark'
+Plug 'lukas-reineke/indent-blankline.nvim'
 "Git support
 Plug 'tpope/vim-fugitive'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'nvim-lua/plenary.nvim'
-"Appearance
-Plug 'tomasiser/vim-code-dark'
-Plug 'lukas-reineke/indent-blankline.nvim'
+"webdev
+Plug 'jparise/vim-graphql', {'for': 'graphql'}
+Plug 'JoosepAlviste/nvim-ts-context-commentstring'
+Plug 'mattn/emmet-vim'
 call plug#end()
 
 " --Vanilla UI
@@ -72,11 +73,20 @@ set fillchars+=eob:\
 set signcolumn=yes
 set termguicolors
 colo codedark
+
 set cursorline
 hi cursorline guibg=NONE
 
-set statusline=%<%t\ %h%m%r%{FugitiveStatusline()}%=%-14.(%l,%c%V%)\ %P
+function! NearestMethodOrFunction() abort
+  return get(b:, 'vista_nearest_method_or_function', '')
+endfunction
+
+set statusline=%<%t\ %h%m%r%{FugitiveStatusline()}\ %{NearestMethodOrFunction()}%=%-14.(%l,%c%V%)\ %P
 hi statusline guibg=#007ACC guifg=#FFFFFF
+autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
+
+" EasyAsign
+xmap ga <Plug>(EasyAlign)
 
 " --Gitsigns
 lua <<EOF
@@ -93,9 +103,11 @@ require('gitsigns').setup {
   opts = vim.tbl_extend('force', {noremap = true, silent = true}, opts or {})
   vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, opts)
 end
+
 -- Navigation
 map('n', ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", {expr=true})
 map('n', '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", {expr=true})
+
 -- Actions
 map('n', '<leader>hs', ':Gitsigns stage_hunk<CR>')
 map('v', '<leader>hs', ':Gitsigns stage_hunk<CR>')
@@ -110,11 +122,13 @@ map('n', '<leader>tb', '<cmd>Gitsigns toggle_current_line_blame<CR>')
 map('n', '<leader>hd', '<cmd>Gitsigns diffthis<CR>')
 map('n', '<leader>hD', '<cmd>lua require"gitsigns".diffthis("~")<CR>')
 map('n', '<leader>td', '<cmd>Gitsigns toggle_deleted<CR>')
+
 -- Text object
 map('o', 'ih', ':<C-U>Gitsigns select_hunk<CR>')
 map('x', 'ih', ':<C-U>Gitsigns select_hunk<CR>')
   end
   }
+
 EOF
 highlight GitSignsAdd    guifg=#587c0c ctermfg=2
 highlight GitSignsChange guifg=#0c7d9d ctermfg=3
@@ -148,7 +162,7 @@ let delimitMate_matchpairs = "(:),[:],{:},<:>"
 " --Treesitter, nvim-ts-autotag
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
-ensure_installed = { "python", "html", "css", "javascript", "typescript", "tsx", "yaml", "json", "jsdoc", "dockerfile", "go" },
+ensure_installed = { "python", "java", "html", "css", "javascript", "typescript", "tsx", "yaml", "json", "jsdoc", "dockerfile", "go" },
 highlight = { enable = true },
 indent = { enable = true },
 -- nvim-commentstring
@@ -167,14 +181,13 @@ set colorcolumn=99999 "fix ghost column highlight
 
 " {{{ COC }}}
 
+nnoremap <CR> <Cmd>CocList outline<CR>
 nnoremap <C-n> <Cmd>CocCommand explorer<CR>
 highlight CocHintSign guifg=#FF8C00
 highlight CocHintFloat guifg=#FF8C00
 highlight CocErrorSign guifg=#c7463e
 let g:coc_disable_transparent_cursor = 1
 autocmd FileType list set winhighlight=CursorLine:CocUnderline
-
-nnoremap <C-m> :CocList outline<CR>
 
 " --COC defaults
 nnoremap <silent> <space>d :<C-u>CocList diagnostics<cr>
