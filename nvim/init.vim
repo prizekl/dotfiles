@@ -5,13 +5,15 @@
 " case sensitive :%s/foo\C/bar/g
 " <leader>hp preview hunk | hs stage | hu undo | hr reset to git
 " rename tag with srtt. delete tag with sdt. Surround a tag with vat,,
+" text objects a" i" a( i(
 
 " --Mappings
 imap jk <Esc>
 let mapleader=" "
 nnoremap <Leader>f :b#<CR>
 nnoremap <leader>bd :%bd\|e#\|bd#<cr>\|'"zz
-nnoremap <Leader>cd :cd %:p:h<CR> :pwd<CR>
+command! Leaf :cd %:h
+command! Root :cd %:h | cd `git rev-parse --show-toplevel`
 nnoremap <Leader>w /\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgn
 nnoremap <Leader>W ?\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgN
 nnoremap <Leader>m :!python3 %<CR>
@@ -41,6 +43,11 @@ if empty(glob(data_dir . '/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.config/nvim/plugged')
+"Appearance
+Plug 'tomasiser/vim-code-dark'
+Plug 'lukas-reineke/indent-blankline.nvim'
+"Treesitter (ft syntax highlighting, indents)
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 "COC (auto-complete, linting, snippets, formatter, file explorer)
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 "Navigation
@@ -53,11 +60,6 @@ Plug 'machakann/vim-sandwich'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-abolish', {'do': ':Substitute'}
 Plug 'junegunn/vim-easy-align'
-"Treesitter (ft syntax highlighting, indents)
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-"Appearance
-Plug 'tomasiser/vim-code-dark'
-Plug 'lukas-reineke/indent-blankline.nvim'
 "Git support
 Plug 'tpope/vim-fugitive'
 Plug 'lewis6991/gitsigns.nvim'
@@ -82,11 +84,27 @@ function! NearestMethodOrFunction() abort
 endfunction
 
 set statusline=%<%t\ %h%m%r%{FugitiveStatusline()}\ %{NearestMethodOrFunction()}%=%-14.(%l,%c%V%)\ %P
-hi statusline guibg=#007ACC guifg=#FFFFFF
+" hi statusline guibg=#007ACC guifg=#FFFFFF
 autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
 
-" EasyAsign
-xmap ga <Plug>(EasyAlign)
+" --DelimitMate
+let delimitMate_matchpairs = "(:),[:],{:},<:>"
+
+"git diff colors
+hi DiffAdd ctermfg=108 guifg=#87af87
+hi DiffDelete ctermfg=131 guifg=#af5f5f
+
+" --Indent-blankline
+" let g:indent_blankline_use_treesitter = v:true
+let g:indent_blankline_char = '│'
+let g:indent_blankline_filetype_exclude = ['coc-explorer', 'vista']
+let g:indent_blankline_buftype_exclude = ['help', 'terminal']
+let g:indent_blankline_show_trailing_blankline_indent = v:false
+set colorcolumn=99999 "fix ghost column highlight
+
+"git diff colors
+hi DiffAdd ctermfg=108 guifg=#87af87
+hi DiffDelete ctermfg=131 guifg=#af5f5f
 
 " --Gitsigns
 lua <<EOF
@@ -126,16 +144,12 @@ map('n', '<leader>td', '<cmd>Gitsigns toggle_deleted<CR>')
 -- Text object
 map('o', 'ih', ':<C-U>Gitsigns select_hunk<CR>')
 map('x', 'ih', ':<C-U>Gitsigns select_hunk<CR>')
-  end
-  }
-
+end
+}
 EOF
 highlight GitSignsAdd    guifg=#587c0c ctermfg=2
 highlight GitSignsChange guifg=#0c7d9d ctermfg=3
 highlight GitSignsDelete guifg=#c7463e ctermfg=1
-"git diff colors
-hi DiffAdd ctermfg=108 guifg=#87af87
-hi DiffDelete ctermfg=131 guifg=#af5f5f
 
 " --Emmet
 let g:user_emmet_leader_key='\'
@@ -156,28 +170,16 @@ let g:vista_fzf_preview = ['right:0%']
 nmap <Leader>t :Vista finder<CR>
 nnoremap <C-t> :Vista!!<CR>
 
-" --DelimitMate
-let delimitMate_matchpairs = "(:),[:],{:},<:>"
-
 " --Treesitter, nvim-ts-autotag
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
 ensure_installed = { "python", "java", "html", "css", "javascript", "typescript", "tsx", "yaml", "json", "jsdoc", "dockerfile", "go" },
-highlight = { enable = true },
+highlight = { enable = true, disable = { "vim" } },
 indent = { enable = true },
--- nvim-commentstring
+-- ts-commentstring
 context_commentstring = { enable = true }
 }
 EOF
-
-" --Indent-blankline (need update)
-let g:indent_blankline_show_first_indent_level = v:true
-let g:indent_blankline_use_treesitter = v:true
-let g:indent_blankline_char = '│'
-let g:indent_blankline_filetype_exclude = ['coc-explorer', 'vista']
-let g:indent_blankline_buftype_exclude = ['help', 'terminal']
-let g:indent_blankline_show_trailing_blankline_indent = v:false
-set colorcolumn=99999 "fix ghost column highlight
 
 " {{{ COC }}}
 
