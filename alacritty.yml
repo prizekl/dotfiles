@@ -5,10 +5,10 @@ window:
     lines: 25
   padding:
     x: 1
-    y: 1
+    y: 0
   decorations: none
   dynamic_padding: true
-background_opacity: 0.90
+  opacity: 0.90
 
 #Font
 font:
@@ -22,12 +22,6 @@ font:
     family: JetBrainsMonoNL Nerd Font Mono
     style: Italic
   size: 14.0
-  offset:
-    x: 0
-    y: 2
-  glyph_offset:
-    x: 0
-    y: 0
 draw_bold_text_with_bright_colors: true
 
 colors:

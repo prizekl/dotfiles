@@ -63,7 +63,6 @@ Plug 'junegunn/vim-easy-align'
 "Git support
 Plug 'tpope/vim-fugitive'
 Plug 'lewis6991/gitsigns.nvim'
-Plug 'nvim-lua/plenary.nvim'
 "webdev
 Plug 'jparise/vim-graphql', {'for': 'graphql'}
 Plug 'JoosepAlviste/nvim-ts-context-commentstring'
