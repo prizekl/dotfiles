@@ -6,6 +6,7 @@
 " <leader>hp preview hunk | hs stage | hu undo | hr reset to git
 " rename tag with srtt. delete tag with sdt. Surround a tag with vat,,
 " text objects a" i" a( i(
+" :Gvdiffsplit! Gdiff
 
 " --Mappings
 imap jk <Esc>
