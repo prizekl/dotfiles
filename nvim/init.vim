@@ -1,17 +1,15 @@
-" ~/.vimrc :f == cwd
+" My init.vim
 " qq (macro) /pattern a(^MEa)^M
 " :'<,'>Tab /=
 " macros :norm @q"
 " case sensitive :%s/foo\C/bar/g
-" <leader>hp preview hunk | hs stage | hu undo | hr reset to git
 " rename tag with srtt. delete tag with sdt. Surround a tag with vat,,
-" text objects a" i" a( i(
 " :Gvdiffsplit! Gdiff
 
 " --Mappings
 imap jk <Esc>
 let mapleader=" "
-nnoremap <Leader>f :b#<CR>
+nnoremap <C-f> :b#<CR>
 nnoremap <leader>bd :%bd\|e#\|bd#<cr>\|'"zz
 command! Leaf :cd %:h
 command! Root :cd %:h | cd `git rev-parse --show-toplevel`
@@ -44,16 +42,12 @@ if empty(glob(data_dir . '/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.config/nvim/plugged')
-"Appearance
+"UI
 Plug 'tomasiser/vim-code-dark'
 Plug 'lukas-reineke/indent-blankline.nvim'
-"Treesitter (ft syntax highlighting, indents)
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-"COC (auto-complete, linting, snippets, formatter, file explorer)
+"COC
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-"Navigation
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
 Plug 'liuchengxu/vista.vim', {'do': 'Vista!!'}
 "Utilities (auto-brackets, comments, column-align)
 Plug 'Raimondi/delimitMate'
@@ -65,7 +59,6 @@ Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-fugitive'
 Plug 'lewis6991/gitsigns.nvim'
 "webdev
-Plug 'jparise/vim-graphql', {'for': 'graphql'}
 Plug 'JoosepAlviste/nvim-ts-context-commentstring'
 Plug 'mattn/emmet-vim'
 call plug#end()
@@ -76,6 +69,10 @@ set signcolumn=yes
 set termguicolors
 colo codedark
 
+"git diff colors
+hi DiffAdd ctermfg=108 guifg=#87af87
+hi DiffDelete ctermfg=131 guifg=#af5f5f
+
 set cursorline
 hi cursorline guibg=NONE
 
@@ -84,15 +81,11 @@ function! NearestMethodOrFunction() abort
 endfunction
 
 set statusline=%<%t\ %h%m%r%{FugitiveStatusline()}\ %{NearestMethodOrFunction()}%=%-14.(%l,%c%V%)\ %P
-" hi statusline guibg=#007ACC guifg=#FFFFFF
+hi statusline guibg=#007ACC guifg=#FFFFFF
 autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
 
 " --DelimitMate
 let delimitMate_matchpairs = "(:),[:],{:},<:>"
-
-"git diff colors
-hi DiffAdd ctermfg=108 guifg=#87af87
-hi DiffDelete ctermfg=131 guifg=#af5f5f
 
 " --Indent-blankline
 " let g:indent_blankline_use_treesitter = v:true
@@ -156,20 +149,6 @@ let g:user_emmet_leader_key='\'
 imap ,, \,
 vmap ,, \,
 
-" --FZF
-nmap <C-p> :Files<CR>
-nmap <C-f> :Buffers<CR>
-nmap <C-g> :GFiles?<CR>
-let $FZF_DEFAULT_COMMAND = 'rg --files --hidden'
-let g:fzf_preview_window = ['up:50%', 'ctrl-o']
-command! -bang -nargs=* Rg call fzf#vim#grep('rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1, fzf#vim#with_preview({'options': '--delimiter : --nth 2..'}), <bang>0)
-
-" --Vista
-let g:vista_default_executive = 'coc'
-let g:vista_fzf_preview = ['right:0%']
-nmap <Leader>t :Vista finder<CR>
-nnoremap <C-t> :Vista!!<CR>
-
 " --Treesitter, nvim-ts-autotag
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
@@ -183,6 +162,10 @@ EOF
 
 " {{{ COC }}}
 
+" --Vista
+let g:vista_default_executive = 'coc'
+nnoremap <C-t> :Vista!!<CR>
+
 nnoremap <CR> <Cmd>CocList outline<CR>
 nnoremap <C-n> <Cmd>CocCommand explorer<CR>
 highlight CocHintSign guifg=#FF8C00
@@ -195,7 +178,6 @@ autocmd FileType list set winhighlight=CursorLine:CocUnderline
 nnoremap <silent> <space>d :<C-u>CocList diagnostics<cr>
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
-nmap <Leader>aw <Plug>(coc-codeaction-cursor)
 set updatetime=300
 set shortmess+=c
 inoremap <silent><expr> <TAB>
@@ -207,8 +189,8 @@ function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+" inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+"                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 nmap <leader>rn <Plug>(coc-rename)
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
@@ -225,6 +207,7 @@ function! s:show_documentation()
   endif
 endfunction
 nmap <leader>ac  <Plug>(coc-codeaction)
+nmap <Leader>aw <Plug>(coc-codeaction-cursor)
 xmap <leader>a  <Plug>(coc-codeaction-selected)
 nmap <leader>a  <Plug>(coc-codeaction-selected)
 command! -nargs=0 Format :call CocAction('format')
