@@ -1,14 +1,15 @@
 function Bufx()
-  ls
+  buffers
   call inputsave()
   const bufname = input('bufx: ', '', 'buffer')
   call inputrestore()
   if bufname == ""
-    b#
+    buffer #
   elseif bufname == "d"
     %bd|e#|bd#
   else
     exe "b " . bufname
   endif
 endfunction
+
 nnoremap <silent> <C-f> :call Bufx()<CR>
