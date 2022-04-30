@@ -1,5 +1,4 @@
 " init.vim
-
 imap jk <Esc>
 let mapleader=" "
 command! Leaf :cd %:h
@@ -13,16 +12,16 @@ set hidden
 set noswapfile
 set nobackup
 set nowritebackup
-set clipboard=unnamed
-set mouse=a
 set ignorecase
 set smartcase
-set number
 set shiftwidth=4
 set tabstop=4
 set smartindent
 set expandtab
+set clipboard=unnamed
+set mouse=a
 
+set number
 set termguicolors
 set fillchars+=eob:\ 
 set signcolumn=yes
