@@ -9,7 +9,6 @@ nnoremap <Leader>W ?\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgN
 nnoremap <Leader>m :!python3 %<CR>
 
 syntax on
-set encoding=UTF-8
 set hidden
 set noswapfile
 set nobackup
@@ -28,8 +27,6 @@ set termguicolors
 set fillchars+=eob:\ 
 set signcolumn=yes
 set statusline=%<%t\ %h%m%r\ %=%-14.(%l,%c%V%)\ %P
-set cursorline
-hi cursorline guibg=NONE
 
 source config/vim-plug.vim
 source config/codedark.vim
