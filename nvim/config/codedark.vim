@@ -1,3 +1,4 @@
+" config/codedark.vim
 colorscheme codedark
 set cursorline
 hi cursorline guibg=NONE

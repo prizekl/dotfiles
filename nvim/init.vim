@@ -14,8 +14,8 @@ set nobackup
 set nowritebackup
 set ignorecase
 set smartcase
-set shiftwidth=4
-set tabstop=4
+set shiftwidth=2
+set tabstop=2
 set smartindent
 set expandtab
 set clipboard=unnamed
@@ -27,14 +27,15 @@ set fillchars+=eob:\
 set signcolumn=yes
 set statusline=%<%t\ %h%m%r\ %=%-14.(%l,%c%V%)\ %P
 
-source config/vim-plug.vim
-source config/codedark.vim
-source config/indent-blankline.vim
-source config/treesitter.vim
-source config/coc.vim
-source config/vista.vim
-source config/fugitive.vim
-source config/gitsigns.vim
-source config/delimitmate.vim
-source config/emmet.vim
-source config/bufx.vim
+source ~/.config/nvim/config/vim-plug.vim
+source ~/.config/nvim/config/codedark.vim
+source ~/.config/nvim/config/indent-blankline.vim
+source ~/.config/nvim/config/treesitter.vim
+source ~/.config/nvim/config/telescope.vim
+source ~/.config/nvim/config/coc.vim
+source ~/.config/nvim/config/vista.vim
+source ~/.config/nvim/config/fugitive.vim
+source ~/.config/nvim/config/gitsigns.vim
+source ~/.config/nvim/config/delimitmate.vim
+source ~/.config/nvim/config/emmet.vim
+source ~/.config/nvim/config/bufx.vim

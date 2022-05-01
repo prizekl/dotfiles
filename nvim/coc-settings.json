@@ -1,20 +1,28 @@
 {
 
-  "coc.preferences.formatOnSaveFiletypes": [ "css", "html", 
-    "javascript", "javascriptreact", "typescript", "typescriptreact" ],
+  "coc.preferences.formatOnSaveFiletypes": [
+    "css",
+    "html",
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
 
   "coc.preferences.useQuickfixForLocations": true,
 
   "diagnostic.checkCurrentLine": true,
 
-  "diagnostic.errorSign"   : "▬", "diagnostic.warningSign" : "▬",
-  "diagnostic.infoSign"    : "▬", "diagnostic.hintSign"    : "▬",
+  "diagnostic.errorSign":  "▬",
+  "diagnostic.warningSign": "▬",
+  "diagnostic.infoSign":   "▬",
+  "diagnostic.hintSign":   "▬",
 
   "explorer.icon.enableNerdfont": true,
   "explorer.width": 30,
   "explorer.file.showHiddenFiles": true,
 
-  "emmet.includeLanguages": {"javascript": "javascriptreact"},
+  "emmet.includeLanguages": { "javascript": "javascriptreact" },
 
   "eslint.packageManager": "npm",
   "eslint.run": "onSave"
