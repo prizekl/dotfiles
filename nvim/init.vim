@@ -38,4 +38,3 @@ source ~/.config/nvim/config/fugitive.vim
 source ~/.config/nvim/config/gitsigns.vim
 source ~/.config/nvim/config/delimitmate.vim
 source ~/.config/nvim/config/emmet.vim
-source ~/.config/nvim/config/bufx.vim

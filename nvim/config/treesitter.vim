@@ -21,3 +21,5 @@ require'nvim-treesitter.configs'.setup {
   context_commentstring = { enable = true }
   }
 EOF
+
+autocmd FileType java setlocal shiftwidth=4 softtabstop=4 expandtab

@@ -1,7 +1,4 @@
 " config/coc.vim
-nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
-nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
-nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
 nnoremap <C-n> <Cmd>CocCommand explorer<CR>
 highlight CocHintSign guifg=#FF8C00
 highlight CocHintFloat guifg=#FF8C00
@@ -45,3 +42,7 @@ xmap <leader>a  <Plug>(coc-codeaction-selected)
 nmap <leader>a  <Plug>(coc-codeaction-selected)
 command! -nargs=0 Format :call CocAction('format')
 command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport')
+
+" nnoremap <silent><nowait> <space>d  :<C-u>CocList diagnostics<cr>
+" nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
+" nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
