@@ -1,1 +1,0 @@
-/Users/prize/.zshrc
