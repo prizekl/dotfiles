@@ -1,22 +1,12 @@
 {
-
-  "coc.preferences.formatOnSaveFiletypes": [
-    "css",
-    "html",
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact"
-  ],
-
   "coc.preferences.useQuickfixForLocations": true,
 
   "diagnostic.checkCurrentLine": true,
 
-  "diagnostic.errorSign":  "▬",
+  "diagnostic.errorSign": "▬",
   "diagnostic.warningSign": "▬",
-  "diagnostic.infoSign":   "▬",
-  "diagnostic.hintSign":   "▬",
+  "diagnostic.infoSign": "▬",
+  "diagnostic.hintSign": "▬",
 
   "explorer.icon.enableNerdfont": true,
   "explorer.width": 30,
@@ -26,5 +16,4 @@
 
   "eslint.packageManager": "npm",
   "eslint.run": "onSave"
-
 }

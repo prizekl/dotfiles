@@ -40,9 +40,10 @@ nmap <leader>ac  <Plug>(coc-codeaction)
 nmap <Leader>aw <Plug>(coc-codeaction-cursor)
 xmap <leader>a  <Plug>(coc-codeaction-selected)
 nmap <leader>a  <Plug>(coc-codeaction-selected)
-command! -nargs=0 Format :call CocAction('format')
+command! -nargs=0 FO :call CocAction('format')
 command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport')
 
+nnoremap <space>f :call CocAction('format')<CR>
 " nnoremap <silent><nowait> <space>d  :<C-u>CocList diagnostics<cr>
 " nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
 " nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>

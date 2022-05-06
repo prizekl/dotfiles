@@ -36,5 +36,4 @@ source ~/.config/nvim/config/coc.vim
 source ~/.config/nvim/config/vista.vim
 source ~/.config/nvim/config/fugitive.vim
 source ~/.config/nvim/config/gitsigns.vim
-source ~/.config/nvim/config/delimitmate.vim
 source ~/.config/nvim/config/emmet.vim
