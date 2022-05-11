@@ -22,10 +22,6 @@ endfunction
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 nmap <leader>rn <Plug>(coc-rename)
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 function! s:show_documentation()
   if CocAction('hasProvider', 'hover')
@@ -41,6 +37,11 @@ nmap <leader>a  <Plug>(coc-codeaction-selected)
 command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport')
 command! -nargs=0 FO :call CocAction('format')
 nnoremap <space>f :call CocAction('format')<CR>
+
+" nmap <silent> gy <Plug>(coc-type-definition)
+" nmap <silent> gi <Plug>(coc-implementation)
+" nmap <silent> gd <Plug>(coc-definition)
+" nmap <silent> gr <Plug>(coc-references)
 
 " nnoremap <silent><nowait> <space>d  :<C-u>CocList diagnostics<cr>
 " nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
