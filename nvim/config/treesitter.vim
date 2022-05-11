@@ -4,14 +4,14 @@ require'nvim-treesitter.configs'.setup {
   ensure_installed = { 
     "python",
     "java",
+    "yaml",
     "html",
     "css",
     "javascript",
+    "jsdoc",
+    "json",
     "typescript",
     "tsx",
-    "yaml",
-    "json",
-    "jsdoc",
     "dockerfile",
     "go" 
     },

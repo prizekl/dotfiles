@@ -15,7 +15,7 @@ set nowritebackup
 set ignorecase
 set smartcase
 set shiftwidth=2
-set tabstop=2
+set softtabstop=2
 set smartindent
 set expandtab
 set clipboard=unnamed
