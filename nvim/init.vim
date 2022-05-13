@@ -7,14 +7,12 @@ nnoremap <Leader>w /\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgn
 nnoremap <Leader>W ?\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgN
 nnoremap <Leader>m :!python3 %<CR>
 
-syntax on
 set noswapfile
 set clipboard=unnamed
 set mouse=a
 
 set ignorecase
 set smartcase
-
 set shiftwidth=2
 set softtabstop=2
 set smartindent
