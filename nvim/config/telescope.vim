@@ -36,10 +36,10 @@ nnoremap <C-f> :Telescope buffers<CR>
 nnoremap <C-g> :Telescope git_status<CR>
 command! Rg :Telescope live_grep
 
-nnoremap <silent><nowait> <space>d  :Telescope coc diagnostics<CR>
-nnoremap <silent><nowait> <space>o  :Telescope coc document_symbols<CR>
-nnoremap <silent><nowait> <space>s  :Telescope coc workspace_symbols<CR>
-nnoremap <silent><nowait> <space>e  :Telescope resume<CR>
+nnoremap <silent><nowait> <leader>d  :Telescope coc diagnostics<CR>
+nnoremap <silent><nowait> <leader>o  :Telescope coc document_symbols<CR>
+nnoremap <silent><nowait> <leader>s  :Telescope coc workleader_symbols<CR>
+nnoremap <silent><nowait> <leader>e  :Telescope resume<CR>
 nnoremap <silent><nowait> gd :Telescope coc definitions<CR>
 nnoremap <silent><nowait> gr :Telescope coc references<CR>
 nnoremap <silent><nowait> gy :Telescope coc type_definitions<CR>

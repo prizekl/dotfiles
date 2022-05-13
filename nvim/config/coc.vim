@@ -34,19 +34,19 @@ function! s:show_documentation()
 endfunction
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
-nmap <space>ac  <Plug>(coc-codeaction)
-nmap <space>aw <Plug>(coc-codeaction-cursor)
-xmap <space>a  <Plug>(coc-codeaction-selected)
-nmap <space>a  <Plug>(coc-codeaction-selected)
+nmap <leader>ac  <Plug>(coc-codeaction)
+nmap <leader>aw <Plug>(coc-codeaction-cursor)
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
 command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport')
 command! -nargs=0 FO :call CocAction('format')
-nnoremap <space>f :call CocAction('format')<CR>
+nnoremap <leader>f :call CocAction('format')<CR>
 
 " nmap <silent> gy <Plug>(coc-type-definition)
 " nmap <silent> gi <Plug>(coc-implementation)
 " nmap <silent> gd <Plug>(coc-definition)
 " nmap <silent> gr <Plug>(coc-references)
 
-" nnoremap <silent><nowait> <space>d  :<C-u>CocList diagnostics<cr>
-" nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
-" nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
+" nnoremap <silent><nowait> <leader>d  :<C-u>CocList diagnostics<cr>
+" nnoremap <silent><nowait> <leader>o  :<C-u>CocList outline<cr>
+" nnoremap <silent><nowait> <leader>s  :<C-u>CocList -I symbols<cr>
