@@ -1,6 +1,6 @@
 " init.vim
 imap jk <Esc>
-let mapleader=" "
+let mapleader="\<space>"
 set noswapfile
 set clipboard=unnamed
 set mouse=a
@@ -27,6 +27,5 @@ source ~/.config/nvim/config/nvim-gps.vim
 source ~/.config/nvim/config/telescope.vim
 source ~/.config/nvim/config/coc.vim
 source ~/.config/nvim/config/vista.vim
-source ~/.config/nvim/config/fugitive.vim
 source ~/.config/nvim/config/gitsigns.vim
 source ~/.config/nvim/config/emmet.vim

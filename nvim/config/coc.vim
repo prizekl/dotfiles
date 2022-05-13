@@ -1,5 +1,4 @@
 " config/coc.vim
-nnoremap <C-n> <Cmd>CocCommand explorer<CR>
 highlight CocHintSign guifg=#FF8C00
 highlight CocHintFloat guifg=#FF8C00
 highlight CocErrorSign guifg=#c7463e
@@ -41,6 +40,7 @@ nmap <leader>a  <Plug>(coc-codeaction-selected)
 command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport')
 command! -nargs=0 FO :call CocAction('format')
 nnoremap <leader>f :call CocAction('format')<CR>
+nnoremap <C-n> <Cmd>CocCommand explorer<CR>
 
 " nmap <silent> gy <Plug>(coc-type-definition)
 " nmap <silent> gi <Plug>(coc-implementation)
