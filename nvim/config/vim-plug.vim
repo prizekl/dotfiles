@@ -8,14 +8,15 @@ endif
 call plug#begin('~/.config/nvim/plugged')
 Plug 'tomasiser/vim-code-dark'
 Plug 'lukas-reineke/indent-blankline.nvim'
+
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'SmiteshP/nvim-gps'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'liuchengxu/vista.vim', {'do': 'Vista!!'}
 
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
-Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 Plug 'fannheyward/telescope-coc.nvim'
 
 Plug 'Raimondi/delimitMate'

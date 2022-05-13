@@ -25,12 +25,13 @@ set number
 set termguicolors
 set fillchars+=eob:\ 
 set signcolumn=yes
-set statusline=%<%t\ %h%m%r\ %=%-14.(%l,%c%V%)\ %P
+set laststatus=2
 
 source ~/.config/nvim/config/vim-plug.vim
 source ~/.config/nvim/config/codedark.vim
 source ~/.config/nvim/config/indent-blankline.vim
 source ~/.config/nvim/config/treesitter.vim
+source ~/.config/nvim/config/nvim-gps.vim
 source ~/.config/nvim/config/telescope.vim
 source ~/.config/nvim/config/coc.vim
 source ~/.config/nvim/config/vista.vim
