@@ -6,10 +6,12 @@ highlight CocErrorSign guifg=#c7463e
 let g:coc_disable_transparent_cursor = 1
 autocmd FileType list set winhighlight=CursorLine:CocUnderline
 
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
+set hidden
+set nobackup
+set nowritebackup
 set updatetime=300
 set shortmess+=c
+set signcolumn=yes
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
@@ -30,6 +32,8 @@ function! s:show_documentation()
     call feedkeys('K', 'in')
   endif
 endfunction
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
 nmap <leader>ac  <Plug>(coc-codeaction)
 nmap <Leader>aw <Plug>(coc-codeaction-cursor)
 xmap <leader>a  <Plug>(coc-codeaction-selected)

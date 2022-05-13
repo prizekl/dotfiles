@@ -8,24 +8,20 @@ nnoremap <Leader>W ?\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgN
 nnoremap <Leader>m :!python3 %<CR>
 
 syntax on
-set hidden
 set noswapfile
-set nobackup
-set nowritebackup
+set clipboard=unnamed
+set mouse=a
+
 set ignorecase
 set smartcase
+
 set shiftwidth=2
 set softtabstop=2
 set smartindent
 set expandtab
-set clipboard=unnamed
-set mouse=a
 
-set number
 set termguicolors
-set fillchars+=eob:\ 
-set signcolumn=yes
-set laststatus=2
+set number
 
 source ~/.config/nvim/config/vim-plug.vim
 source ~/.config/nvim/config/codedark.vim

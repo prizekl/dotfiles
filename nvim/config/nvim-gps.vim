@@ -1,7 +1,8 @@
 "conig/nvim-gps.vim
 
 lua <<EOF
-require("nvim-gps").setup()
+require("nvim-gps").setup({
+})
 EOF
 
 func! NvimGps() abort
@@ -9,4 +10,4 @@ func! NvimGps() abort
 		\ luaeval("require'nvim-gps'.get_location()") : ''
 endf
 
-set statusline=%<%t\ %h%m%r\ %{NvimGps()}\ %=%-14.(%l,%c%V%)\ %P
+set statusline=%<%t\ %h%m%r\ %{NvimGps()}\ %=%(%l,%c%V%)\ %P
