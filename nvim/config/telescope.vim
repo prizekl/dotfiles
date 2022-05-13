@@ -1,6 +1,6 @@
 " config/telescope.vim
 lua <<EOF
-require('telescope').setup{
+require('telescope').setup {
 defaults = {
   path_display = { "smart" },
   layout_strategy = "vertical",

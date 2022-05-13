@@ -1,8 +1,7 @@
 "conig/nvim-gps.vim
 
 lua <<EOF
-require("nvim-gps").setup({
-})
+require("nvim-gps").setup {}
 EOF
 
 func! NvimGps() abort
