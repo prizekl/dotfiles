@@ -3,9 +3,9 @@ imap jk <Esc>
 let mapleader=" "
 command! Leaf :cd %:h
 command! Root :cd %:h | cd `git rev-parse --show-toplevel`
-nnoremap <Leader>w /\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgn
-nnoremap <Leader>W ?\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgN
-nnoremap <Leader>m :!python3 %<CR>
+nnoremap <space>w /\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgn
+nnoremap <space>W ?\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgN
+nnoremap <space>m :!python3 %<CR>
 
 set noswapfile
 set clipboard=unnamed
