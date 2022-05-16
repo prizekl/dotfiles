@@ -1,5 +1,4 @@
 " config/indent-blankline.vim
-" let g:indent_blankline_use_treesitter = v:true
 let g:indent_blankline_char = '│'
 let g:indent_blankline_filetype_exclude = ['coc-explorer', 'vista']
 let g:indent_blankline_buftype_exclude = ['help', 'terminal']

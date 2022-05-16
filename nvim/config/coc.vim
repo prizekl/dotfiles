@@ -1,9 +1,7 @@
 " config/coc.vim
-highlight CocHintSign guifg=#FF8C00
+highlight CocHintSign  guifg=#FF8C00
 highlight CocHintFloat guifg=#FF8C00
 highlight CocErrorSign guifg=#c7463e
-let g:coc_disable_transparent_cursor = 1
-autocmd FileType list set winhighlight=CursorLine:CocUnderline
 
 set hidden
 set nobackup
@@ -22,8 +20,6 @@ function! s:check_back_space() abort
 endfunction
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-nmap <leader>rn <Plug>(coc-rename)
-nnoremap <silent> K :call <SID>show_documentation()<CR>
 function! s:show_documentation()
   if CocAction('hasProvider', 'hover')
     call CocActionAsync('doHover')
@@ -31,16 +27,21 @@ function! s:show_documentation()
     call feedkeys('K', 'in')
   endif
 endfunction
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+nmap <leader>rn <Plug>(coc-rename)
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 nmap <leader>ac  <Plug>(coc-codeaction)
 nmap <leader>aw <Plug>(coc-codeaction-cursor)
 xmap <leader>a  <Plug>(coc-codeaction-selected)
 nmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>f :call CocAction('format')<CR>
+nmap <C-n> :CocCommand explorer<CR>
 command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport')
 command! -nargs=0 FO :call CocAction('format')
-nnoremap <leader>f :call CocAction('format')<CR>
-nnoremap <C-n> <Cmd>CocCommand explorer<CR>
+
+" let g:coc_disable_transparent_cursor = 1
+" autocmd FileType list set winhighlight=CursorLine:CocUnderline
 
 " nmap <silent> gy <Plug>(coc-type-definition)
 " nmap <silent> gi <Plug>(coc-implementation)

@@ -1,5 +1,4 @@
 " init.vim
-imap jk <Esc>
 let mapleader="\<space>"
 set noswapfile
 set clipboard=unnamed

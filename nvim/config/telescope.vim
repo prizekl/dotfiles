@@ -24,8 +24,7 @@ pickers = {
       }
     }
   },
-extensions = {
-  }
+extensions = {}
 }
 
 require('telescope').load_extension('coc')

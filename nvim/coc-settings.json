@@ -6,7 +6,6 @@
   "diagnostic.infoSign": "▬",
   "diagnostic.hintSign": "▬",
   "explorer.icon.enableNerdfont": true,
-  "explorer.width": 30,
   "explorer.file.showHiddenFiles": true,
 
   "emmet.includeLanguages": { "javascript": "javascriptreact" },

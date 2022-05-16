@@ -7,6 +7,4 @@ RPROMPT=\$vcs_info_msg_0_
 
 eval "$(zoxide init zsh)"
 
-if [ "$TMUX" = "" ]; then
-  tmux
-fi
+if [ "$TMUX" = "" ]; then tmux; fi
