@@ -1,8 +1,4 @@
 " config/coc.vim
-highlight CocHintSign  guifg=#FF8C00
-highlight CocHintFloat guifg=#FF8C00
-highlight CocErrorSign guifg=#c7463e
-
 set hidden
 set nobackup
 set nowritebackup
@@ -40,8 +36,12 @@ nmap <C-n> :CocCommand explorer<CR>
 command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport')
 command! -nargs=0 FO :call CocAction('format')
 
-" let g:coc_disable_transparent_cursor = 1
-" autocmd FileType list set winhighlight=CursorLine:CocUnderline
+highlight CocHintSign  guifg=#FF8C00
+highlight CocHintFloat guifg=#FF8C00
+highlight CocErrorSign guifg=#c7463e
+
+let g:coc_disable_transparent_cursor = 1
+autocmd FileType list set winhighlight=CursorLine:CocUnderline
 
 " nmap <silent> gy <Plug>(coc-type-definition)
 " nmap <silent> gi <Plug>(coc-implementation)
