@@ -20,6 +20,7 @@ nnoremap <leader>m :!python3 %<CR>
 
 source ~/.config/nvim/config/vim-plug.vim
 source ~/.config/nvim/config/codedark.vim
+source ~/.config/nvim/config/nvim-colorizer.vim
 source ~/.config/nvim/config/indent-blankline.vim
 source ~/.config/nvim/config/treesitter.vim
 source ~/.config/nvim/config/nvim-gps.vim
@@ -28,5 +29,3 @@ source ~/.config/nvim/config/coc.vim
 source ~/.config/nvim/config/vista.vim
 source ~/.config/nvim/config/gitsigns.vim
 source ~/.config/nvim/config/emmet.vim
-
-source ~/.config/nvim/config/nvim-colorizer.vim
