@@ -10,7 +10,6 @@ set softtabstop=2
 set smartindent
 set expandtab
 set termguicolors
-
 set number
 
 command! Leaf :cd %:h
