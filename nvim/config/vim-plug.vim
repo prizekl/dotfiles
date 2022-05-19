@@ -8,6 +8,7 @@ endif
 call plug#begin('~/.config/nvim/plugged')
 Plug 'tomasiser/vim-code-dark'
 Plug 'lukas-reineke/indent-blankline.nvim'
+Plug 'norcalli/nvim-colorizer.lua'
 
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'SmiteshP/nvim-gps'

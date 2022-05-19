@@ -28,3 +28,5 @@ source ~/.config/nvim/config/coc.vim
 source ~/.config/nvim/config/vista.vim
 source ~/.config/nvim/config/gitsigns.vim
 source ~/.config/nvim/config/emmet.vim
+
+source ~/.config/nvim/config/nvim-colorizer.vim
