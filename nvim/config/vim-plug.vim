@@ -11,6 +11,7 @@ Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'norcalli/nvim-colorizer.lua'
 
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'JoosepAlviste/nvim-ts-context-commentstring'
 Plug 'SmiteshP/nvim-gps'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -28,6 +29,5 @@ Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-fugitive'
 Plug 'lewis6991/gitsigns.nvim'
 
-Plug 'JoosepAlviste/nvim-ts-context-commentstring'
 Plug 'mattn/emmet-vim'
 call plug#end()
