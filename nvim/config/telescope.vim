@@ -17,11 +17,7 @@ pickers = {
     show_all_buffers = true,
     ignore_current_buffer = true,
     sort_mru = true,
-    mappings = {
-      i = {
-        ["<c-d>"] = "delete_buffer",
-        }
-      }
+    mappings = { i = { ["<c-d>"] = "delete_buffer", } }
     }
   },
 extensions = {}
