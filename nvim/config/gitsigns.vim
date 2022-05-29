@@ -62,8 +62,8 @@ require('gitsigns').setup {
   }
 EOF
 
-highlight DiffAdd        guifg=#87af87 ctermfg=108
-highlight DiffDelete     guifg=#af5f5f ctermfg=131 
-highlight GitSignsAdd    guifg=#587c0c ctermfg=2
-highlight GitSignsChange guifg=#0c7d9d ctermfg=3
-highlight GitSignsDelete guifg=#c7463e ctermfg=1
+highlight DiffAdd        guifg=#87af87
+highlight DiffDelete     guifg=#af5f5f
+highlight GitSignsAdd    guifg=#587c0c
+highlight GitSignsChange guifg=#0c7d9d
+highlight GitSignsDelete guifg=#c7463e
