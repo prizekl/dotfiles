@@ -12,8 +12,6 @@ set expandtab
 set termguicolors
 set number
 
-"hi
-
 command! Leaf :cd %:h
 command! Root :cd %:h | cd `git rev-parse --show-toplevel`
 nnoremap <leader>w /\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgn
