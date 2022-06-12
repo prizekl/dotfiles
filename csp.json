@@ -128,7 +128,7 @@
           "type": "basic",
           "from": {
             "modifiers": { "optional": ["left_gui"] },
-            "key_code": "keypad_7"
+            "key_code": "keypad_3"
           },
           "to": [{ "key_code": "p" }]
         }
@@ -230,6 +230,24 @@
             {
               "modifiers": ["left_option"],
               "key_code": "open_bracket"
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "description": "mergebelow",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "keypad_4"
+          },
+          "to": [
+            {
+              "modifiers": ["left_gui"],
+              "key_code": "e"
             }
           ]
         }
