@@ -1,4 +1,4 @@
--- Install packer
+-- init.lua
 local install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
 
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
@@ -40,6 +40,7 @@ require('packer').startup(function(use)
   use 'hrsh7th/cmp-nvim-lsp-signature-help'
   use 'saadparwaiz1/cmp_luasnip'
   use 'L3MON4D3/LuaSnip'
+  use "rafamadriz/friendly-snippets"
 end)
 
 vim.g.mapleader = ' '
@@ -77,41 +78,31 @@ vim.api.nvim_create_user_command(
   {bang = true}
 )
 
---Set highlight on search
 vim.o.hlsearch = true
-
 vim.wo.number = true
-
---Enable mouse mode
 vim.o.mouse = 'a'
 vim.o.clipboard = 'unnamed'
-
---Enable break indent
 vim.o.breakindent = true
-
---Case insensitive searching UNLESS /C or capital in search
 vim.o.ignorecase = true
 vim.o.smartcase = true
-
---Decrease update time
-vim.o.updatetime = 250
 vim.wo.signcolumn = 'yes'
 
---Set colorscheme
+vim.o.updatetime = 250
+vim.o.completeopt = 'menuone,noselect'
+
+
 vim.o.termguicolors = true
 vim.g["zenwritten_compat"] = 1
 vim.cmd [[colorscheme zenwritten]]
 
--- Set completeopt to have a better completion experience
-vim.o.completeopt = 'menuone,noselect'
-
---Enable tree
+--Enable nvim-tree
 require'nvim-tree'.setup {
   update_focused_file = {
     enable = true,
   }
 }
 vim.keymap.set({ 'n' }, '<C-n>', ':NvimTreeToggle<CR>', { silent = true })
+
 -- Vista Mapping
 vim.g["vista_default_executive"] = 'nvim_lsp'
 vim.keymap.set({ 'n' }, '<C-t>', ':Vista!!<CR>', { silent = true })
@@ -195,8 +186,6 @@ require('telescope').setup {
     }
   }
 }
-
-
 -- Enable telescope fzf native
 require('telescope').load_extension 'fzf'
 
@@ -230,10 +219,10 @@ require('nvim-treesitter.configs').setup {
   incremental_selection = {
     enable = true,
     keymaps = {
-      init_selection = 'gnn',
-      node_incremental = 'grn',
-      scope_incremental = 'grc',
-      node_decremental = 'grm',
+      init_selection = '<CR>',
+      scope_incremental = '<CR>',
+      node_incremental = '<TAB>',
+      node_decremental = '<S-TAB>',
     },
   },
   indent = {
@@ -255,19 +244,19 @@ require('nvim-treesitter.configs').setup {
       enable = true,
       set_jumps = true, -- whether to set jumps in the jumplist
       goto_next_start = {
-        [']m'] = '@function.outer',
+        [']f'] = '@function.outer',
         [']]'] = '@class.outer',
       },
       goto_next_end = {
-        [']M'] = '@function.outer',
+        [']F'] = '@function.outer',
         [']['] = '@class.outer',
       },
       goto_previous_start = {
-        ['[m'] = '@function.outer',
+        ['[f'] = '@function.outer',
         ['[['] = '@class.outer',
       },
       goto_previous_end = {
-        ['[M'] = '@function.outer',
+        ['[F'] = '@function.outer',
         ['[]'] = '@class.outer',
       },
     },
@@ -323,6 +312,7 @@ end
 
 -- luasnip setup
 local luasnip = require 'luasnip'
+require("luasnip.loaders.from_vscode").lazy_load()
 
 -- nvim-cmp setup
 local cmp = require 'cmp'
