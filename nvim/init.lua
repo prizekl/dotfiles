@@ -93,7 +93,8 @@ vim.o.completeopt = 'menuone,noselect'
 
 vim.o.termguicolors = true
 vim.g["zenwritten_compat"] = 1
-vim.cmd [[colorscheme zenwritten]]
+vim.g["zenbones_compat"] = 1
+vim.cmd [[colorscheme onedark]]
 
 --Enable nvim-tree
 require'nvim-tree'.setup {
@@ -301,7 +302,8 @@ local servers = {
   'tsserver',
   'html',
   'cssmodules_ls',
-  'cssls'
+  'cssls',
+  'jsonls'
 }
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
