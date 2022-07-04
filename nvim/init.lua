@@ -14,9 +14,9 @@ require('packer').startup(function(use)
   use 'numToStr/Comment.nvim'
   use { 'nvim-telescope/telescope.nvim', requires = { 'nvim-lua/plenary.nvim' } }
   use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
-  use {'joshdick/onedark.vim'}
-  use 'kvrohit/rasmus.nvim'
-  use 'mcchrish/zenbones.nvim'
+
+  use 'shaunsingh/nord.nvim'
+
   use { 'liuchengxu/vista.vim' }
   use { 'lukas-reineke/indent-blankline.nvim' }
   use { 'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' } }
@@ -92,9 +92,7 @@ vim.o.completeopt = 'menuone,noselect'
 
 
 vim.o.termguicolors = true
-vim.g["zenwritten_compat"] = 1
-vim.g["zenbones_compat"] = 1
-vim.cmd [[colorscheme onedark]]
+vim.cmd [[colorscheme nord]]
 
 --Enable nvim-tree
 require'nvim-tree'.setup {

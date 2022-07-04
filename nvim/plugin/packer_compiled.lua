@@ -109,6 +109,11 @@ _G.packer_plugins = {
     path = "/Users/prize/.local/share/nvim/site/pack/packer/start/indent-blankline.nvim",
     url = "https://github.com/lukas-reineke/indent-blankline.nvim"
   },
+  ["nord.nvim"] = {
+    loaded = true,
+    path = "/Users/prize/.local/share/nvim/site/pack/packer/start/nord.nvim",
+    url = "https://github.com/shaunsingh/nord.nvim"
+  },
   ["nvim-autopairs"] = {
     config = { "\27LJ\2\n@\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\19nvim-autopairs\frequire\0" },
     loaded = true,
@@ -150,11 +155,6 @@ _G.packer_plugins = {
     path = "/Users/prize/.local/share/nvim/site/pack/packer/start/nvim-web-devicons",
     url = "https://github.com/kyazdani42/nvim-web-devicons"
   },
-  ["onedark.vim"] = {
-    loaded = true,
-    path = "/Users/prize/.local/share/nvim/site/pack/packer/start/onedark.vim",
-    url = "https://github.com/joshdick/onedark.vim"
-  },
   ["packer.nvim"] = {
     loaded = true,
     path = "/Users/prize/.local/share/nvim/site/pack/packer/start/packer.nvim",
@@ -164,11 +164,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/prize/.local/share/nvim/site/pack/packer/start/plenary.nvim",
     url = "https://github.com/nvim-lua/plenary.nvim"
-  },
-  ["rasmus.nvim"] = {
-    loaded = true,
-    path = "/Users/prize/.local/share/nvim/site/pack/packer/start/rasmus.nvim",
-    url = "https://github.com/kvrohit/rasmus.nvim"
   },
   ["telescope-fzf-native.nvim"] = {
     loaded = true,
@@ -194,11 +189,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/prize/.local/share/nvim/site/pack/packer/start/vista.vim",
     url = "https://github.com/liuchengxu/vista.vim"
-  },
-  ["zenbones.nvim"] = {
-    loaded = true,
-    path = "/Users/prize/.local/share/nvim/site/pack/packer/start/zenbones.nvim",
-    url = "https://github.com/mcchrish/zenbones.nvim"
   }
 }
 
