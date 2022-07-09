@@ -12,7 +12,6 @@ require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
 
   use 'shaunsingh/nord.nvim'
-  use 'Mofiqul/adwaita.nvim'
   use { 'lukas-reineke/indent-blankline.nvim' }
 
   use 'tpope/vim-fugitive'
@@ -37,6 +36,7 @@ require('packer').startup(function(use)
   }
 
   use 'nvim-treesitter/nvim-treesitter'
+
   use 'neovim/nvim-lspconfig'
   use 'hrsh7th/nvim-cmp'
   use 'hrsh7th/cmp-nvim-lsp'
@@ -70,7 +70,7 @@ vim.o.completeopt = 'menuone,noselect'
 vim.o.hlsearch = true
 vim.wo.number = true
 vim.o.termguicolors = true
-vim.cmd [[colorscheme adwaita]]
+vim.cmd [[colorscheme nord]]
 
 vim.o.tabstop = 4
 vim.o.softtabstop = 4
@@ -140,8 +140,8 @@ require('Comment').setup()
 require'colorizer'.setup()
 
 -- Vista Mapping
-vim.g["vista_default_executive"] = 'nvim_lsp'
-vim.keymap.set({ 'n' }, '<C-t>', ':Vista!!<CR>', { silent = true })
+-- vim.g["vista_default_executive"] = 'nvim_lsp'
+-- vim.keymap.set({ 'n' }, '<C-t>', ':Vista!!<CR>', { silent = true })
 
 --Enable nvim-tree
 require'nvim-tree'.setup {

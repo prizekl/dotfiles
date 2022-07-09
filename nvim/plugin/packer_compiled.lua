@@ -79,11 +79,6 @@ _G.packer_plugins = {
     path = "/Users/prize/.local/share/nvim/site/pack/packer/start/LuaSnip",
     url = "https://github.com/L3MON4D3/LuaSnip"
   },
-  ["adwaita.nvim"] = {
-    loaded = true,
-    path = "/Users/prize/.local/share/nvim/site/pack/packer/start/adwaita.nvim",
-    url = "https://github.com/Mofiqul/adwaita.nvim"
-  },
   ["cmp-nvim-lsp"] = {
     loaded = true,
     path = "/Users/prize/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp",
