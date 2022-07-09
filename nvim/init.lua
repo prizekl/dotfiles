@@ -10,30 +10,33 @@ vim.api.nvim_create_autocmd('BufWritePost', { command = 'source <afile> | Packer
 
 require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
-  use 'tpope/vim-fugitive'
-  use 'numToStr/Comment.nvim'
-  use { 'nvim-telescope/telescope.nvim', requires = { 'nvim-lua/plenary.nvim' } }
-  use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
 
   use 'shaunsingh/nord.nvim'
-
-  use { 'liuchengxu/vista.vim' }
+  use 'Mofiqul/adwaita.nvim'
   use { 'lukas-reineke/indent-blankline.nvim' }
+
+  use 'tpope/vim-fugitive'
   use { 'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' } }
-  use { 'machakann/vim-sandwich' }
-  use { 'norcalli/nvim-colorizer.lua' }
+
+  use 'numToStr/Comment.nvim'
   use {
 	"windwp/nvim-autopairs",
     config = function() require("nvim-autopairs").setup {} end
   }
+  use { 'machakann/vim-sandwich' }
+
+  use { 'norcalli/nvim-colorizer.lua' }
+  use { 'nvim-telescope/telescope.nvim', requires = { 'nvim-lua/plenary.nvim' } }
+  use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+  use { 'liuchengxu/vista.vim' }
   use {
     'kyazdani42/nvim-tree.lua',
     requires = {
       'kyazdani42/nvim-web-devicons', -- optional, for file icon
     },
   }
+
   use 'nvim-treesitter/nvim-treesitter'
-  use 'nvim-treesitter/nvim-treesitter-textobjects'
   use 'neovim/nvim-lspconfig'
   use 'hrsh7th/nvim-cmp'
   use 'hrsh7th/cmp-nvim-lsp'
@@ -44,78 +47,49 @@ require('packer').startup(function(use)
 end)
 
 vim.g.mapleader = ' '
-
--- Tab sizes
-vim.o.tabstop = 4
-vim.o.softtabstop = 4
-vim.o.shiftwidth = 4
-
--- Make For Go
-vim.keymap.set({ 'n' }, '<Leader>mt', ':TmuxMakeGo<CR>', { silent = true })
-vim.keymap.set({ 'n' }, '<Leader>mk', ':Make<CR>', { silent = true })
-
-vim.api.nvim_create_user_command(
-  'TmuxMakeGo',
-  ':!tmux run-shell -t 1 "go clean -testcache && go test %:p:h -v"',
-  {bang = true}
-)
-
-vim.api.nvim_create_user_command(
-  'Make',
-  "!go clean -testcache && go test %:p:h -v",
-  {bang = true}
-)
-
 vim.api.nvim_create_user_command(
   'Leaf',
   ":cd %:h",
   {bang = true}
 )
-
 vim.api.nvim_create_user_command(
   'Root',
   ":cd %:h | cd `git rev-parse --show-toplevel`",
   {bang = true}
 )
 
-vim.o.hlsearch = true
-vim.wo.number = true
 vim.o.mouse = 'a'
 vim.o.clipboard = 'unnamed'
 vim.o.breakindent = true
 vim.o.ignorecase = true
 vim.o.smartcase = true
 vim.wo.signcolumn = 'yes'
-
 vim.o.updatetime = 250
 vim.o.completeopt = 'menuone,noselect'
 
-
+vim.o.hlsearch = true
+vim.wo.number = true
 vim.o.termguicolors = true
-vim.cmd [[colorscheme nord]]
+vim.cmd [[colorscheme adwaita]]
 
---Enable nvim-tree
-require'nvim-tree'.setup {
-  update_focused_file = {
-    enable = true,
-  }
-}
-vim.keymap.set({ 'n' }, '<C-n>', ':NvimTreeToggle<CR>', { silent = true })
+vim.o.tabstop = 4
+vim.o.softtabstop = 4
+vim.o.shiftwidth = 4
+vim.o.expandtab = true
 
--- Vista Mapping
-vim.g["vista_default_executive"] = 'nvim_lsp'
-vim.keymap.set({ 'n' }, '<C-t>', ':Vista!!<CR>', { silent = true })
-
--- Colorizer
-require'colorizer'.setup()
-
---Enable Comment.nvim
-require('Comment').setup()
-
--- Indent blankline
-require('indent_blankline').setup {
-  show_trailing_blankline_indent = false,
-}
+-- Make For Go
+vim.keymap.set({ 'n' }, '<Leader>mt', ':TmuxMakeGo<CR>', { silent = true })
+vim.keymap.set({ 'n' }, '<Leader>mk', ':Make<CR>', { silent = true })
+vim.api.nvim_create_user_command(
+  'TmuxMakeGo',
+  ':!tmux run-shell -t 1 "go clean -testcache && go test %:p:h -v"',
+  {bang = true}
+)
+vim.api.nvim_create_user_command(
+  'Make',
+  "!go clean -testcache && go test %:p:h -v",
+  {bang = true}
+)
 
 -- Gitsigns
 require('gitsigns').setup {
@@ -157,6 +131,29 @@ require('gitsigns').setup {
     -- Text object
     map({'o', 'x'}, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
   end
+}
+
+--Enable Comment.nvim
+require('Comment').setup()
+
+-- Colorizer
+require'colorizer'.setup()
+
+-- Vista Mapping
+vim.g["vista_default_executive"] = 'nvim_lsp'
+vim.keymap.set({ 'n' }, '<C-t>', ':Vista!!<CR>', { silent = true })
+
+--Enable nvim-tree
+require'nvim-tree'.setup {
+  update_focused_file = {
+    enable = true,
+  }
+}
+vim.keymap.set({ 'n' }, '<C-n>', ':NvimTreeToggle<CR>', { silent = true })
+
+-- Indent blankline
+require('indent_blankline').setup {
+  show_trailing_blankline_indent = false,
 }
 
 -- Telescope
@@ -356,4 +353,3 @@ cmp.setup {
     { name = 'luasnip' },
   },
 }
--- vim: ts=2 sts=2 sw=2 et
