@@ -12,27 +12,28 @@ require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
 
   use 'shaunsingh/nord.nvim'
-  use { 'lukas-reineke/indent-blankline.nvim' }
 
-  use 'tpope/vim-fugitive'
-  use { 'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' } }
+  use { 'lewis6991/gitsigns.nvim',
+        requires = { 'nvim-lua/plenary.nvim' } }
 
-  use 'numToStr/Comment.nvim'
+  use { 'machakann/vim-sandwich' }
+  use { 'numToStr/Comment.nvim', 
+    config = function() require('Comment').setup{} end }
   use {
 	"windwp/nvim-autopairs",
-    config = function() require("nvim-autopairs").setup {} end
-  }
-  use { 'machakann/vim-sandwich' }
+    config = function() require("nvim-autopairs").setup{} end }
 
-  use { 'norcalli/nvim-colorizer.lua' }
-  use { 'nvim-telescope/telescope.nvim', requires = { 'nvim-lua/plenary.nvim' } }
+  use { 'norcalli/nvim-colorizer.lua',
+    config = function() require'colorizer'.setup{} end }
+  use { 'nvim-telescope/telescope.nvim', 
+        requires = {
+            'nvim-lua/plenary.nvim',
+            'kyazdani42/nvim-web-devicons' } }
   use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
   use { 'liuchengxu/vista.vim' }
   use {
     'kyazdani42/nvim-tree.lua',
-    requires = {
-      'kyazdani42/nvim-web-devicons', -- optional, for file icon
-    },
+    requires = { 'kyazdani42/nvim-web-devicons' },
   }
 
   use 'nvim-treesitter/nvim-treesitter'
@@ -133,15 +134,9 @@ require('gitsigns').setup {
   end
 }
 
---Enable Comment.nvim
-require('Comment').setup()
-
--- Colorizer
-require'colorizer'.setup()
-
 -- Vista Mapping
--- vim.g["vista_default_executive"] = 'nvim_lsp'
--- vim.keymap.set({ 'n' }, '<C-t>', ':Vista!!<CR>', { silent = true })
+vim.g["vista_default_executive"] = 'nvim_lsp'
+vim.keymap.set({ 'n' }, '<C-t>', ':Vista!!<CR>', { silent = true })
 
 --Enable nvim-tree
 require'nvim-tree'.setup {
@@ -150,11 +145,6 @@ require'nvim-tree'.setup {
   }
 }
 vim.keymap.set({ 'n' }, '<C-n>', ':NvimTreeToggle<CR>', { silent = true })
-
--- Indent blankline
-require('indent_blankline').setup {
-  show_trailing_blankline_indent = false,
-}
 
 -- Telescope
 require('telescope').setup {
