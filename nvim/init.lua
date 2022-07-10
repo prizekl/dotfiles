@@ -17,7 +17,12 @@ require('packer').startup(function(use)
   use { 'lewis6991/gitsigns.nvim',
         requires = { 'nvim-lua/plenary.nvim' } }
 
-  use { 'machakann/vim-sandwich' }
+  use({ "kylechui/nvim-surround",
+    config = function()
+        require("nvim-surround").setup({ })
+    end
+})
+
   use { 'numToStr/Comment.nvim', 
     config = function() require('Comment').setup{} end }
   use {
