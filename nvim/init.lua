@@ -72,7 +72,7 @@ vim.o.completeopt = 'menuone,noselect'
 vim.o.hlsearch = true
 vim.wo.number = true
 vim.o.termguicolors = true
-vim.cmd [[colorscheme nord]]
+vim.cmd [[colorscheme onedark]]
 
 vim.o.tabstop = 4
 vim.o.softtabstop = 4
