@@ -11,7 +11,8 @@ vim.api.nvim_create_autocmd('BufWritePost', { command = 'source <afile> | Packer
 require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
 
-  use 'shaunsingh/nord.nvim'
+  use 'arcticicestudio/nord-vim'
+  use 'joshdick/onedark.vim'
 
   use { 'lewis6991/gitsigns.nvim',
         requires = { 'nvim-lua/plenary.nvim' } }
