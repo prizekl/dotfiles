@@ -184,8 +184,10 @@ require('telescope').load_extension 'fzf'
 --Add leader shortcuts
 vim.keymap.set('n', '<C-f>', require('telescope.builtin').buffers)
 vim.keymap.set('n', '<C-p>', require('telescope.builtin').find_files)
-vim.keymap.set('n', '<leader>sp', require('telescope.builtin').live_grep)
-vim.keymap.set('n', '<leader>so', require('telescope.builtin').lsp_dynamic_workspace_symbols)
+vim.keymap.set('n', '<C-g>', require('telescope.builtin').git_status)
+vim.keymap.set('n', '<leader>re', require('telescope.builtin').resume)
+vim.keymap.set('n', '<leader>rg', require('telescope.builtin').live_grep)
+vim.keymap.set('n', '<leader>s', require('telescope.builtin').lsp_dynamic_workspace_symbols)
 vim.keymap.set('n', '<leader>o', require('telescope.builtin').lsp_document_symbols)
 
 -- Treesitter configuration
