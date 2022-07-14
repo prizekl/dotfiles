@@ -12,7 +12,6 @@ require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
 
   use 'arcticicestudio/nord-vim'
-  use 'joshdick/onedark.vim'
 
   use { 'lewis6991/gitsigns.nvim',
         requires = { 'nvim-lua/plenary.nvim' } }
@@ -23,24 +22,23 @@ require('packer').startup(function(use)
     end
 })
 
+  use { 'liuchengxu/vista.vim' }
+  use {
+    'kyazdani42/nvim-tree.lua',
+    requires = { 'kyazdani42/nvim-web-devicons' },
+  }
+
   use { 'numToStr/Comment.nvim', 
     config = function() require('Comment').setup{} end }
   use {
 	"windwp/nvim-autopairs",
     config = function() require("nvim-autopairs").setup{} end }
 
-  use { 'norcalli/nvim-colorizer.lua',
-    config = function() require'colorizer'.setup{} end }
   use { 'nvim-telescope/telescope.nvim', 
         requires = {
             'nvim-lua/plenary.nvim',
             'kyazdani42/nvim-web-devicons' } }
   use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
-  use { 'liuchengxu/vista.vim' }
-  use {
-    'kyazdani42/nvim-tree.lua',
-    requires = { 'kyazdani42/nvim-web-devicons' },
-  }
 
   use 'nvim-treesitter/nvim-treesitter'
 
@@ -77,7 +75,7 @@ vim.o.completeopt = 'menuone,noselect'
 vim.o.hlsearch = true
 vim.wo.number = true
 vim.o.termguicolors = true
-vim.cmd [[colorscheme onedark]]
+vim.cmd [[colorscheme nord]]
 
 vim.o.tabstop = 4
 vim.o.softtabstop = 4
