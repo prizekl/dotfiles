@@ -15,19 +15,13 @@ require('packer').startup(function(use)
 
   use { 'lewis6991/gitsigns.nvim',
         requires = { 'nvim-lua/plenary.nvim' } }
-
-  use({ "kylechui/nvim-surround",
-    config = function()
-        require("nvim-surround").setup({ })
-    end
-})
-
   use { 'liuchengxu/vista.vim' }
   use {
     'kyazdani42/nvim-tree.lua',
     requires = { 'kyazdani42/nvim-web-devicons' },
   }
 
+  use 'machakann/vim-sandwich'
   use { 'numToStr/Comment.nvim', 
     config = function() require('Comment').setup{} end }
   use {
@@ -49,6 +43,8 @@ require('packer').startup(function(use)
   use 'saadparwaiz1/cmp_luasnip'
   use 'L3MON4D3/LuaSnip'
   use "rafamadriz/friendly-snippets"
+  use { 'j-hui/fidget.nvim',
+        config = function() require('fidget').setup{} end }
 end)
 
 vim.g.mapleader = ' '
