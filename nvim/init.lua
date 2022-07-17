@@ -1,8 +1,8 @@
 -- init.lua
-local install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
-
-if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-  vim.fn.execute('!git clone https://github.com/wbthomason/packer.nvim ' .. install_path)
+local fn = vim.fn
+local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+if fn.empty(fn.glob(install_path)) > 0 then
+  packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
 end
 
 local packer_group = vim.api.nvim_create_augroup('Packer', { clear = true })
@@ -54,6 +54,10 @@ require('packer').startup(function(use)
   use "rafamadriz/friendly-snippets"
   use { 'j-hui/fidget.nvim',
         config = function() require('fidget').setup{} end }
+
+  if packer_bootstrap then
+      require('packer').sync()
+    end
 end)
 
 vim.g.mapleader = ' '
