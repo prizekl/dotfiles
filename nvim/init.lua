@@ -35,11 +35,20 @@ require('packer').startup(function(use)
   use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
 
   use 'nvim-treesitter/nvim-treesitter'
+  use 'nvim-treesitter/nvim-treesitter-textobjects'
 
   use 'neovim/nvim-lspconfig'
   use 'hrsh7th/nvim-cmp'
+  use 'hrsh7th/cmp-path'
+  use 'hrsh7th/cmp-buffer'
   use 'hrsh7th/cmp-nvim-lsp'
-  use 'hrsh7th/cmp-nvim-lsp-signature-help'
+  use { "ray-x/lsp_signature.nvim", config = 
+        function() require "lsp_signature".setup({
+          handler_opts = {
+              border = "none",
+          },
+          hint_enable = false,
+      }) end }
   use 'saadparwaiz1/cmp_luasnip'
   use 'L3MON4D3/LuaSnip'
   use "rafamadriz/friendly-snippets"
@@ -202,7 +211,7 @@ require('nvim-treesitter.configs').setup {
     "go" 
   } ,
   highlight = {
-    enable = true, -- false will disable the whole extension
+    enable = true,
   },
   incremental_selection = {
     enable = true,
@@ -226,26 +235,6 @@ require('nvim-treesitter.configs').setup {
         ['if'] = '@function.inner',
         ['ac'] = '@class.outer',
         ['ic'] = '@class.inner',
-      },
-    },
-    move = {
-      enable = true,
-      set_jumps = true, -- whether to set jumps in the jumplist
-      goto_next_start = {
-        [']f'] = '@function.outer',
-        [']]'] = '@class.outer',
-      },
-      goto_next_end = {
-        [']F'] = '@function.outer',
-        [']['] = '@class.outer',
-      },
-      goto_previous_start = {
-        ['[f'] = '@function.outer',
-        ['[['] = '@class.outer',
-      },
-      goto_previous_end = {
-        ['[F'] = '@function.outer',
-        ['[]'] = '@class.outer',
       },
     },
   },
@@ -341,7 +330,8 @@ cmp.setup {
   }),
   sources = {
     { name = 'nvim_lsp' },
-    { name = 'nvim_lsp_signature_help' },
+    { name = 'path' },
+    { name = 'buffer' },
     { name = 'luasnip' },
   },
 }
