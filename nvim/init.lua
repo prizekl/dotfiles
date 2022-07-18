@@ -10,6 +10,7 @@ vim.api.nvim_create_autocmd('BufWritePost', { command = 'source <afile> | Packer
 
 require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
+  use 'lewis6991/impatient.nvim'
 
   use 'arcticicestudio/nord-vim'
 
@@ -59,6 +60,8 @@ require('packer').startup(function(use)
       require('packer').sync()
     end
 end)
+
+require('impatient')
 
 vim.g.mapleader = ' '
 vim.api.nvim_create_user_command(
