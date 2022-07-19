@@ -11,6 +11,7 @@ vim.api.nvim_create_autocmd('BufWritePost', { command = 'source <afile> | Packer
 require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
   use 'lewis6991/impatient.nvim'
+  use 'dstein64/vim-startuptime'
 
   use 'arcticicestudio/nord-vim'
 
@@ -23,6 +24,7 @@ require('packer').startup(function(use)
   }
 
   use 'machakann/vim-sandwich'
+  use { "folke/todo-comments.nvim", requires = "nvim-lua/plenary.nvim" }
   use { 'numToStr/Comment.nvim', 
     config = function() require('Comment').setup{} end }
   use {
@@ -149,6 +151,10 @@ require('gitsigns').setup {
     map({'o', 'x'}, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
   end
 }
+
+-- Todo-comments Mappings
+require("todo-comments").setup{}
+vim.keymap.set({ 'n' }, '<Leader>td', ':TodoQuickFix', { silent = true })
 
 -- Vista Mapping
 vim.g["vista_default_executive"] = 'nvim_lsp'
