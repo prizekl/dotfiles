@@ -1,69 +1,64 @@
 -- init.lua
-local fn = vim.fn
-local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
-if fn.empty(fn.glob(install_path)) > 0 then
-  packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+local install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
+local is_bootstrap = false
+if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
+  is_bootstrap = true
+  vim.fn.execute('!git clone https://github.com/wbthomason/packer.nvim ' .. install_path)
+  vim.cmd [[packadd packer.nvim]]
 end
-
-local packer_group = vim.api.nvim_create_augroup('Packer', { clear = true })
-vim.api.nvim_create_autocmd('BufWritePost', { command = 'source <afile> | PackerCompile', group = packer_group, pattern = 'init.lua' })
 
 require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
   use 'lewis6991/impatient.nvim'
   use 'dstein64/vim-startuptime'
-
   use 'arcticicestudio/nord-vim'
-
-  use { 'lewis6991/gitsigns.nvim',
-        requires = { 'nvim-lua/plenary.nvim' } }
+  use { 'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' } }
   use { 'liuchengxu/vista.vim' }
-  use {
-    'kyazdani42/nvim-tree.lua',
-    requires = { 'kyazdani42/nvim-web-devicons' },
-  }
-
-  use 'machakann/vim-sandwich'
+  use { 'kyazdani42/nvim-tree.lua', requires = { 'kyazdani42/nvim-web-devicons' } }
+  use { 'machakann/vim-sandwich'}
   use { "folke/todo-comments.nvim", requires = "nvim-lua/plenary.nvim" }
-  use { 'numToStr/Comment.nvim', 
-    config = function() require('Comment').setup{} end }
-  use {
-	"windwp/nvim-autopairs",
-    config = function() require("nvim-autopairs").setup{} end }
-
-  use { 'nvim-telescope/telescope.nvim', 
-        requires = {
-            'nvim-lua/plenary.nvim',
-            'kyazdani42/nvim-web-devicons' } }
-  use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
-
-  use 'nvim-treesitter/nvim-treesitter'
+  use { 'numToStr/Comment.nvim', }
+  use { "windwp/nvim-autopairs" }
+  use { 'nvim-telescope/telescope.nvim', requires = { 'nvim-lua/plenary.nvim' } }
+  use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', cond = vim.fn.executable "make" == 1 }
+  use { 'nvim-treesitter/nvim-treesitter',
+	  run = function() require('nvim-treesitter.install').update(
+		  { with_sync = true }) 
+	  end }
   use 'nvim-treesitter/nvim-treesitter-textobjects'
-
   use 'neovim/nvim-lspconfig'
-  use 'hrsh7th/nvim-cmp'
+  use { 'hrsh7th/nvim-cmp', requires = { 'hrsh7th/cmp-nvim-lsp' } }
   use 'hrsh7th/cmp-path'
   use 'hrsh7th/cmp-buffer'
-  use 'hrsh7th/cmp-nvim-lsp'
-  use { "ray-x/lsp_signature.nvim", config = 
-        function() require "lsp_signature".setup({
-          handler_opts = {
-              border = "none",
-          },
-          hint_enable = false,
-      }) end }
-  use 'saadparwaiz1/cmp_luasnip'
-  use 'L3MON4D3/LuaSnip'
+  use { "ray-x/lsp_signature.nvim" }
+  use { 'L3MON4D3/LuaSnip', requires = { 'saadparwaiz1/cmp_luasnip' } }
   use "rafamadriz/friendly-snippets"
-  use { 'j-hui/fidget.nvim',
-        config = function() require('fidget').setup{} end }
+  use { 'j-hui/fidget.nvim' }
 
-  if packer_bootstrap then
+  if is_bootstrap then
       require('packer').sync()
     end
 end)
 
+if is_bootstrap then
+  print '=================================='
+  print '    Plugins are being installed'
+  print '    Wait until Packer completes,'
+  print '       then restart nvim'
+  print '=================================='
+  return
+end
+
+-- Load impatient
 require('impatient')
+
+-- Automatically source and re-compile packer whenever you save this init.lua
+local packer_group = vim.api.nvim_create_augroup('Packer', { clear = true })
+vim.api.nvim_create_autocmd('BufWritePost', {
+  command = 'source <afile> | PackerCompile',
+  group = packer_group,
+  pattern = vim.fn.expand '$MYVIMRC',
+})
 
 vim.g.mapleader = ' '
 vim.api.nvim_create_user_command(
@@ -85,12 +80,10 @@ vim.o.smartcase = true
 vim.wo.signcolumn = 'yes'
 vim.o.updatetime = 250
 vim.o.completeopt = 'menuone,noselect'
-
 vim.o.hlsearch = true
 vim.wo.number = true
 vim.o.termguicolors = true
 vim.cmd [[colorscheme nord]]
-
 vim.o.tabstop = 4
 vim.o.softtabstop = 4
 vim.o.shiftwidth = 4
@@ -109,6 +102,16 @@ vim.api.nvim_create_user_command(
   "!go clean -testcache && go test %:p:h -v",
   {bang = true}
 )
+
+require("nvim-autopairs").setup{}
+require('Comment').setup{}
+require "lsp_signature".setup({
+	handler_opts = {
+		border = "none",
+	},
+	hint_enable = false,
+})
+require('fidget').setup{}
 
 -- Gitsigns
 require('gitsigns').setup {
@@ -194,8 +197,9 @@ require('telescope').setup {
     }
   }
 }
+
 -- Enable telescope fzf native
-require('telescope').load_extension 'fzf'
+pcall(require('telescope').load_extension, 'fzf')
 
 --Add leader shortcuts
 vim.keymap.set('n', '<C-f>', require('telescope.builtin').buffers)
