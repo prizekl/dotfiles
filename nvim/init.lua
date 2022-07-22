@@ -166,7 +166,7 @@ require'nvim-tree'.setup {
     enable = true,
   }
 }
-vim.keymap.set({ 'n' }, '<C-n>', ':NvimTreeToggle<CR>', { silent = true })
+vim.keymap.set({ 'n' }, '<C-n>', ':NvimTreeFindFileToggle<CR>', { silent = true })
 
 -- Telescope
 require('telescope').setup {
