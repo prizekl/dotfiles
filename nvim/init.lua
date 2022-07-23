@@ -30,10 +30,10 @@ require('packer').startup(function(use)
   use { 'hrsh7th/nvim-cmp', requires = { 'hrsh7th/cmp-nvim-lsp' } }
   use 'hrsh7th/cmp-path'
   use 'hrsh7th/cmp-buffer'
-  use { "ray-x/lsp_signature.nvim" }
   use { 'L3MON4D3/LuaSnip', requires = { 'saadparwaiz1/cmp_luasnip' } }
-  use "rafamadriz/friendly-snippets"
+  use 'rafamadriz/friendly-snippets'
   use { 'j-hui/fidget.nvim' }
+  use { 'ray-x/lsp_signature.nvim' }
 
   if is_bootstrap then
       require('packer').sync()
@@ -105,13 +105,13 @@ vim.api.nvim_create_user_command(
 
 require("nvim-autopairs").setup{}
 require('Comment').setup{}
+require('fidget').setup{}
 require "lsp_signature".setup({
 	handler_opts = {
 		border = "none",
 	},
 	hint_enable = false,
 })
-require('fidget').setup{}
 
 -- Gitsigns
 require('gitsigns').setup {
@@ -207,6 +207,7 @@ vim.keymap.set('n', '<C-p>', require('telescope.builtin').find_files)
 vim.keymap.set('n', '<C-g>', require('telescope.builtin').git_status)
 vim.keymap.set('n', '<leader>re', require('telescope.builtin').resume)
 vim.keymap.set('n', '<leader>rg', require('telescope.builtin').live_grep)
+vim.keymap.set('n', '<leader>rs', require('telescope.builtin').grep_string)
 vim.keymap.set('n', '<leader>s', require('telescope.builtin').lsp_dynamic_workspace_symbols)
 vim.keymap.set('n', '<leader>o', require('telescope.builtin').lsp_document_symbols)
 
