@@ -61,17 +61,6 @@ vim.api.nvim_create_autocmd('BufWritePost', {
 })
 
 vim.g.mapleader = ' '
-vim.api.nvim_create_user_command(
-  'Leaf',
-  ":cd %:h",
-  {bang = true}
-)
-vim.api.nvim_create_user_command(
-  'Root',
-  ":cd %:h | cd `git rev-parse --show-toplevel`",
-  {bang = true}
-)
-
 vim.o.mouse = 'a'
 vim.o.clipboard = 'unnamed'
 vim.o.breakindent = true
@@ -89,6 +78,16 @@ vim.o.softtabstop = 4
 vim.o.shiftwidth = 4
 vim.o.expandtab = true
 
+vim.api.nvim_create_user_command(
+  'Leaf',
+  ":cd %:h",
+  {bang = true}
+)
+vim.api.nvim_create_user_command(
+  'Root',
+  ":cd %:h | cd `git rev-parse --show-toplevel`",
+  {bang = true}
+)
 -- Make For Go
 vim.keymap.set({ 'n' }, '<Leader>mt', ':TmuxMakeGo<CR>', { silent = true })
 vim.keymap.set({ 'n' }, '<Leader>mk', ':Make<CR>', { silent = true })
@@ -103,13 +102,12 @@ vim.api.nvim_create_user_command(
   {bang = true}
 )
 
+
 require("nvim-autopairs").setup{}
 require('Comment').setup{}
 require('fidget').setup{}
 require "lsp_signature".setup({
-	handler_opts = {
-		border = "none",
-	},
+	handler_opts = { border = "none" },
 	hint_enable = false,
 })
 
