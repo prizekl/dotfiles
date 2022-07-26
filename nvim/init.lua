@@ -11,7 +11,7 @@ require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
   use 'lewis6991/impatient.nvim'
   use 'dstein64/vim-startuptime'
-  use 'arcticicestudio/nord-vim'
+  use 'EdenEast/nightfox.nvim'
   use { 'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' } }
   use { 'liuchengxu/vista.vim' }
   use { 'kyazdani42/nvim-tree.lua', requires = { 'kyazdani42/nvim-web-devicons' } }
@@ -72,7 +72,7 @@ vim.o.completeopt = 'menuone,noselect'
 vim.o.hlsearch = true
 vim.wo.number = true
 vim.o.termguicolors = true
-vim.cmd [[colorscheme nord]]
+vim.cmd [[colorscheme nightfox]]
 vim.o.tabstop = 4
 vim.o.softtabstop = 4
 vim.o.shiftwidth = 4
@@ -101,7 +101,6 @@ vim.api.nvim_create_user_command(
   "!go clean -testcache && go test %:p:h -v",
   {bang = true}
 )
-
 
 require("nvim-autopairs").setup{}
 require('Comment').setup{}

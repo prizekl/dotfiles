@@ -124,10 +124,10 @@ _G.packer_plugins = {
     path = "/Users/prizel/.local/share/nvim/site/pack/packer/start/lsp_signature.nvim",
     url = "https://github.com/ray-x/lsp_signature.nvim"
   },
-  ["nord-vim"] = {
+  ["nightfox.nvim"] = {
     loaded = true,
-    path = "/Users/prizel/.local/share/nvim/site/pack/packer/start/nord-vim",
-    url = "https://github.com/arcticicestudio/nord-vim"
+    path = "/Users/prizel/.local/share/nvim/site/pack/packer/start/nightfox.nvim",
+    url = "https://github.com/EdenEast/nightfox.nvim"
   },
   ["nvim-autopairs"] = {
     loaded = true,
