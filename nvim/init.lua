@@ -21,7 +21,7 @@ require("packer").startup(function(use)
     use({ "folke/todo-comments.nvim",
         requires = "nvim-lua/plenary.nvim" })
     use({ "numToStr/Comment.nvim" })
-    use 'junegunn/vim-easy-align'
+    use {'junegunn/vim-easy-align'}
     use({ "windwp/nvim-autopairs" })
     use({ "nvim-telescope/telescope.nvim",
         requires = { "nvim-lua/plenary.nvim" } })
@@ -169,11 +169,11 @@ require("gitsigns").setup({
     end,
 })
 
--- Vista Mapping
+-- Vista
 vim.g["vista_default_executive"] = "nvim_lsp"
 vim.keymap.set({ "n" }, "<C-t>", ":Vista!!<CR>", { silent = true })
 
---Enable nvim-tree
+-- nvim-tree
 require("nvim-tree").setup({
     update_focused_file = {
         enable = true,
