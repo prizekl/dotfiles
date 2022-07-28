@@ -207,6 +207,11 @@ _G.packer_plugins = {
     path = "/Users/prizel/.local/share/nvim/site/pack/packer/start/todo-comments.nvim",
     url = "https://github.com/folke/todo-comments.nvim"
   },
+  ["vim-easy-align"] = {
+    loaded = true,
+    path = "/Users/prizel/.local/share/nvim/site/pack/packer/start/vim-easy-align",
+    url = "https://github.com/junegunn/vim-easy-align"
+  },
   ["vim-sandwich"] = {
     loaded = true,
     path = "/Users/prizel/.local/share/nvim/site/pack/packer/start/vim-sandwich",
