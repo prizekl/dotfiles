@@ -12,15 +12,19 @@ require("packer").startup(function(use)
     use("lewis6991/impatient.nvim")
     use("dstein64/vim-startuptime")
     use("EdenEast/nightfox.nvim")
-    use({ "lewis6991/gitsigns.nvim", requires = { "nvim-lua/plenary.nvim" } })
+    use({ "lewis6991/gitsigns.nvim",
+        requires = { "nvim-lua/plenary.nvim" } })
     use({ "liuchengxu/vista.vim" })
-    use({ "kyazdani42/nvim-tree.lua", requires = { "kyazdani42/nvim-web-devicons" } })
+    use({ "kyazdani42/nvim-tree.lua",
+        requires = { "kyazdani42/nvim-web-devicons" } })
     use({ "machakann/vim-sandwich" })
-    use({ "folke/todo-comments.nvim", requires = "nvim-lua/plenary.nvim" })
+    use({ "folke/todo-comments.nvim",
+        requires = "nvim-lua/plenary.nvim" })
     use({ "numToStr/Comment.nvim" })
     use 'junegunn/vim-easy-align'
     use({ "windwp/nvim-autopairs" })
-    use({ "nvim-telescope/telescope.nvim", requires = { "nvim-lua/plenary.nvim" } })
+    use({ "nvim-telescope/telescope.nvim",
+        requires = { "nvim-lua/plenary.nvim" } })
     use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make", cond = vim.fn.executable("make") == 1 })
     use({
         "nvim-treesitter/nvim-treesitter",
@@ -35,10 +39,12 @@ require("packer").startup(function(use)
         "williamboman/mason-lspconfig.nvim",
     })
     use({ "jose-elias-alvarez/null-ls.nvim" })
-    use({ "hrsh7th/nvim-cmp", requires = { "hrsh7th/cmp-nvim-lsp" } })
+    use({ "hrsh7th/nvim-cmp",
+        requires = { "hrsh7th/cmp-nvim-lsp" } })
     use("hrsh7th/cmp-path")
     use("hrsh7th/cmp-buffer")
-    use({ "L3MON4D3/LuaSnip", requires = { "saadparwaiz1/cmp_luasnip" } })
+    use({ "L3MON4D3/LuaSnip",
+        requires = { "saadparwaiz1/cmp_luasnip" } })
     use("rafamadriz/friendly-snippets")
     use({ "j-hui/fidget.nvim" })
     use({ "ray-x/lsp_signature.nvim" })
@@ -212,8 +218,8 @@ vim.keymap.set("n", "<C-g>", require("telescope.builtin").git_status)
 vim.keymap.set("n", "<leader>re", require("telescope.builtin").resume)
 vim.keymap.set("n", "<leader>rg", require("telescope.builtin").live_grep)
 vim.keymap.set("n", "<leader>rs", require("telescope.builtin").grep_string)
-vim.keymap.set("n", "<leader>s", require("telescope.builtin").lsp_dynamic_workspace_symbols)
-vim.keymap.set("n", "<leader>o", require("telescope.builtin").lsp_document_symbols)
+vim.keymap.set("n", "<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols)
+vim.keymap.set("n", "<leader>wt", require("telescope.builtin").lsp_document_symbols)
 
 -- Treesitter configuration
 -- Parsers must be installed manually via :TSInstall
