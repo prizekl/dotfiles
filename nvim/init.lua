@@ -11,7 +11,7 @@ require("packer").startup(function(use)
     use("wbthomason/packer.nvim")
     use("lewis6991/impatient.nvim")
     use("dstein64/vim-startuptime")
-    use("EdenEast/nightfox.nvim")
+    use("arcticicestudio/nord-vim")
     use({ "lewis6991/gitsigns.nvim",
         requires = { "nvim-lua/plenary.nvim" } })
     use({ "liuchengxu/vista.vim" })
@@ -21,11 +21,11 @@ require("packer").startup(function(use)
     use({ "folke/todo-comments.nvim",
         requires = "nvim-lua/plenary.nvim" })
     use({ "numToStr/Comment.nvim" })
-    use {'junegunn/vim-easy-align'}
+    use({ 'junegunn/vim-easy-align' })
     use({ "windwp/nvim-autopairs" })
     use({ "nvim-telescope/telescope.nvim",
         requires = { "nvim-lua/plenary.nvim" } })
-    use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make", cond = vim.fn.executable("make") == 1 })
+    use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
     use({
         "nvim-treesitter/nvim-treesitter",
         run = function()
@@ -33,7 +33,7 @@ require("packer").startup(function(use)
         end,
     })
     use("nvim-treesitter/nvim-treesitter-textobjects")
-    use { "neovim/nvim-lspconfig" }
+    use({ "neovim/nvim-lspconfig" })
     use({
         "williamboman/mason.nvim",
         "williamboman/mason-lspconfig.nvim",
@@ -86,7 +86,7 @@ vim.o.completeopt = "menuone,noselect"
 vim.o.hlsearch = true
 vim.wo.number = true
 vim.o.termguicolors = true
-vim.cmd([[colorscheme nordfox]])
+vim.cmd([[colorscheme nord]])
 vim.o.tabstop = 4
 vim.o.softtabstop = 4
 vim.o.shiftwidth = 4
