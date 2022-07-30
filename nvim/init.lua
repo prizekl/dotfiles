@@ -12,6 +12,7 @@ require("packer").startup(function(use)
     use("lewis6991/impatient.nvim")
     use("dstein64/vim-startuptime")
     use("arcticicestudio/nord-vim")
+    use("Mofiqul/dracula.nvim")
     use({ "lewis6991/gitsigns.nvim",
         requires = { "nvim-lua/plenary.nvim" } })
     use({ "liuchengxu/vista.vim" })
@@ -21,11 +22,11 @@ require("packer").startup(function(use)
     use({ "folke/todo-comments.nvim",
         requires = "nvim-lua/plenary.nvim" })
     use({ "numToStr/Comment.nvim" })
-    use({ 'junegunn/vim-easy-align' })
+    use({ "junegunn/vim-easy-align" })
     use({ "windwp/nvim-autopairs" })
     use({ "nvim-telescope/telescope.nvim",
         requires = { "nvim-lua/plenary.nvim" } })
-    use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+    use({ "nvim-telescope/telescope-fzf-native.nvim", run = 'make' })
     use({
         "nvim-treesitter/nvim-treesitter",
         run = function()
@@ -86,7 +87,7 @@ vim.o.completeopt = "menuone,noselect"
 vim.o.hlsearch = true
 vim.wo.number = true
 vim.o.termguicolors = true
-vim.cmd([[colorscheme nord]])
+vim.cmd([[colorscheme dracula]])
 vim.o.tabstop = 4
 vim.o.softtabstop = 4
 vim.o.shiftwidth = 4
