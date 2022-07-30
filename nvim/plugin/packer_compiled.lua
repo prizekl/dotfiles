@@ -139,11 +139,6 @@ _G.packer_plugins = {
     path = "/Users/prizel/.local/share/nvim/site/pack/packer/start/mason.nvim",
     url = "https://github.com/williamboman/mason.nvim"
   },
-  ["nord-vim"] = {
-    loaded = true,
-    path = "/Users/prizel/.local/share/nvim/site/pack/packer/start/nord-vim",
-    url = "https://github.com/arcticicestudio/nord-vim"
-  },
   ["null-ls.nvim"] = {
     loaded = true,
     path = "/Users/prizel/.local/share/nvim/site/pack/packer/start/null-ls.nvim",

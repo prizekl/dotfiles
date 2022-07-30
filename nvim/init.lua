@@ -9,44 +9,62 @@ end
 
 require("packer").startup(function(use)
     use("wbthomason/packer.nvim")
+    -- Optimizations
     use("lewis6991/impatient.nvim")
     use("dstein64/vim-startuptime")
-    use("arcticicestudio/nord-vim")
+
+    -- Git diff indicators
     use("Mofiqul/dracula.nvim")
     use({ "lewis6991/gitsigns.nvim",
         requires = { "nvim-lua/plenary.nvim" } })
+    -- File symbols/ tags
     use({ "liuchengxu/vista.vim" })
+    -- File tree
     use({ "kyazdani42/nvim-tree.lua",
         requires = { "kyazdani42/nvim-web-devicons" } })
+    -- Alter delimiters
     use({ "machakann/vim-sandwich" })
+    -- Extension for todos
     use({ "folke/todo-comments.nvim",
         requires = "nvim-lua/plenary.nvim" })
+    -- Comment text objects
     use({ "numToStr/Comment.nvim" })
+    -- Align texts
     use({ "junegunn/vim-easy-align" })
+    -- Autoclosing brackets
     use({ "windwp/nvim-autopairs" })
+    -- Fuzzy finder
     use({ "nvim-telescope/telescope.nvim",
         requires = { "nvim-lua/plenary.nvim" } })
     use({ "nvim-telescope/telescope-fzf-native.nvim", run = 'make' })
+    -- Treesitter
     use({
         "nvim-treesitter/nvim-treesitter",
         run = function()
             require("nvim-treesitter.install").update({ with_sync = true })
         end,
     })
+    -- Extended textobjects
     use("nvim-treesitter/nvim-treesitter-textobjects")
+
+    -- Language Server Protocol
     use({ "neovim/nvim-lspconfig" })
     use({
         "williamboman/mason.nvim",
         "williamboman/mason-lspconfig.nvim",
     })
-    use({ "jose-elias-alvarez/null-ls.nvim" })
+    -- Completion
     use({ "hrsh7th/nvim-cmp",
         requires = { "hrsh7th/cmp-nvim-lsp" } })
     use("hrsh7th/cmp-path")
     use("hrsh7th/cmp-buffer")
+    -- Non-LSP sources
+    use({ "jose-elias-alvarez/null-ls.nvim" })
+    -- Snippets
     use({ "L3MON4D3/LuaSnip",
         requires = { "saadparwaiz1/cmp_luasnip" } })
     use("rafamadriz/friendly-snippets")
+    -- Additonal UI
     use({ "j-hui/fidget.nvim" })
     use({ "ray-x/lsp_signature.nvim" })
 
@@ -108,7 +126,7 @@ vim.api.nvim_create_user_command("Make", "!go clean -testcache && go test %:p:h 
 require("nvim-autopairs").setup({})
 require("Comment").setup({})
 require("todo-comments").setup({})
-vim.keymap.set({ "n" }, "<Leader>td", ":TodoQuickFix", { silent = true })
+vim.keymap.set({ "n" }, "<Leader>td", ":TodoQuickFix<CR>", { silent = true })
 
 require("fidget").setup({})
 require("lsp_signature").setup({
