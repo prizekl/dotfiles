@@ -7,7 +7,6 @@ RPROMPT=\$vcs_info_msg_0_
 
 eval "$(zoxide init zsh)"
 
-alias ls="ls -G -T1"
-alias wcm="bash ~/restartwacom.sh"
+alias ls="ls -G -C"
 
 if [ "$TMUX" = "" ]; then tmux; fi
