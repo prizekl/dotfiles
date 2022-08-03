@@ -13,8 +13,9 @@ require("packer").startup(function(use)
     use("lewis6991/impatient.nvim")
     use("dstein64/vim-startuptime")
 
+    -- Colorscheme
+    use "rebelot/kanagawa.nvim"
     -- Git diff indicators
-    use("Mofiqul/dracula.nvim")
     use({ "lewis6991/gitsigns.nvim",
         requires = { "nvim-lua/plenary.nvim" } })
     -- File symbols/ tags
@@ -22,9 +23,9 @@ require("packer").startup(function(use)
     -- File tree
     use({ "kyazdani42/nvim-tree.lua",
         requires = { "kyazdani42/nvim-web-devicons" } })
-    -- Alter delimiters
+
     use({ "machakann/vim-sandwich" })
-    -- Extension for todos
+    -- Todo management
     use({ "folke/todo-comments.nvim",
         requires = "nvim-lua/plenary.nvim" })
     -- Comment text objects
@@ -105,7 +106,7 @@ vim.o.completeopt = "menuone,noselect"
 vim.o.hlsearch = true
 vim.wo.number = true
 vim.o.termguicolors = true
-vim.cmd([[colorscheme dracula]])
+vim.cmd([[colorscheme kanagawa]])
 vim.o.tabstop = 4
 vim.o.softtabstop = 4
 vim.o.shiftwidth = 4
@@ -130,7 +131,7 @@ vim.keymap.set({ "n" }, "<Leader>td", ":TodoQuickFix<CR>", { silent = true })
 
 require("fidget").setup({})
 require("lsp_signature").setup({
-    handler_opts = { border = "none" },
+    handler_opts = { border = "single" },
     hint_enable = false,
 })
 
