@@ -14,7 +14,7 @@ require("packer").startup(function(use)
     use("dstein64/vim-startuptime")
 
     -- Colorscheme
-    use "rebelot/kanagawa.nvim"
+    use { 'RRethy/nvim-base16' }
     -- Git diff indicators
     use({ "lewis6991/gitsigns.nvim",
         requires = { "nvim-lua/plenary.nvim" } })
@@ -106,7 +106,10 @@ vim.o.completeopt = "menuone,noselect"
 vim.o.hlsearch = true
 vim.wo.number = true
 vim.o.termguicolors = true
-vim.cmd([[colorscheme kanagawa]])
+require('base16-colorscheme').with_config {
+    telescope = false,
+}
+vim.cmd([[colorscheme base16-eighties]])
 vim.o.tabstop = 4
 vim.o.softtabstop = 4
 vim.o.shiftwidth = 4
