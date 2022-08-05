@@ -130,8 +130,7 @@ vim.api.nvim_create_user_command("Make", "!go clean -testcache && go test %:p:h 
 require("nvim-autopairs").setup({})
 require("Comment").setup({})
 require("todo-comments").setup({})
-vim.keymap.set({ "n" }, "<Leader>td", ":TodoQuickFix<CR>", { silent = true })
-
+vim.keymap.set({ "n" }, "<Leader>tc", ":TodoQuickFix<CR>", { silent = true })
 require("fidget").setup({})
 require("lsp_signature").setup({
     handler_opts = { border = "single" },
@@ -194,7 +193,7 @@ require("gitsigns").setup({
 
 -- Vista
 vim.g["vista_default_executive"] = "nvim_lsp"
-vim.keymap.set({ "n" }, "<C-t>", ":Vista!!<CR>", { silent = true })
+vim.keymap.set({ "n" }, "<Leader>v", ":Vista!!<CR>", { silent = true })
 
 -- nvim-tree
 require("nvim-tree").setup({
@@ -343,7 +342,7 @@ local on_attach = function(_, bufnr)
     vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
     vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
     vim.keymap.set("n", "<leader>ac", vim.lsp.buf.code_action, bufopts)
-    vim.keymap.set("n", "<leader>o", require("telescope.builtin").lsp_document_symbols, bufopts)
+    vim.keymap.set("n", "<leader>fs", require("telescope.builtin").lsp_document_symbols, bufopts)
     vim.api.nvim_buf_create_user_command(bufnr, 'Format', vim.lsp.buf.format or vim.lsp.buf.formatting,
         { desc = 'Format current buffer with LSP' })
 end
