@@ -24,7 +24,9 @@ require("packer").startup(function(use)
     use({ "kyazdani42/nvim-tree.lua",
         requires = { "kyazdani42/nvim-web-devicons" } })
 
-    use({ "machakann/vim-sandwich" })
+    -- csf change surrounding function. cst change surrounding tags
+    use({ "kylechui/nvim-surround",
+        config = function() require("nvim-surround").setup({ }) end })
     -- Todo management
     use({ "folke/todo-comments.nvim",
         requires = "nvim-lua/plenary.nvim" })
@@ -106,10 +108,17 @@ vim.o.completeopt = "menuone,noselect"
 vim.o.hlsearch = true
 vim.wo.number = true
 vim.o.termguicolors = true
+
 require('base16-colorscheme').with_config {
     telescope = false,
 }
-vim.cmd([[colorscheme base16-eighties]])
+-- vim.cmd([[colorscheme base16-eighties]])
+-- vim.cmd([[colorscheme base16-sandcastle]])
+-- vim.cmd([[colorscheme base16-gruvbox-material-dark-medium]])
+-- vim.cmd([[colorscheme base16-google-dark]])
+-- vim.cmd([[colorscheme base16-primer-dark-dimmed]])
+vim.cmd([[colorscheme base16-tomorrow-night]])
+
 vim.o.tabstop = 4
 vim.o.softtabstop = 4
 vim.o.shiftwidth = 4
@@ -130,7 +139,7 @@ vim.api.nvim_create_user_command("Make", "!go clean -testcache && go test %:p:h 
 require("nvim-autopairs").setup({})
 require("Comment").setup({})
 require("todo-comments").setup({})
-vim.keymap.set({ "n" }, "<Leader>tc", ":TodoQuickFix<CR>", { silent = true })
+vim.keymap.set({ "n" }, "<Leader>tq", ":TodoQuickFix<CR>", { silent = true })
 require("fidget").setup({})
 require("lsp_signature").setup({
     handler_opts = { border = "single" },
@@ -241,7 +250,7 @@ vim.keymap.set("n", "<leader>re", require("telescope.builtin").resume)
 vim.keymap.set("n", "<leader>rg", require("telescope.builtin").live_grep)
 vim.keymap.set("n", "<leader>rs", require("telescope.builtin").grep_string)
 vim.keymap.set("n", "<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols)
-vim.keymap.set("n", "<leader>wt", require("telescope.builtin").lsp_document_symbols)
+vim.keymap.set("n", "<leader>s", require("telescope.builtin").lsp_document_symbols)
 
 -- Treesitter configuration
 -- Parsers must be installed manually via :TSInstall
@@ -342,7 +351,6 @@ local on_attach = function(_, bufnr)
     vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
     vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
     vim.keymap.set("n", "<leader>ac", vim.lsp.buf.code_action, bufopts)
-    vim.keymap.set("n", "<leader>fs", require("telescope.builtin").lsp_document_symbols, bufopts)
     vim.api.nvim_buf_create_user_command(bufnr, 'Format', vim.lsp.buf.format or vim.lsp.buf.formatting,
         { desc = 'Format current buffer with LSP' })
 end
