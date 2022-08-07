@@ -26,7 +26,7 @@ require("packer").startup(function(use)
 
     -- csf change surrounding function. cst change surrounding tags
     use({ "kylechui/nvim-surround",
-        config = function() require("nvim-surround").setup({ }) end })
+        config = function() require("nvim-surround").setup({}) end })
     -- Todo management
     use({ "folke/todo-comments.nvim",
         requires = "nvim-lua/plenary.nvim" })
@@ -52,10 +52,8 @@ require("packer").startup(function(use)
 
     -- Language Server Protocol
     use({ "neovim/nvim-lspconfig" })
-    use({
-        "williamboman/mason.nvim",
-        "williamboman/mason-lspconfig.nvim",
-    })
+    use({ "williamboman/mason.nvim",
+        "williamboman/mason-lspconfig.nvim", })
     -- Completion
     use({ "hrsh7th/nvim-cmp",
         requires = { "hrsh7th/cmp-nvim-lsp" } })
