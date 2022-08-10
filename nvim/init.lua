@@ -18,8 +18,8 @@ require("packer").startup(function(use)
     -- Git diff indicators
     use({ "lewis6991/gitsigns.nvim",
         requires = { "nvim-lua/plenary.nvim" } })
-    use { 'sindrets/diffview.nvim',
-        requires = 'nvim-lua/plenary.nvim' }
+    use { "sindrets/diffview.nvim",
+        requires = "nvim-lua/plenary.nvim" }
     -- File symbols/ tags
     use({ "liuchengxu/vista.vim" })
     -- File tree
@@ -41,7 +41,7 @@ require("packer").startup(function(use)
     -- Fuzzy finder
     use({ "nvim-telescope/telescope.nvim",
         requires = { "nvim-lua/plenary.nvim" } })
-    use({ "nvim-telescope/telescope-fzf-native.nvim", run = 'make' })
+    use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
     -- Treesitter
     use({
         "nvim-treesitter/nvim-treesitter",
@@ -136,7 +136,7 @@ require("lsp_signature").setup({
     hint_enable = false,
 })
 -- Diffview
-require('diffview').setup({})
+require("diffview").setup({})
 
 -- Gitsigns
 require("gitsigns").setup({
@@ -343,8 +343,8 @@ local on_attach = function(_, bufnr)
     vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
     vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
     vim.keymap.set("n", "<leader>ac", vim.lsp.buf.code_action, bufopts)
-    vim.api.nvim_buf_create_user_command(bufnr, 'Format', vim.lsp.buf.format or vim.lsp.buf.formatting,
-        { desc = 'Format current buffer with LSP' })
+    vim.api.nvim_buf_create_user_command(bufnr, "Format", vim.lsp.buf.format or vim.lsp.buf.formatting,
+        { desc = "Format current buffer with LSP" })
 end
 
 -- nvim-cmp supports additional completion capabilities
@@ -368,7 +368,7 @@ function OrgImports(wait_ms)
 end
 
 require("mason").setup()
-local lspconfig = require('lspconfig')
+local lspconfig = require("lspconfig")
 local mason_lspconfig = require("mason-lspconfig")
 mason_lspconfig.setup({
     ensure_installed = {
@@ -395,8 +395,8 @@ mason_lspconfig.setup_handlers({
             on_attach = on_attach,
             capabilities = capabilities,
             settings = { Lua = {
-                runtime = { version = 'LuaJIT', },
-                diagnostics = { globals = { 'vim' }, },
+                runtime = { version = "LuaJIT", },
+                diagnostics = { globals = { "vim" }, },
                 workspace = {
                     library = vim.api.nvim_get_runtime_file("", true),
                 },
@@ -437,7 +437,7 @@ local luasnip = require("luasnip")
 require("luasnip.loaders.from_vscode").lazy_load()
 
 -- nvim-cmp setup
-local cmp = require('cmp')
+local cmp = require("cmp")
 if cmp ~= nil then cmp.setup({
         preselect = cmp.PreselectMode.None,
         snippet = {
