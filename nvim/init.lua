@@ -9,39 +9,14 @@ end
 
 require("packer").startup(function(use)
     use("wbthomason/packer.nvim")
+
     -- Optimizations
     use("lewis6991/impatient.nvim")
     use("dstein64/vim-startuptime")
 
     -- Colorscheme
     use "EdenEast/nightfox.nvim"
-    -- Git diff indicators
-    use({ "lewis6991/gitsigns.nvim",
-        requires = { "nvim-lua/plenary.nvim" } })
-    use { "sindrets/diffview.nvim",
-        requires = "nvim-lua/plenary.nvim" }
-    -- File symbols/ tags
-    use({ "liuchengxu/vista.vim" })
-    -- File tree
-    use({ "kyazdani42/nvim-tree.lua",
-        requires = { "kyazdani42/nvim-web-devicons" } })
 
-    -- csf change surrounding function. cst change surrounding tags
-    use({ "kylechui/nvim-surround",
-        config = function() require("nvim-surround").setup({}) end })
-    -- Todo management
-    use({ "folke/todo-comments.nvim",
-        requires = "nvim-lua/plenary.nvim" })
-    -- Comment text objects
-    use({ "numToStr/Comment.nvim" })
-    -- Align texts
-    use({ "junegunn/vim-easy-align" })
-    -- Autoclosing brackets
-    use({ "windwp/nvim-autopairs" })
-    -- Fuzzy finder
-    use({ "nvim-telescope/telescope.nvim",
-        requires = { "nvim-lua/plenary.nvim" } })
-    use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
     -- Treesitter
     use({
         "nvim-treesitter/nvim-treesitter",
@@ -56,13 +31,14 @@ require("packer").startup(function(use)
     use({ "neovim/nvim-lspconfig" })
     use({ "williamboman/mason.nvim",
         "williamboman/mason-lspconfig.nvim", })
+    -- Non-LSP
+    use({ "jose-elias-alvarez/null-ls.nvim" })
+
     -- Completion
     use({ "hrsh7th/nvim-cmp",
         requires = { "hrsh7th/cmp-nvim-lsp" } })
     use("hrsh7th/cmp-path")
     use("hrsh7th/cmp-buffer")
-    -- Non-LSP sources
-    use({ "jose-elias-alvarez/null-ls.nvim" })
     -- Snippets
     use({ "L3MON4D3/LuaSnip",
         requires = { "saadparwaiz1/cmp_luasnip" } })
@@ -70,6 +46,50 @@ require("packer").startup(function(use)
     -- Additonal UI
     use({ "j-hui/fidget.nvim" })
     use({ "ray-x/lsp_signature.nvim" })
+
+    -- Git support
+    use({ "lewis6991/gitsigns.nvim",
+        requires = { "nvim-lua/plenary.nvim" } })
+    use { "sindrets/diffview.nvim",
+        requires = "nvim-lua/plenary.nvim" }
+
+    -- File management
+    use({ "liuchengxu/vista.vim" })
+    use({ "kyazdani42/nvim-tree.lua",
+        requires = { "kyazdani42/nvim-web-devicons" } })
+
+    -- Bracket shortcuts
+    -- csf change surrounding function. cst change surrounding tags
+    use({ "kylechui/nvim-surround",
+        config = function() require("nvim-surround").setup({}) end })
+    -- Comment shortcuts
+    use({ "numToStr/Comment.nvim" })
+    -- Todo management
+    use({ "folke/todo-comments.nvim",
+        requires = "nvim-lua/plenary.nvim" })
+    -- Align texts
+    use({ "junegunn/vim-easy-align" })
+    -- Autoclosing brackets
+    use {
+        "windwp/nvim-autopairs",
+        config = function() require("nvim-autopairs").setup {} end
+    }
+    -- Formatting tools
+    use {
+        'AckslD/nvim-trevJ.lua',
+        config = 'require("trevj").setup()',
+        module = 'trevj',
+        setup = function()
+            vim.keymap.set('n', '<leader>j', function()
+                require('trevj').format_at_cursor()
+            end)
+        end,
+    }
+
+    -- Fuzzy finder
+    use({ "nvim-telescope/telescope.nvim",
+        requires = { "nvim-lua/plenary.nvim" } })
+    use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
 
     if is_bootstrap then
         require("packer").sync()
@@ -126,7 +146,6 @@ vim.api.nvim_create_user_command(
 )
 vim.api.nvim_create_user_command("Make", "!go clean -testcache && go test %:p:h -v", { bang = true })
 
-require("nvim-autopairs").setup({})
 require("Comment").setup({})
 require("todo-comments").setup({})
 vim.keymap.set({ "n" }, "<Leader>tq", ":TodoQuickFix<CR>", { silent = true })
