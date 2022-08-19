@@ -74,7 +74,9 @@ require("packer").startup(function(use)
         "windwp/nvim-autopairs",
         config = function() require("nvim-autopairs").setup {} end
     }
-    -- Formatting tools
+
+    -- Editing tools
+    -- reverse join
     use {
         'AckslD/nvim-trevJ.lua',
         config = 'require("trevj").setup()',
@@ -85,6 +87,8 @@ require("packer").startup(function(use)
             end)
         end,
     }
+    -- search and replace
+    use 'tpope/vim-abolish'
 
     -- Fuzzy finder
     use({ "nvim-telescope/telescope.nvim",
