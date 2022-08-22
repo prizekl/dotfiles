@@ -44,14 +44,16 @@ require("packer").startup(function(use)
         requires = { "saadparwaiz1/cmp_luasnip" } })
     use("rafamadriz/friendly-snippets")
     -- Additonal UI
-    use({ "j-hui/fidget.nvim" })
+    use({ "j-hui/fidget.nvim",
+        config = function() require("fidget").setup({}) end })
     use({ "ray-x/lsp_signature.nvim" })
 
     -- Git support
     use({ "lewis6991/gitsigns.nvim",
         requires = { "nvim-lua/plenary.nvim" } })
     use { "sindrets/diffview.nvim",
-        requires = "nvim-lua/plenary.nvim" }
+        requires = "nvim-lua/plenary.nvim",
+        config = function() require("diffview").setup({}) end }
 
     -- File management
     use({ "liuchengxu/vista.vim" })
@@ -63,10 +65,12 @@ require("packer").startup(function(use)
     use({ "kylechui/nvim-surround",
         config = function() require("nvim-surround").setup({}) end })
     -- Comment shortcuts
-    use({ "numToStr/Comment.nvim" })
+    use({ "numToStr/Comment.nvim",
+        config = function() require("Comment").setup({}) end })
     -- Todo management
     use({ "folke/todo-comments.nvim",
-        requires = "nvim-lua/plenary.nvim" })
+        requires = "nvim-lua/plenary.nvim",
+        config = require("todo-comments").setup({}) })
     -- Align texts
     use({ "junegunn/vim-easy-align" })
     -- Autoclosing brackets
@@ -150,16 +154,11 @@ vim.api.nvim_create_user_command(
 )
 vim.api.nvim_create_user_command("Make", "!go clean -testcache && go test %:p:h -v", { bang = true })
 
-require("Comment").setup({})
-require("todo-comments").setup({})
 vim.keymap.set({ "n" }, "<Leader>tq", ":TodoQuickFix<CR>", { silent = true })
-require("fidget").setup({})
 require("lsp_signature").setup({
     handler_opts = { border = "single" },
     hint_enable = false,
 })
--- Diffview
-require("diffview").setup({})
 
 -- Gitsigns
 require("gitsigns").setup({
@@ -303,9 +302,8 @@ require("nvim-treesitter.configs").setup({
     textobjects = {
         select = {
             enable = true,
-            lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
+            lookahead = true,
             keymaps = {
-                -- You can use the capture groups defined in textobjects.scm
                 ["af"] = "@function.outer",
                 ["if"] = "@function.inner",
                 ["ac"] = "@class.outer",
@@ -314,7 +312,7 @@ require("nvim-treesitter.configs").setup({
         },
         move = {
             enable = true,
-            set_jumps = true, -- whether to set jumps in the jumplist
+            set_jumps = true,
             goto_next_start = {
                 [']m'] = '@function.outer',
                 [']]'] = '@class.outer',
