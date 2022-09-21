@@ -67,10 +67,6 @@ require("packer").startup(function(use)
     -- Comment shortcuts
     use({ "numToStr/Comment.nvim",
         config = function() require("Comment").setup({}) end })
-    -- Todo management
-    use({ "folke/todo-comments.nvim",
-        requires = "nvim-lua/plenary.nvim",
-        config = require("todo-comments").setup({}) })
     -- Align texts
     use({ "junegunn/vim-easy-align" })
     -- Autoclosing brackets
@@ -154,7 +150,6 @@ vim.api.nvim_create_user_command(
 )
 vim.api.nvim_create_user_command("Make", "!go clean -testcache && go test %:p:h -v", { bang = true })
 
-vim.keymap.set({ "n" }, "<Leader>tq", ":TodoQuickFix<CR>", { silent = true })
 require("lsp_signature").setup({
     handler_opts = { border = "single" },
     hint_enable = false,
