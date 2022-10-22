@@ -7,5 +7,7 @@
 # if [ "$TMUX" = "" ]; then tmux; fi
 
 alias ls='exa'
+alias ll='exa -l'
+alias l='exa -la'
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"

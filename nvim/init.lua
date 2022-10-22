@@ -16,6 +16,7 @@ require("packer").startup(function(use)
 
     -- Colorscheme
     use "EdenEast/nightfox.nvim"
+    use { 'mweisshaupt1988/neobeans.vim', as = 'neobeans' }
 
     -- Treesitter
     use({
@@ -132,7 +133,7 @@ vim.o.completeopt = "menuone,noselect"
 vim.o.hlsearch = true
 vim.wo.number = true
 vim.o.termguicolors = true
-vim.cmd([[colorscheme nightfox]])
+vim.cmd([[colorscheme neobeans]])
 vim.o.tabstop = 4
 vim.o.softtabstop = 4
 vim.o.shiftwidth = 4
@@ -365,7 +366,7 @@ end
 
 -- nvim-cmp supports additional completion capabilities
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
+capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
 -- LSP utils
 function OrgImports(wait_ms)
