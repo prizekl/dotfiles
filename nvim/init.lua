@@ -14,10 +14,6 @@ require("packer").startup(function(use)
     use("lewis6991/impatient.nvim")
     use("dstein64/vim-startuptime")
 
-    -- Colorscheme
-    use "EdenEast/nightfox.nvim"
-    use { 'mweisshaupt1988/neobeans.vim', as = 'neobeans' }
-
     -- Treesitter
     use({
         "nvim-treesitter/nvim-treesitter",
@@ -25,6 +21,7 @@ require("packer").startup(function(use)
             require("nvim-treesitter.install").update({ with_sync = true })
         end,
     })
+    use({ "yioneko/nvim-yati", tag = "*", requires = "nvim-treesitter/nvim-treesitter" })
     -- Extended textobjects
     use("nvim-treesitter/nvim-treesitter-textobjects")
 
@@ -133,7 +130,7 @@ vim.o.completeopt = "menuone,noselect"
 vim.o.hlsearch = true
 vim.wo.number = true
 vim.o.termguicolors = true
-vim.cmd([[colorscheme neobeans]])
+vim.cmd([[colorscheme habamax]])
 vim.o.tabstop = 4
 vim.o.softtabstop = 4
 vim.o.shiftwidth = 4
@@ -280,6 +277,7 @@ require("nvim-treesitter.configs").setup({
         "dockerfile",
         "go",
     },
+    yati = { enable = true },
     highlight = {
         enable = true,
     },
@@ -291,9 +289,6 @@ require("nvim-treesitter.configs").setup({
             node_incremental = "<TAB>",
             node_decremental = "<S-TAB>",
         },
-    },
-    indent = {
-        enable = true,
     },
     textobjects = {
         select = {
@@ -389,7 +384,7 @@ local lspconfig = require("lspconfig")
 local mason_lspconfig = require("mason-lspconfig")
 mason_lspconfig.setup({
     ensure_installed = {
-        "sumneko_lua",
+        "lua_ls",
         "gopls",
         "pyright",
         "tsserver",
@@ -407,23 +402,23 @@ mason_lspconfig.setup_handlers({
             capabilities = capabilities,
         })
     end,
-    ["sumneko_lua"] = function()
-        lspconfig.sumneko_lua.setup {
-            on_attach = on_attach,
-            capabilities = capabilities,
-            settings = { Lua = {
-                runtime = { version = "LuaJIT", },
-                diagnostics = { globals = { "vim" }, },
-                workspace = {
-                    library = vim.api.nvim_get_runtime_file("", true),
-                },
-                telemetry = {
-                    enable = false,
-                },
-            },
-            },
-        }
-    end,
+    -- ["lua_ls"] = function()
+    --     lspconfig.sumneko_lua.setup {
+    --         on_attach = on_attach,
+    --         capabilities = capabilities,
+    --         settings = { Lua = {
+    --             runtime = { version = "LuaJIT", },
+    --             diagnostics = { globals = { "vim" }, },
+    --             workspace = {
+    --                 library = vim.api.nvim_get_runtime_file("", true),
+    --             },
+    --             telemetry = {
+    --                 enable = false,
+    --             },
+    --         },
+    --         },
+    --     }
+    -- end,
     ["gopls"] = function()
         lspconfig.gopls.setup {
             on_attach = function(_, bufnr)
