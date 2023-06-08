@@ -191,7 +191,7 @@
       "bool" : false
     },
     "todoSidebarSide" : {
-      "int" : 0
+      "int" : 1
     },
     "todoSidebarWidth" : {
       "float" : 400
@@ -224,5 +224,5 @@
       "modifierFlags" : 1703936
     }
   },
-  "version" : "72"
+  "version" : "74"
 }
