@@ -18,13 +18,10 @@ require('lazy').setup({
 
   -- My Essentials
   'tpope/vim-surround',
-  -- Git related plugins
-  'tpope/vim-fugitive',
+  'tpope/vim-fugitive',                   -- Git related plugins
   'tpope/vim-rhubarb',
-  -- Detect tabstop and shiftwidth automatically
-  'tpope/vim-sleuth',
-  -- "gc" to comment visual regions/lines
-  { 'numToStr/Comment.nvim', opts = {} },
+  'tpope/vim-sleuth',                     -- Detect tabstop and shiftwidth automatically
+  { 'numToStr/Comment.nvim', opts = {} }, -- "gc" to comment visual regions/lines
   {
     'rebelot/kanagawa.nvim',
     priority = 1000,
@@ -40,11 +37,8 @@ require('lazy').setup({
       -- Automatically install LSPs to stdpath for neovim
       { 'williamboman/mason.nvim', config = true },
       'williamboman/mason-lspconfig.nvim',
-
       -- Useful status updates for LSP
-      -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
       { 'j-hui/fidget.nvim',       tag = 'legacy', opts = {} },
-
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
     },
@@ -57,6 +51,8 @@ require('lazy').setup({
       -- Snippet Engine & its associated nvim-cmp source
       'L3MON4D3/LuaSnip',
       'saadparwaiz1/cmp_luasnip',
+      -- LSP signature_help
+      'hrsh7th/cmp-nvim-lsp-signature-help',
       -- Adds LSP completion capabilities
       'hrsh7th/cmp-nvim-lsp',
       -- Adds a number of user-friendly snippets
@@ -65,13 +61,37 @@ require('lazy').setup({
   },
 
   {
+    "windwp/nvim-autopairs",
+    -- Optional dependency
+    dependencies = { 'hrsh7th/nvim-cmp' },
+    config = function()
+      require("nvim-autopairs").setup {}
+      -- If you want to automatically add `(` after selecting a function or method
+      local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+      local cmp = require('cmp')
+      cmp.event:on(
+        'confirm_done',
+        cmp_autopairs.on_confirm_done()
+      )
+    end,
+  },
+
+  {
     -- Adds git related signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
     opts = {
-      -- See `:help gitsigns.txt`
       on_attach = function(bufnr)
-        vim.keymap.set('n', '<leader>hp', require('gitsigns').preview_hunk, { buffer = bufnr, desc = 'Preview git hunk' })
-        vim.keymap.set('n', '<leader>hr', require('gitsigns').reset_hunk, { buffer = bufnr, desc = 'Preview git hunk' })
+        vim.keymap.set('n', '<leader>hp', require('gitsigns').preview_hunk, { buffer = bufnr })
+
+        vim.keymap.set('n', '<leader>hs', require('gitsigns').stage_hunk, { buffer = bufnr })
+        vim.keymap.set('n', '<leader>hr', require('gitsigns').reset_hunk, { buffer = bufnr })
+        vim.keymap.set('v', '<leader>hs',
+          function() require('gitsigns').stage_hunk { vim.fn.line('.'), vim.fn.line('v') } end,
+          { buffer = bufnr })
+        vim.keymap.set('v', '<leader>hr',
+          function() require('gitsigns').reset_hunk { vim.fn.line('.'), vim.fn.line('v') } end,
+          { buffer = bufnr })
+        vim.keymap.set('n', '<leader>hu', require('gitsigns').undo_stage_hunk, { buffer = bufnr })
 
         -- don't override the built-in and fugitive keymaps
         local gs = package.loaded.gitsigns
@@ -102,9 +122,7 @@ require('lazy').setup({
   },
 
   {
-    -- Add indentation guides even on blank lines
     'lukas-reineke/indent-blankline.nvim',
-    -- Enable `lukas-reineke/indent-blankline.nvim`
     main = "ibl",
     opts = {
       indent = { char = "▏" },
@@ -123,13 +141,8 @@ require('lazy').setup({
     branch = '0.1.x',
     dependencies = {
       'nvim-lua/plenary.nvim',
-      -- Fuzzy Finder Algorithm which requires local dependencies to be built.
-      -- Only load if `make` is available. Make sure you have the system
-      -- requirements installed.
       {
         'nvim-telescope/telescope-fzf-native.nvim',
-        -- NOTE: If you are having trouble with this installation,
-        --       refer to the README for telescope-fzf-native for more instructions.
         build = 'make',
         cond = function()
           return vim.fn.executable 'make' == 1
@@ -468,6 +481,7 @@ cmp.setup {
   },
   sources = {
     { name = 'nvim_lsp' },
+    { name = 'nvim_lsp_signature_help' },
     { name = 'luasnip' },
   },
 }
