@@ -18,15 +18,23 @@ require('lazy').setup({
 
   -- My Essentials
   'tpope/vim-surround',
-  'tpope/vim-fugitive',                   -- Git related plugins
+  'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
-  'tpope/vim-sleuth',                     -- Detect tabstop and shiftwidth automatically
-  { 'numToStr/Comment.nvim', opts = {} }, -- "gc" to comment visual regions/lines
+  { 'numToStr/Comment.nvim', opts = {} },
   {
-    'rebelot/kanagawa.nvim',
+    'nyoom-engineering/oxocarbon.nvim',
     priority = 1000,
     config = function()
-      vim.cmd.colorscheme 'kanagawa-dragon'
+      vim.cmd.colorscheme 'oxocarbon'
+    end,
+  },
+  { 'sbdchd/neoformat' },
+  {
+    'Wansmer/treesj',
+    keys = { '<space>m', '<space>j', '<space>s' },
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    config = function()
+      require('treesj').setup({--[[ your config ]]})
     end,
   },
 
@@ -48,15 +56,12 @@ require('lazy').setup({
     -- Autocompletion
     'hrsh7th/nvim-cmp',
     dependencies = {
-      -- Snippet Engine & its associated nvim-cmp source
       'L3MON4D3/LuaSnip',
       'saadparwaiz1/cmp_luasnip',
-      -- LSP signature_help
       'hrsh7th/cmp-nvim-lsp-signature-help',
-      -- Adds LSP completion capabilities
       'hrsh7th/cmp-nvim-lsp',
-      -- Adds a number of user-friendly snippets
       'rafamadriz/friendly-snippets',
+      'hrsh7th/cmp-buffer',
     },
   },
 
@@ -150,7 +155,6 @@ require('lazy').setup({
   },
 
   {
-    -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     dependencies = {
       'nvim-treesitter/nvim-treesitter-textobjects',
@@ -164,11 +168,9 @@ require('lazy').setup({
     version = "*",
     dependencies = {
       "SmiteshP/nvim-navic",
-      "nvim-tree/nvim-web-devicons", -- optional dependency
+      "nvim-tree/nvim-web-devicons",
     },
-    opts = {
-      -- configurations go here
-    },
+    opts = {},
   },
 
   {
@@ -176,7 +178,7 @@ require('lazy').setup({
     branch = "v3.x",
     dependencies = {
       "nvim-lua/plenary.nvim",
-      "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+      "nvim-tree/nvim-web-devicons",
       "MunifTanjim/nui.nvim",
     },
     config = function()
@@ -188,6 +190,7 @@ require('lazy').setup({
               ["/"] = "none",
               ["?"] = "none",
               ["g?"] = "show_help",
+              ["z"] = "none",
             }
           }
         }
@@ -199,9 +202,8 @@ require('lazy').setup({
 -- [[ Setting options ]]
 vim.wo.number = true
 vim.o.mouse = 'a'
-vim.o.clipboard = 'unnamedplus'
+vim.opt.clipboard = 'unnamedplus'
 vim.o.breakindent = true
-vim.o.undofile = true
 vim.o.ignorecase = true
 vim.o.smartcase = true
 vim.wo.signcolumn = 'yes'
@@ -210,10 +212,14 @@ vim.o.timeoutlen = 300
 vim.o.completeopt = 'menuone,noselect'
 vim.o.termguicolors = true
 
+-- default tabs/spaces
+vim.o.expandtab = true
+vim.o.shiftwidth = 4
+vim.o.tabstop = 4
+
 -- [[ Basic Keymaps ]]
 
 vim.keymap.set('n', '<C-n>', ':Neotree toggle reveal<CR>')
-
 -- Keymaps for better default experience
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 -- Remap for dealing with word wrap
@@ -233,7 +239,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- [[Telescope Settings]]
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
-
 local actions = require "telescope.actions"
 require('telescope').setup {
   defaults = {
@@ -256,14 +261,12 @@ require('telescope').setup {
   }
 }
 
-vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles)
 vim.keymap.set('n', '<leader>/', function()
   require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
     winblend = 10,
     previewer = false,
   })
 end)
-
 vim.keymap.set('n', '<C-f>', require('telescope.builtin').buffers)
 vim.keymap.set('n', '<leader>gf', require('telescope.builtin').git_status)
 vim.keymap.set('n', '<C-p>', require('telescope.builtin').find_files)
@@ -277,12 +280,11 @@ vim.keymap.set('n', '<leader>re', require('telescope.builtin').resume)
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
   ensure_installed = { 'go', 'lua', 'python', 'tsx', 'javascript', 'typescript' },
-
   -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
   auto_install = true,
 
   highlight = { enable = true },
-  indent = { enable = false },
+  indent = { enable = true },
   incremental_selection = {
     enable = true,
     keymaps = {
@@ -436,6 +438,7 @@ require('luasnip.loaders.from_vscode').lazy_load()
 luasnip.config.setup {}
 
 cmp.setup {
+  preselect = cmp.PreselectMode.None,
   snippet = {
     expand = function(args)
       luasnip.lsp_expand(args.body)
@@ -474,6 +477,7 @@ cmp.setup {
     { name = 'nvim_lsp' },
     { name = 'nvim_lsp_signature_help' },
     { name = 'luasnip' },
+    { name = 'buffer' },
   },
 }
 
