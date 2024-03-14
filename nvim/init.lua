@@ -22,7 +22,17 @@ require('lazy').setup({
   'tpope/vim-rhubarb',
   'tpope/vim-sleuth',
   'tpope/vim-abolish',
-  { 'numToStr/Comment.nvim', opts = {} },
+  'github/copilot.vim',
+  'JoosepAlviste/nvim-ts-context-commentstring',
+  {
+    'numToStr/Comment.nvim',
+    opts = {},
+    config = function()
+      require('Comment').setup {
+        pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook()
+      }
+    end
+  },
   {
     'nyoom-engineering/oxocarbon.nvim',
     priority = 1000,
@@ -35,7 +45,7 @@ require('lazy').setup({
     keys = { '<space>m', '<space>j', '<space>s' },
     dependencies = { 'nvim-treesitter/nvim-treesitter' },
     config = function()
-      require('treesj').setup({--[[ your config ]]})
+      require('treesj').setup({ --[[ your config ]] })
     end,
   },
 
@@ -54,6 +64,21 @@ require('lazy').setup({
   },
 
   {
+    -- Formatter
+    'stevearc/conform.nvim',
+    config = function()
+      require('conform').setup {
+        formatters_by_ft = {
+          lua = { "stylua" },
+          python = { "isort", "black" },
+          typescript = { { 'prettierd', "prettier" } },
+          typescriptreact = { { 'prettierd', "prettier" } },
+        },
+      }
+    end,
+  },
+
+  {
     -- Autocompletion
     'hrsh7th/nvim-cmp',
     dependencies = {
@@ -65,7 +90,6 @@ require('lazy').setup({
       'hrsh7th/cmp-buffer',
     },
   },
-
   {
     "windwp/nvim-autopairs",
     -- Optional dependency
@@ -200,6 +224,9 @@ require('lazy').setup({
   }
 }, {})
 
+require('ts_context_commentstring').setup {
+  enable_autocmd = false,
+}
 -- [[ Setting options ]]
 vim.wo.number = true
 vim.o.mouse = 'a'
@@ -283,7 +310,9 @@ require('nvim-treesitter.configs').setup {
   ensure_installed = { 'go', 'lua', 'python', 'tsx', 'javascript', 'typescript' },
   -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
   auto_install = true,
-
+  modules = {},
+  ignore_install = {},
+  sync_install = false,
   highlight = { enable = true },
   indent = { enable = true },
   incremental_selection = {
@@ -375,12 +404,19 @@ local on_attach = function(_, bufnr)
   nmap('<leader>wl', function()
     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
   end)
-
-  -- Create a command `:Format` local to the LSP buffer
-  vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
-    vim.lsp.buf.format()
-  end, { desc = 'Format current buffer with LSP' })
 end
+
+vim.api.nvim_create_user_command("Format", function(args)
+  local range = nil
+  if args.count ~= -1 then
+    local end_line = vim.api.nvim_buf_get_lines(0, args.line2 - 1, args.line2, true)[1]
+    range = {
+      start = { args.line1, 0 },
+      ["end"] = { args.line2, end_line:len() },
+    }
+  end
+  require("conform").format({ async = true, lsp_fallback = true, range = range })
+end, { range = true })
 
 -- Enable the following language servers
 local servers = {
@@ -448,24 +484,6 @@ cmp.setup {
     ['<CR>'] = cmp.mapping.confirm {
       select = true,
     },
-    ['<Tab>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      elseif luasnip.expand_or_locally_jumpable() then
-        luasnip.expand_or_jump()
-      else
-        fallback()
-      end
-    end, { 'i', 's' }),
-    ['<S-Tab>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item()
-      elseif luasnip.locally_jumpable(-1) then
-        luasnip.jump(-1)
-      else
-        fallback()
-      end
-    end, { 'i', 's' }),
   },
   sources = {
     { name = 'luasnip' },
