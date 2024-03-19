@@ -57,7 +57,7 @@ require('lazy').setup({
       { 'williamboman/mason.nvim', config = true },
       'williamboman/mason-lspconfig.nvim',
       -- Useful status updates for LSP
-      { 'j-hui/fidget.nvim',       tag = 'legacy', opts = {} },
+      { 'j-hui/fidget.nvim',       opts = {} },
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
     },
@@ -199,27 +199,18 @@ require('lazy').setup({
   },
 
   {
-    "nvim-neo-tree/neo-tree.nvim",
-    branch = "v3.x",
+    "nvim-tree/nvim-tree.lua",
     dependencies = {
-      "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-web-devicons",
-      "MunifTanjim/nui.nvim",
     },
     config = function()
-      require("neo-tree").setup({
-        filesystem = {
-          window = {
-            mappings = {
-              -- disable fuzzy finder
-              ["/"] = "none",
-              ["?"] = "none",
-              ["g?"] = "show_help",
-              ["z"] = "none",
-            }
-          }
-        }
-      })
+      local function on_attach(bufnr)
+        local api = require("nvim-tree.api")
+        api.config.mappings.default_on_attach(bufnr)
+        vim.keymap.del("n", "<C-E>", { buffer = bufnr })
+      end
+      require('nvim-tree').setup { on_attach = on_attach }
+      vim.keymap.set('n', '<C-n>', ':NvimTreeFindFileToggle<CR>')
     end,
   }
 }, {})
@@ -246,8 +237,6 @@ vim.o.shiftwidth = 4
 vim.o.tabstop = 4
 
 -- [[ Basic Keymaps ]]
-
-vim.keymap.set('n', '<C-n>', ':Neotree toggle reveal<CR>')
 -- Keymaps for better default experience
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 -- Remap for dealing with word wrap
@@ -388,6 +377,7 @@ local on_attach = function(_, bufnr)
 
   -- nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
   nmap('gd', require('telescope.builtin').lsp_definitions)
+  nmap('gt', require('telescope.builtin').lsp_type_definitions)
   nmap('gr', require('telescope.builtin').lsp_references)
   nmap('gI', require('telescope.builtin').lsp_implementations)
   nmap('<leader>D', vim.lsp.buf.type_definition)
