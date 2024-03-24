@@ -386,7 +386,6 @@ local on_attach = function(_, bufnr)
   nmap('gt', require('telescope.builtin').lsp_type_definitions)
   nmap('gr', require('telescope.builtin').lsp_references)
   nmap('gI', require('telescope.builtin').lsp_implementations)
-  nmap('<leader>D', vim.lsp.buf.type_definition)
   nmap('<leader>o', require('telescope.builtin').lsp_document_symbols)
   nmap('<leader>t', require('telescope.builtin').lsp_dynamic_workspace_symbols)
 
@@ -458,59 +457,7 @@ local luasnip = require 'luasnip'
 require('luasnip.loaders.from_vscode').lazy_load()
 luasnip.config.setup {}
 
-local cmp_kinds = {
-  File = "  ",
-  Module = "  ",
-  Namespace = "  ",
-  Package = "  ",
-  Class = "  ",
-  Method = "  ",
-  Property = "  ",
-  Field = "  ",
-  Constructor = "  ",
-  Enum = "  ",
-  Interface = "  ",
-  Function = "  ",
-  Variable = "  ",
-  Constant = "  ",
-  String = "  ",
-  Number = "  ",
-  Boolean = "  ",
-  Array = "  ",
-  Object = "  ",
-  Key = "  ",
-  Null = "  ",
-  EnumMember = "  ",
-  Struct = "  ",
-  Event = "  ",
-  Operator = "  ",
-  TypeParameter = "  ",
-  Text = "  ",
-  Unit = "  ",
-  Value = "  ",
-  Keyword = "  ",
-  Snippet = "  ",
-  Color = "  ",
-  Reference = "  ",
-  Folder = "  ",
-  Copilot = "  ",
-}
-
 cmp.setup {
-  window = {
-    completion = {
-      col_offset = -3,
-      side_padding = 0,
-    },
-  },
-  formatting = {
-    fields = { "kind", "abbr", "menu" },
-    format = function(_, vim_item)
-      vim_item.menu = vim_item.kind
-      vim_item.kind = cmp_kinds[vim_item.kind] or vim_item.kind
-      return vim_item
-    end,
-  },
   preselect = cmp.PreselectMode.None,
   snippet = {
     expand = function(args)
