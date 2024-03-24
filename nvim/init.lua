@@ -23,10 +23,9 @@ require('lazy').setup({
   'tpope/vim-sleuth',
   'tpope/vim-abolish',
   'github/copilot.vim',
-  'JoosepAlviste/nvim-ts-context-commentstring',
   {
     'numToStr/Comment.nvim',
-    opts = {},
+    dependencies = { 'JoosepAlviste/nvim-ts-context-commentstring' },
     config = function()
       require('Comment').setup {
         pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook()
@@ -199,25 +198,32 @@ require('lazy').setup({
   },
 
   {
-    "nvim-tree/nvim-tree.lua",
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v3.x",
     dependencies = {
+      "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-web-devicons",
+      "MunifTanjim/nui.nvim",
     },
     config = function()
-      local function on_attach(bufnr)
-        local api = require("nvim-tree.api")
-        api.config.mappings.default_on_attach(bufnr)
-        vim.keymap.del("n", "<C-E>", { buffer = bufnr })
-      end
-      require('nvim-tree').setup { on_attach = on_attach }
-      vim.keymap.set('n', '<C-n>', ':NvimTreeFindFileToggle<CR>')
+      require("neo-tree").setup({
+        filesystem = {
+          window = {
+            mappings = {
+              -- disable fuzzy finder
+              ["/"] = "none",
+              ["?"] = "none",
+              ["g?"] = "show_help",
+              ["z"] = "none",
+            }
+          }
+        }
+      })
+      vim.keymap.set('n', '<leader>n', ':Neotree toggle reveal<CR>')
     end,
   }
 }, {})
 
-require('ts_context_commentstring').setup {
-  enable_autocmd = false,
-}
 -- [[ Setting options ]]
 vim.wo.number = true
 vim.o.mouse = 'a'
@@ -410,13 +416,8 @@ end, { range = true })
 
 -- Enable the following language servers
 local servers = {
-  -- clangd = {},
-  -- gopls = {},
-  -- pyright = {},
-  -- rust_analyzer = {},
   tsserver = {},
-  -- html = { filetypes = { 'html', 'twig', 'hbs'} },
-
+  html = { filetypes = { 'html', 'twig', 'hbs' } },
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
@@ -457,7 +458,59 @@ local luasnip = require 'luasnip'
 require('luasnip.loaders.from_vscode').lazy_load()
 luasnip.config.setup {}
 
+local cmp_kinds = {
+  File = "  ",
+  Module = "  ",
+  Namespace = "  ",
+  Package = "  ",
+  Class = "  ",
+  Method = "  ",
+  Property = "  ",
+  Field = "  ",
+  Constructor = "  ",
+  Enum = "  ",
+  Interface = "  ",
+  Function = "  ",
+  Variable = "  ",
+  Constant = "  ",
+  String = "  ",
+  Number = "  ",
+  Boolean = "  ",
+  Array = "  ",
+  Object = "  ",
+  Key = "  ",
+  Null = "  ",
+  EnumMember = "  ",
+  Struct = "  ",
+  Event = "  ",
+  Operator = "  ",
+  TypeParameter = "  ",
+  Text = "  ",
+  Unit = "  ",
+  Value = "  ",
+  Keyword = "  ",
+  Snippet = "  ",
+  Color = "  ",
+  Reference = "  ",
+  Folder = "  ",
+  Copilot = "  ",
+}
+
 cmp.setup {
+  window = {
+    completion = {
+      col_offset = -3,
+      side_padding = 0,
+    },
+  },
+  formatting = {
+    fields = { "kind", "abbr", "menu" },
+    format = function(_, vim_item)
+      vim_item.menu = vim_item.kind
+      vim_item.kind = cmp_kinds[vim_item.kind] or vim_item.kind
+      return vim_item
+    end,
+  },
   preselect = cmp.PreselectMode.None,
   snippet = {
     expand = function(args)

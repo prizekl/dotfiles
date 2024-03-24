@@ -21,7 +21,7 @@ users() {
 
 decrypt() {
     if [ "$#" -ne 1 ]; then
-        echo "Usage: integrations <searchPattern>"
+        echo "Usage: decrypt <searchPattern>"
         return 1
     fi
     local searchPattern="$1"
@@ -36,4 +36,110 @@ else
     echo "No matching data found or error in extracting the encrypted string."
     return 1
     fi
+}
+
+convo_id() {
+    if [ "$#" -lt 1 ]; then
+        echo "Usage: convo_id <conversationId> [<searchPattern...>]"
+        return 1
+    fi
+
+    local conversationId="$1"
+    shift # Remove the first argument, so only search patterns remain
+
+    # Concatenate all remaining arguments as the search pattern, if any
+    local searchPattern="$*"
+
+    # Check if the input is a number and construct JSON payload accordingly
+    local jsonPayload
+    if [[ "$conversationId" =~ ^[0-9]+$ ]]; then
+        # Input is numeric, construct JSON payload with numeric conversationId
+        jsonPayload=$(jq -n --argjson conversationId "$conversationId" --arg searchString "$searchPattern" \
+                        '{"conversationId": $conversationId, "searchString": $searchString}')
+    else
+        # Input is not numeric, treat it as a string
+        jsonPayload=$(jq -n --arg conversationId "$conversationId" --arg searchString "$searchPattern" \
+                        '{"conversationId": $conversationId, "searchString": $searchString}')
+    fi
+
+    # Fetch the data using the constructed JSON payload
+    echo "Fetching data for conversation ID: $conversationId"
+    npx convex run conversations:_getById "$jsonPayload" --prod | jq --arg pattern "$searchPattern" '
+        if ($pattern | length) > 0 then
+            map(select(
+                . as $object |
+                any(values[]; tostring | test($pattern; "i"))
+            ))
+        else
+            .
+        end
+    '
+}
+
+convo_search() {
+    if [ "$#" -lt 1 ]; then
+        echo "Usage: convo <userId> <searchPattern...>"
+        return 1
+    fi
+
+    local userId="$1"
+    shift # Remove the first argument, so only search patterns remain
+
+    # Concatenate all remaining arguments as the search pattern
+    local searchPattern="$*"
+
+    # Construct the JSON payload including the userId and searchString
+    local jsonPayload=$(jq -n \
+                        --arg userId "$userId" \
+                        --arg searchString "$searchPattern" \
+                        '{userId: $userId, searchString: $searchString}')
+
+    # Fetch the data
+    echo "Fetching data for user ID: $userId with search pattern: $searchPattern"
+    npx convex run conversations:_getByUserIdSearch "$jsonPayload" --prod | \
+    jq --stream --arg pattern "$searchPattern" '
+        fromstream(1|truncate_stream(inputs)) | 
+        select(
+            . as $object | 
+            any(values[]; tostring | test($pattern))
+        )
+    '
+}
+
+res_id() {
+    if [ "$#" -lt 1 ]; then
+        echo "Usage: res_id <reservationId> [<searchPattern...>]"
+        return 1
+    fi
+
+    local reservationId="$1"
+    shift # Remove the first argument, so only search patterns remain
+
+    # Concatenate all remaining arguments as the search pattern, if any
+    local searchPattern="$*"
+
+    # Check if the input is a number and construct JSON payload accordingly
+    local jsonPayload
+    if [[ "$reservationId" =~ ^[0-9]+$ ]]; then
+        # Input is numeric, construct JSON payload with numeric reservationId
+        jsonPayload=$(jq -n --argjson reservationId "$reservationId" --arg searchString "$searchPattern" \
+                        '{"reservationId": $reservationId, "searchString": $searchString}')
+    else
+        # Input is not numeric, treat it as a string
+        jsonPayload=$(jq -n --arg reservationId "$reservationId" --arg searchString "$searchPattern" \
+                        '{"reservationId": $reservationId, "searchString": $searchString}')
+    fi
+
+    # Fetch the data using the constructed JSON payload
+    echo "Fetching data for reservation ID: $reservationId"
+    npx convex run reservations:_getById "$jsonPayload" --prod | jq --arg pattern "$searchPattern" '
+        if ($pattern | length) > 0 then
+            map(select(
+                . as $object |
+                any(values[]; tostring | test($pattern; "i"))
+            ))
+        else
+            .
+        end
+    '
 }
