@@ -32,13 +32,7 @@ require('lazy').setup({
       }
     end
   },
-  {
-    'nyoom-engineering/oxocarbon.nvim',
-    priority = 1000,
-    config = function()
-      vim.cmd.colorscheme 'oxocarbon'
-    end,
-  },
+
   {
     'Wansmer/treesj',
     keys = { '<space>m', '<space>j', '<space>s' },
@@ -142,12 +136,13 @@ require('lazy').setup({
     'nvim-lualine/lualine.nvim',
     opts = {
       options = {
+        theme = '16color',
         icons_enabled = false,
         component_separators = '|',
         section_separators = '',
       },
       sections = {
-        lualine_x = { },
+        lualine_x = {},
       }
     },
   },
@@ -171,6 +166,7 @@ require('lazy').setup({
     branch = '0.1.x',
     dependencies = {
       'nvim-lua/plenary.nvim',
+      'radyz/telescope-gitsigns',
       {
         'nvim-telescope/telescope-fzf-native.nvim',
         build = 'make',
@@ -240,6 +236,7 @@ vim.o.timeoutlen = 300
 vim.o.completeopt = 'menuone,noselect'
 vim.o.termguicolors = true
 vim.o.showmode = false
+vim.o.undofile = true
 
 -- default tabs/spaces
 vim.o.expandtab = true
@@ -266,6 +263,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- [[Telescope Settings]]
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
+pcall(require('telescope').load_extension, 'gitsigns')
 local actions = require "telescope.actions"
 require('telescope').setup {
   defaults = {
@@ -295,8 +293,10 @@ vim.keymap.set('n', '<leader>/', function()
   })
 end)
 vim.keymap.set('n', '<C-f>', require('telescope.builtin').buffers)
-vim.keymap.set('n', '<leader>gf', require('telescope.builtin').git_status)
 vim.keymap.set('n', '<C-p>', require('telescope.builtin').find_files)
+vim.keymap.set('n', '<leader>gf', require('telescope.builtin').git_status)
+vim.keymap.set('n', '<leader>gc', require('telescope.builtin').git_bcommits)
+vim.keymap.set('n', '<leader>gh', ':Telescope git_signs<CR>')
 vim.keymap.set('n', '<leader>gs', require('telescope.builtin').grep_string)
 vim.keymap.set('n', '<leader>lg', require('telescope.builtin').live_grep)
 vim.keymap.set('n', '<leader>d', require('telescope.builtin').diagnostics)
