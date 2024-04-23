@@ -85,7 +85,6 @@ require('lazy').setup({
   },
   {
     "windwp/nvim-autopairs",
-    -- Optional dependency
     dependencies = { 'hrsh7th/nvim-cmp' },
     config = function()
       require("nvim-autopairs").setup {}
@@ -240,7 +239,6 @@ vim.o.updatetime = 250
 vim.o.timeoutlen = 300
 vim.o.completeopt = 'menuone,noselect'
 vim.o.termguicolors = true
-vim.o.showmode = false
 vim.o.undofile = true
 
 -- default tabs/spaces
@@ -390,7 +388,6 @@ local on_attach = function(_, bufnr)
   nmap('<leader>rn', vim.lsp.buf.rename)
   nmap('<leader>ca', vim.lsp.buf.code_action)
 
-  -- nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
   nmap('gd', require('telescope.builtin').lsp_definitions)
   nmap('gt', require('telescope.builtin').lsp_type_definitions)
   nmap('gr', require('telescope.builtin').lsp_references)
@@ -422,6 +419,8 @@ vim.api.nvim_create_user_command("Format", function(args)
   require("conform").format({ async = true, lsp_fallback = true, range = range })
 end, { range = true })
 
+vim.api.nvim_set_keymap('n', '<leader>f', ':Format<CR>', { noremap = true, silent = true })
+
 -- Enable the following language servers
 local servers = {
   tsserver = {},
@@ -437,11 +436,9 @@ local servers = {
 -- Setup neovim lua configuration
 require('neodev').setup()
 
--- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
--- Ensure the servers above are installed
 local mason_lspconfig = require 'mason-lspconfig'
 
 mason_lspconfig.setup {
@@ -491,6 +488,3 @@ cmp.setup {
     { name = 'nvim_lsp_signature_help' },
   },
 }
-
--- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
