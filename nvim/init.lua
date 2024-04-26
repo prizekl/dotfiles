@@ -22,7 +22,53 @@ require('lazy').setup({
   'tpope/vim-rhubarb',
   'tpope/vim-sleuth',
   'tpope/vim-abolish',
+
+  {
+    'lewis6991/satellite.nvim'
+  },
+
   'github/copilot.vim',
+  {
+    "CopilotC-Nvim/CopilotChat.nvim",
+    branch = "canary",
+    dependencies = {
+      { "github/copilot.vim" },    -- or github/copilot.vim
+      { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
+    },
+    keys = {
+
+      {
+        "<leader>cp",
+        function()
+          local input = vim.fn.input("Prompt selection: ")
+          if input ~= "" then
+            require("CopilotChat").ask(input, { selection = require("CopilotChat.select").visual })
+          end
+        end,
+        mode = { 'v', 'x' }
+      },
+      {
+        "<leader>cp",
+        function()
+          local input = vim.fn.input("Prompt buffer: ")
+          if input ~= "" then
+            require("CopilotChat").ask(input, { selection = require("CopilotChat.select").buffer })
+          end
+        end,
+        mode = { 'n' }
+      },
+    },
+    opts = {
+      debug = true, -- Enable debugging
+      mappings = {
+        accept_diff = {
+          normal = "<C-CR>",
+          insert = "<C-CR>"
+        }
+      }
+    },
+  },
+
   {
     'numToStr/Comment.nvim',
     dependencies = { 'JoosepAlviste/nvim-ts-context-commentstring' },
@@ -35,7 +81,7 @@ require('lazy').setup({
 
   {
     'Wansmer/treesj',
-    keys = { '<space>m', '<space>j', '<space>s' },
+    keys = { '<space>j', '<space>s' },
     dependencies = { 'nvim-treesitter/nvim-treesitter' },
     config = function()
       require('treesj').setup({ --[[ your config ]] })
