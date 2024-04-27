@@ -23,8 +23,17 @@ require('lazy').setup({
   'tpope/vim-sleuth',
   'tpope/vim-abolish',
 
+  'nvim-lualine/lualine.nvim',
+
   {
-    'lewis6991/satellite.nvim'
+    'lewis6991/satellite.nvim',
+    opts = {
+      handlers = {
+        marks = {
+          enable = false
+        }
+      }
+    }
   },
 
   'github/copilot.vim',
@@ -177,27 +186,6 @@ require('lazy').setup({
   },
 
   {
-    -- Set lualine as statusline
-    'nvim-lualine/lualine.nvim',
-    opts = {
-      options = {
-        theme = 'iceberg_dark',
-        icons_enabled = false,
-        component_separators = '|',
-        section_separators = '',
-      },
-      sections = {
-        lualine_a = { 'mode' },
-        lualine_b = { 'branch', 'diff', 'diagnostics' },
-        lualine_c = { { 'filename', path = 1, } },
-        lualine_x = {},
-        lualine_y = { 'progress', },
-        lualine_z = { 'location', },
-      },
-    },
-  },
-
-  {
     'lukas-reineke/indent-blankline.nvim',
     main = "ibl",
     opts = {
@@ -286,6 +274,7 @@ vim.o.timeoutlen = 300
 vim.o.completeopt = 'menuone,noselect'
 vim.o.termguicolors = true
 vim.o.undofile = true
+vim.o.showmode = false
 
 -- default tabs/spaces
 vim.o.expandtab = true
@@ -532,5 +521,42 @@ cmp.setup {
     { name = 'nvim_lsp' },
     { name = 'buffer' },
     { name = 'nvim_lsp_signature_help' },
+  },
+}
+
+local colors = {
+  black        = '#2c2e33',
+  -- black = '#14161b',
+  white        = '#e0e2ea',
+  inactivegray = '#14161b',
+}
+
+local lualine_theme = {
+  normal = {
+    a = { bg = colors.black, fg = colors.white, gui = 'bold' },
+    b = { bg = colors.black, fg = colors.white },
+    c = { bg = colors.black, fg = colors.white }
+  },
+  inactive = {
+    a = { bg = colors.inactivegray, fg = colors.white, gui = 'bold' },
+    b = { bg = colors.inactivegray, fg = colors.white },
+    c = { bg = colors.inactivegray, fg = colors.white }
+  }
+}
+
+require('lualine').setup {
+  options = {
+    theme = lualine_theme,
+    icons_enabled = false,
+    component_separators = '',
+    section_separators = '',
+  },
+  sections = {
+    lualine_a = { 'mode' },
+    lualine_b = { 'branch', 'diff', },
+    lualine_c = { { 'filename', path = 1, } },
+    lualine_x = { 'diagnostics' },
+    lualine_y = { 'progress', },
+    lualine_z = { 'location', },
   },
 }
