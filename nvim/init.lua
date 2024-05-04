@@ -23,7 +23,6 @@ require('lazy').setup({
   'tpope/vim-sleuth',
   'tpope/vim-abolish',
 
-  'nvim-lualine/lualine.nvim',
 
   {
     'lewis6991/satellite.nvim',
@@ -41,8 +40,8 @@ require('lazy').setup({
     "CopilotC-Nvim/CopilotChat.nvim",
     branch = "canary",
     dependencies = {
-      { "github/copilot.vim" },    -- or github/copilot.vim
-      { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
+      { "github/copilot.vim" },
+      { "nvim-lua/plenary.nvim" },
     },
     keys = {
 
@@ -68,7 +67,7 @@ require('lazy').setup({
       },
     },
     opts = {
-      debug = true, -- Enable debugging
+      debug = true,
       mappings = {
         accept_diff = {
           normal = "<C-CR>",
@@ -224,6 +223,74 @@ require('lazy').setup({
   },
 
   {
+    'echasnovski/mini.files',
+    version = false,
+    config = function()
+      require('mini.files').setup()
+
+      vim.api.nvim_create_autocmd('User', {
+        pattern = 'MiniFilesWindowOpen',
+        callback = function(args)
+          local win_id = args.data.win_id
+          vim.wo[win_id].winblend = 20
+        end,
+      })
+
+      vim.api.nvim_exec([[
+      highlight MiniFilesNormal guibg=NvimDarkGrey2
+      highlight MiniFilesBorder guibg=NvimDarkGrey2
+      ]], false)
+
+      _G.minifiles_toggle = function(...)
+        if not MiniFiles.close() then MiniFiles.open(...) end
+      end
+
+      vim.keymap.set('n', '<leader>n', ':lua _G.minifiles_toggle(vim.api.nvim_buf_get_name(0))<CR>')
+    end
+  },
+
+  {
+    'nvim-lualine/lualine.nvim',
+    config = function()
+      local colors = {
+        black        = 'NvimDarkGrey3',
+        white        = 'NvimLightGrey2',
+        inactivegray = 'NvimDarkGrey2',
+      }
+
+      local lualine_theme = {
+        normal = {
+          a = { bg = colors.black, fg = colors.white, gui = 'bold' },
+          b = { bg = colors.black, fg = colors.white },
+          c = { bg = colors.black, fg = colors.white }
+        },
+        inactive = {
+          a = { bg = colors.inactivegray, fg = colors.white, gui = 'bold' },
+          b = { bg = colors.inactivegray, fg = colors.white },
+          c = { bg = colors.inactivegray, fg = colors.white }
+        }
+      }
+
+      require('lualine').setup {
+        options = {
+          theme = lualine_theme,
+          icons_enabled = false,
+          component_separators = '',
+          section_separators = '',
+        },
+        sections = {
+          lualine_a = { 'mode' },
+          lualine_b = { 'branch', 'diff', },
+          lualine_c = { { 'filename', path = 1, } },
+          lualine_x = { 'diagnostics' },
+          lualine_y = { 'progress', },
+          lualine_z = { 'location', },
+        },
+      }
+    end
+  },
+
+  {
     "utilyre/barbecue.nvim",
     name = "barbecue",
     version = "*",
@@ -234,31 +301,6 @@ require('lazy').setup({
     opts = {},
   },
 
-  {
-    "nvim-neo-tree/neo-tree.nvim",
-    branch = "v3.x",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-tree/nvim-web-devicons",
-      "MunifTanjim/nui.nvim",
-    },
-    config = function()
-      require("neo-tree").setup({
-        filesystem = {
-          window = {
-            mappings = {
-              -- disable fuzzy finder
-              ["/"] = "none",
-              ["?"] = "none",
-              ["g?"] = "show_help",
-              ["z"] = "none",
-            }
-          }
-        }
-      })
-      vim.keymap.set('n', '<leader>n', ':Neotree toggle reveal<CR>')
-    end,
-  }
 }, {})
 
 -- [[ Setting options ]]
@@ -420,8 +462,8 @@ local on_attach = function(_, bufnr)
     vim.keymap.set('n', keys, func, { buffer = bufnr })
   end
 
-  nmap('<leader>rn', vim.lsp.buf.rename)
-  nmap('<leader>ca', vim.lsp.buf.code_action)
+  nmap('crn', vim.lsp.buf.rename)
+  nmap('crr', vim.lsp.buf.code_action)
 
   nmap('gd', require('telescope.builtin').lsp_definitions)
   nmap('gt', require('telescope.builtin').lsp_type_definitions)
@@ -521,42 +563,5 @@ cmp.setup {
     { name = 'nvim_lsp' },
     { name = 'buffer' },
     { name = 'nvim_lsp_signature_help' },
-  },
-}
-
-local colors = {
-  black        = '#2c2e33',
-  -- black = '#14161b',
-  white        = '#e0e2ea',
-  inactivegray = '#14161b',
-}
-
-local lualine_theme = {
-  normal = {
-    a = { bg = colors.black, fg = colors.white, gui = 'bold' },
-    b = { bg = colors.black, fg = colors.white },
-    c = { bg = colors.black, fg = colors.white }
-  },
-  inactive = {
-    a = { bg = colors.inactivegray, fg = colors.white, gui = 'bold' },
-    b = { bg = colors.inactivegray, fg = colors.white },
-    c = { bg = colors.inactivegray, fg = colors.white }
-  }
-}
-
-require('lualine').setup {
-  options = {
-    theme = lualine_theme,
-    icons_enabled = false,
-    component_separators = '',
-    section_separators = '',
-  },
-  sections = {
-    lualine_a = { 'mode' },
-    lualine_b = { 'branch', 'diff', },
-    lualine_c = { { 'filename', path = 1, } },
-    lualine_x = { 'diagnostics' },
-    lualine_y = { 'progress', },
-    lualine_z = { 'location', },
   },
 }

@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 alias ls='exa'
 alias python="python3"
 alias cdev='npx convex dev --tail-logs'
@@ -8,15 +15,15 @@ function gac() {
     git commit -a -m "$commitMessage"
 }
 
-eval "$(starship init zsh)"
+# eval "$(starship init zsh)"
 
 users() {
-    if [ "$#" -ne 1 ]; then
+    if [ "$#" -lt 1 ]; then
         echo "Usage: users <searchPattern>"
         return 1
     fi
-    local searchPattern="$1"
-    npx convex data users --prod --limit 500 | rg "$searchPattern" | awk -F '|' '{print $1, $4, $8}'
+    local searchPattern="$*"
+    npx convex data users --prod --limit 600 | rg -i "$searchPattern" | awk -F '|' '{print $1, $4, $8}'
 }
 
 decrypt() {
@@ -143,3 +150,8 @@ res_id() {
         end
     '
 }
+
+source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
