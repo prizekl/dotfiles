@@ -16,13 +16,12 @@ vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
 
-  -- My Essentials
+  -- Essentials
   'tpope/vim-surround',
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
   'tpope/vim-sleuth',
   'tpope/vim-abolish',
-
 
   {
     'lewis6991/satellite.nvim',
@@ -88,13 +87,22 @@ require('lazy').setup({
   },
 
   {
-    'numToStr/Comment.nvim',
-    dependencies = { 'JoosepAlviste/nvim-ts-context-commentstring' },
-    config = function()
-      require('Comment').setup {
-        pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook()
-      }
-    end
+    "JoosepAlviste/nvim-ts-context-commentstring",
+    lazy = true,
+    opts = {
+      enable_autocmd = false,
+    },
+    init = function()
+      if vim.fn.has("nvim-0.10") == 1 then
+        vim.schedule(function()
+          local get_option = vim.filetype.get_option
+          vim.filetype.get_option = function(filetype, option)
+            return option == "commentstring" and require("ts_context_commentstring.internal").calculate_commentstring()
+              or get_option(filetype, option)
+          end
+        end)
+      end
+    end,
   },
 
   {
@@ -397,7 +405,15 @@ vim.keymap.set('n', '<leader>re', require('telescope.builtin').resume)
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = { 'go', 'lua', 'python', 'tsx', 'javascript', 'typescript' },
+  ensure_installed = {
+    'go',
+    'lua',
+    'python',
+    'tsx',
+    'javascript',
+    'typescript',
+    'html',
+  },
   -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
   auto_install = true,
   modules = {},
