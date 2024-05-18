@@ -30,8 +30,14 @@ require('lazy').setup({
       handlers = {
         marks = {
           enable = false
-        }
-      }
+        },
+        cursor = {
+          enable = false
+        },
+        search = {
+          enable = false
+        },
+      },
     }
   },
 
@@ -67,6 +73,10 @@ require('lazy').setup({
       },
     },
     opts = {
+      window = {
+        layout = 'float',
+        zindex = 50,
+      },
       debug = true,
       mappings = {
         accept_diff = {
@@ -203,7 +213,6 @@ require('lazy').setup({
     branch = '0.1.x',
     dependencies = {
       'nvim-lua/plenary.nvim',
-      'radyz/telescope-gitsigns',
       {
         'nvim-telescope/telescope-fzf-native.nvim',
         build = 'make',
@@ -242,7 +251,10 @@ require('lazy').setup({
       ]], false)
 
       _G.minifiles_toggle = function(...)
-        if not MiniFiles.close() then MiniFiles.open(...) end
+        if not MiniFiles.close() then
+          MiniFiles.open(...)
+          MiniFiles.reveal_cwd()
+        end
       end
 
       vim.keymap.set('n', '<leader>n', ':lua _G.minifiles_toggle(vim.api.nvim_buf_get_name(0))<CR>')
@@ -343,12 +355,12 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- [[Telescope Settings]]
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
-pcall(require('telescope').load_extension, 'gitsigns')
 local actions = require "telescope.actions"
 require('telescope').setup {
   defaults = {
     path_display = { "smart" },
     layout_strategy = "vertical",
+    borderchars = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
   },
   pickers = {
     find_files = {
@@ -376,7 +388,6 @@ vim.keymap.set('n', '<C-f>', require('telescope.builtin').buffers)
 vim.keymap.set('n', '<C-p>', require('telescope.builtin').find_files)
 vim.keymap.set('n', '<leader>gf', require('telescope.builtin').git_status)
 vim.keymap.set('n', '<leader>gc', require('telescope.builtin').git_bcommits)
-vim.keymap.set('n', '<leader>gh', ':Telescope git_signs<CR>')
 vim.keymap.set('n', '<leader>gs', require('telescope.builtin').grep_string)
 vim.keymap.set('n', '<leader>lg', require('telescope.builtin').live_grep)
 vim.keymap.set('n', '<leader>d', require('telescope.builtin').diagnostics)
@@ -393,7 +404,7 @@ require('nvim-treesitter.configs').setup {
   ignore_install = {},
   sync_install = false,
   highlight = { enable = true },
-  indent = { enable = true },
+  indent = { enable = false },
   incremental_selection = {
     enable = true,
     keymaps = {
