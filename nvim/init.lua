@@ -87,22 +87,9 @@ require('lazy').setup({
   },
 
   {
-    "JoosepAlviste/nvim-ts-context-commentstring",
-    lazy = true,
-    opts = {
-      enable_autocmd = false,
-    },
-    init = function()
-      if vim.fn.has("nvim-0.10") == 1 then
-        vim.schedule(function()
-          local get_option = vim.filetype.get_option
-          vim.filetype.get_option = function(filetype, option)
-            return option == "commentstring" and require("ts_context_commentstring.internal").calculate_commentstring()
-              or get_option(filetype, option)
-          end
-        end)
-      end
-    end,
+    "folke/ts-comments.nvim",
+    opts = {},
+    event = "VeryLazy",
   },
 
   {
@@ -249,7 +236,7 @@ require('lazy').setup({
         pattern = 'MiniFilesWindowOpen',
         callback = function(args)
           local win_id = args.data.win_id
-          vim.wo[win_id].winblend = 20
+          vim.wo[win_id].winblend = 10
         end,
       })
 
