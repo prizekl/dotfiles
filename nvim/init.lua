@@ -219,6 +219,11 @@ require('lazy').setup({
   },
 
   {
+    'windwp/nvim-ts-autotag',
+    opts = {}
+  },
+
+  {
     'nvim-treesitter/nvim-treesitter',
     dependencies = {
       'nvim-treesitter/nvim-treesitter-textobjects',
@@ -324,6 +329,7 @@ vim.o.completeopt = 'menuone,noselect'
 vim.o.termguicolors = true
 vim.o.undofile = true
 vim.o.showmode = false
+vim.api.nvim_command("packadd cFilter")
 
 -- default tabs/spaces
 vim.o.expandtab = true
@@ -333,7 +339,6 @@ vim.o.tabstop = 4
 -- [[ Basic Keymaps ]]
 -- Keymaps for better default experience
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
--- Remap for dealing with word wrap
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
@@ -407,7 +412,7 @@ require('nvim-treesitter.configs').setup {
   ignore_install = {},
   sync_install = false,
   highlight = { enable = true },
-  indent = { enable = false },
+  indent = { enable = true },
   incremental_selection = {
     enable = true,
     keymaps = {

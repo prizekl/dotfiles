@@ -23,7 +23,7 @@ users() {
         return 1
     fi
     local searchPattern="$*"
-    npx convex data users --prod --limit 600 | rg -i "$searchPattern" | awk -F '|' '{print $1, $4, $8}'
+    npx convex data users --prod --limit 1000 | rg -i "$searchPattern" | awk -F '|' '{print $1, $5, $7}'
 }
 
 decrypt() {
