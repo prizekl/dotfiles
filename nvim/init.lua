@@ -19,6 +19,8 @@ require('lazy').setup({
   -- Essentials
   'tpope/vim-surround',
   'tpope/vim-fugitive',
+  -- NEW TEST DIFF VIEW AND GIT
+  "sindrets/diffview.nvim",
   'tpope/vim-rhubarb',
   'tpope/vim-sleuth',
   'tpope/vim-abolish',
@@ -216,6 +218,46 @@ require('lazy').setup({
         end,
       },
     },
+    config = function()
+      pcall(require('telescope').load_extension, 'fzf')
+      local actions = require "telescope.actions"
+      require('telescope').setup {
+        defaults = {
+          path_display = { "smart" },
+          layout_strategy = "vertical",
+          borderchars = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
+        },
+        pickers = {
+          find_files = {
+            hidden = true,
+          },
+          buffers = {
+            sort_lastused = true,
+            sort_mru = true,
+            mappings = {
+              i = {
+                ["<c-d>"] = actions.delete_buffer
+              }
+            },
+          },
+        }
+      }
+
+      vim.keymap.set('n', '<leader>/', function()
+        require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
+          winblend = 10,
+          previewer = false,
+        })
+      end)
+      vim.keymap.set('n', '<C-f>', require('telescope.builtin').buffers)
+      vim.keymap.set('n', '<C-p>', require('telescope.builtin').find_files)
+      vim.keymap.set('n', '<leader>gf', require('telescope.builtin').git_status)
+      vim.keymap.set('n', '<leader>gc', require('telescope.builtin').git_bcommits)
+      vim.keymap.set('n', '<leader>gs', require('telescope.builtin').grep_string)
+      vim.keymap.set('n', '<leader>lg', require('telescope.builtin').live_grep)
+      vim.keymap.set('n', '<leader>d', require('telescope.builtin').diagnostics)
+      vim.keymap.set('n', '<leader>re', require('telescope.builtin').resume)
+    end
   },
 
   {
@@ -229,6 +271,79 @@ require('lazy').setup({
       'nvim-treesitter/nvim-treesitter-textobjects',
     },
     build = ':TSUpdate',
+    config = function()
+      require('nvim-treesitter.configs').setup {
+        ensure_installed = {
+          'go',
+          'lua',
+          'python',
+          'tsx',
+          'javascript',
+          'typescript',
+          'html',
+        },
+        -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
+        auto_install = true,
+        modules = {},
+        ignore_install = {},
+        sync_install = false,
+        highlight = { enable = true },
+        indent = { enable = true },
+        incremental_selection = {
+          enable = true,
+          keymaps = {
+            init_selection = '<c-space>',
+            node_incremental = '<c-space>',
+            scope_incremental = '<c-s>',
+            node_decremental = '<M-space>',
+          },
+        },
+        textobjects = {
+          select = {
+            enable = true,
+            lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
+            keymaps = {
+              -- You can use the capture groups defined in textobjects.scm
+              ['aa'] = '@parameter.outer',
+              ['ia'] = '@parameter.inner',
+              ['af'] = '@function.outer',
+              ['if'] = '@function.inner',
+              ['ac'] = '@class.outer',
+              ['ic'] = '@class.inner',
+            },
+          },
+          move = {
+            enable = true,
+            set_jumps = true, -- whether to set jumps in the jumplist
+            goto_next_start = {
+              [']m'] = '@function.outer',
+              [']]'] = '@class.outer',
+            },
+            goto_next_end = {
+              [']M'] = '@function.outer',
+              [']['] = '@class.outer',
+            },
+            goto_previous_start = {
+              ['[m'] = '@function.outer',
+              ['[['] = '@class.outer',
+            },
+            goto_previous_end = {
+              ['[M'] = '@function.outer',
+              ['[]'] = '@class.outer',
+            },
+          },
+          swap = {
+            enable = true,
+            swap_next = {
+              ['<leader>a'] = '@parameter.inner',
+            },
+            swap_previous = {
+              ['<leader>A'] = '@parameter.inner',
+            },
+          },
+        },
+      }
+    end
   },
 
   {
@@ -352,121 +467,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
--- [[Telescope Settings]]
--- Enable telescope fzf native, if installed
-pcall(require('telescope').load_extension, 'fzf')
-local actions = require "telescope.actions"
-require('telescope').setup {
-  defaults = {
-    path_display = { "smart" },
-    layout_strategy = "vertical",
-    borderchars = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
-  },
-  pickers = {
-    find_files = {
-      hidden = true,
-    },
-    buffers = {
-      sort_lastused = true,
-      sort_mru = true,
-      mappings = {
-        i = {
-          ["<c-d>"] = actions.delete_buffer
-        }
-      },
-    },
-  }
-}
-
-vim.keymap.set('n', '<leader>/', function()
-  require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-    winblend = 10,
-    previewer = false,
-  })
-end)
-vim.keymap.set('n', '<C-f>', require('telescope.builtin').buffers)
-vim.keymap.set('n', '<C-p>', require('telescope.builtin').find_files)
-vim.keymap.set('n', '<leader>gf', require('telescope.builtin').git_status)
-vim.keymap.set('n', '<leader>gc', require('telescope.builtin').git_bcommits)
-vim.keymap.set('n', '<leader>gs', require('telescope.builtin').grep_string)
-vim.keymap.set('n', '<leader>lg', require('telescope.builtin').live_grep)
-vim.keymap.set('n', '<leader>d', require('telescope.builtin').diagnostics)
-vim.keymap.set('n', '<leader>re', require('telescope.builtin').resume)
-
--- [[ Configure Treesitter ]]
--- See `:help nvim-treesitter`
-require('nvim-treesitter.configs').setup {
-  -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = {
-    'go',
-    'lua',
-    'python',
-    'tsx',
-    'javascript',
-    'typescript',
-    'html',
-  },
-  -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
-  auto_install = true,
-  modules = {},
-  ignore_install = {},
-  sync_install = false,
-  highlight = { enable = true },
-  indent = { enable = true },
-  incremental_selection = {
-    enable = true,
-    keymaps = {
-      init_selection = '<c-space>',
-      node_incremental = '<c-space>',
-      scope_incremental = '<c-s>',
-      node_decremental = '<M-space>',
-    },
-  },
-  textobjects = {
-    select = {
-      enable = true,
-      lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
-      keymaps = {
-        -- You can use the capture groups defined in textobjects.scm
-        ['aa'] = '@parameter.outer',
-        ['ia'] = '@parameter.inner',
-        ['af'] = '@function.outer',
-        ['if'] = '@function.inner',
-        ['ac'] = '@class.outer',
-        ['ic'] = '@class.inner',
-      },
-    },
-    move = {
-      enable = true,
-      set_jumps = true, -- whether to set jumps in the jumplist
-      goto_next_start = {
-        [']m'] = '@function.outer',
-        [']]'] = '@class.outer',
-      },
-      goto_next_end = {
-        [']M'] = '@function.outer',
-        [']['] = '@class.outer',
-      },
-      goto_previous_start = {
-        ['[m'] = '@function.outer',
-        ['[['] = '@class.outer',
-      },
-      goto_previous_end = {
-        ['[M'] = '@function.outer',
-        ['[]'] = '@class.outer',
-      },
-    },
-    swap = {
-      enable = true,
-      swap_next = {
-        ['<leader>a'] = '@parameter.inner',
-      },
-      swap_previous = {
-        ['<leader>A'] = '@parameter.inner',
-      },
-    },
-  },
-}
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
@@ -475,7 +475,6 @@ vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
 
 -- [[ Configure LSP ]]
---  This function gets run when an LSP connects to a particular buffer.
 local on_attach = function(_, bufnr)
   local nmap = function(keys, func)
     vim.keymap.set('n', keys, func, { buffer = bufnr })

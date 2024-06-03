@@ -85,25 +85,25 @@ convo_id() {
 
 convo_search() {
     if [ "$#" -lt 1 ]; then
-        echo "Usage: convo <userId> <searchPattern...>"
+        echo "Usage: convo <workspaceId> <searchPattern...>"
         return 1
     fi
 
-    local userId="$1"
+    local workspaceId="$1"
     shift # Remove the first argument, so only search patterns remain
 
     # Concatenate all remaining arguments as the search pattern
     local searchPattern="$*"
 
-    # Construct the JSON payload including the userId and searchString
+    # Construct the JSON payload including the workspaceId and searchString
     local jsonPayload=$(jq -n \
-                        --arg userId "$userId" \
+                        --arg workspaceId "$workspaceId" \
                         --arg searchString "$searchPattern" \
-                        '{userId: $userId, searchString: $searchString}')
+                        '{workspaceId: $workspaceId, searchString: $searchString}')
 
     # Fetch the data
-    echo "Fetching data for user ID: $userId with search pattern: $searchPattern"
-    npx convex run conversations:_getByUserIdSearch "$jsonPayload" --prod | \
+    echo "Fetching data for workspace ID: $workspaceId with search pattern: $searchPattern"
+    npx convex run conversations:_getByWorkspaceIdSearch "$jsonPayload" --prod | \
     jq --stream --arg pattern "$searchPattern" '
         fromstream(1|truncate_stream(inputs)) | 
         select(
