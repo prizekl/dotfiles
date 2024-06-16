@@ -19,11 +19,18 @@ function gac() {
 
 users() {
     if [ "$#" -lt 1 ]; then
-        echo "Usage: users <searchPattern>"
+        echo "Usage: users <searchPattern...>"
         return 1
     fi
-    local searchPattern="$*"
-    npx convex data users --prod --limit 1000 | rg -i "$searchPattern" | awk -F '|' '{print $1, $5, $7}'
+    # Concatenate all remaining arguments as the search pattern
+    local searchPattern="$1"
+    # Construct the JSON payload including the userId and searchString
+    local jsonPayload=$(jq -n \
+                        --arg searchString "$searchPattern" \
+                        '{searchString: $searchString}')
+    # Fetch the data
+    echo "Searching for workspaces with search pattern: $searchPattern"
+    npx convex run workspaces/members:_getUserWorkspaceInformation "$jsonPayload" --prod
 }
 
 decrypt() {

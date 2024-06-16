@@ -226,6 +226,16 @@ require('lazy').setup({
           path_display = { "smart" },
           layout_strategy = "vertical",
           borderchars = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
+          vimgrep_arguments = {
+            "rg",
+            "-U", -- Multi-line search
+            "--color=never",
+            "--no-heading",
+            "--with-filename",
+            "--line-number",
+            "--column",
+            "--smart-case"
+          }
         },
         pickers = {
           find_files = {
@@ -408,6 +418,12 @@ require('lazy').setup({
         sections = {
           lualine_a = { 'mode' },
           lualine_b = { 'branch', 'diff', },
+          lualine_c = { { 'filename', path = 1, } },
+          lualine_x = { 'diagnostics' },
+          lualine_y = { 'progress', },
+          lualine_z = { 'location', },
+        },
+        inactive_sections = {
           lualine_c = { { 'filename', path = 1, } },
           lualine_x = { 'diagnostics' },
           lualine_y = { 'progress', },
