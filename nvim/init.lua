@@ -42,50 +42,11 @@ require('lazy').setup({
     }
   },
 
-  'github/copilot.vim',
   {
-    "CopilotC-Nvim/CopilotChat.nvim",
-    branch = "canary",
-    dependencies = {
-      { "github/copilot.vim" },
-      { "nvim-lua/plenary.nvim" },
-    },
-    keys = {
-
-      {
-        "<leader>cp",
-        function()
-          local input = vim.fn.input("Prompt selection: ")
-          if input ~= "" then
-            require("CopilotChat").ask(input, { selection = require("CopilotChat.select").visual })
-          end
-        end,
-        mode = { 'v', 'x' }
-      },
-      {
-        "<leader>cp",
-        function()
-          local input = vim.fn.input("Prompt buffer: ")
-          if input ~= "" then
-            require("CopilotChat").ask(input, { selection = require("CopilotChat.select").buffer })
-          end
-        end,
-        mode = { 'n' }
-      },
-    },
-    opts = {
-      window = {
-        layout = 'float',
-        zindex = 50,
-      },
-      debug = true,
-      mappings = {
-        accept_diff = {
-          normal = "<C-CR>",
-          insert = "<C-CR>"
-        }
-      }
-    },
+    "supermaven-inc/supermaven-nvim",
+    config = function()
+      require("supermaven-nvim").setup({})
+    end,
   },
 
   {
@@ -96,23 +57,19 @@ require('lazy').setup({
 
   {
     'Wansmer/treesj',
-    keys = { '<space>j', '<space>s' },
+    keys = { '<leader>m' },
     dependencies = { 'nvim-treesitter/nvim-treesitter' },
     config = function()
-      require('treesj').setup({ --[[ your config ]] })
+      require('treesj').setup({})
     end,
   },
 
   {
-    -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',
     dependencies = {
-      -- Automatically install LSPs to stdpath for neovim
       { 'williamboman/mason.nvim', config = true },
       'williamboman/mason-lspconfig.nvim',
-      -- Useful status updates for LSP
       { 'j-hui/fidget.nvim',       opts = {} },
-      -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
     },
   },
@@ -120,6 +77,15 @@ require('lazy').setup({
   {
     -- Formatter
     'stevearc/conform.nvim',
+    keys = {
+      {
+        '<leader>f',
+        function()
+          require('conform').format { async = true, lsp_fallback = true }
+        end,
+        mode = '',
+      },
+    },
     config = function()
       require('conform').setup {
         formatters_by_ft = {
@@ -136,11 +102,8 @@ require('lazy').setup({
     -- Autocompletion
     'hrsh7th/nvim-cmp',
     dependencies = {
-      'L3MON4D3/LuaSnip',
-      'saadparwaiz1/cmp_luasnip',
       'hrsh7th/cmp-nvim-lsp-signature-help',
       'hrsh7th/cmp-nvim-lsp',
-      'rafamadriz/friendly-snippets',
       'hrsh7th/cmp-buffer',
     },
   },
@@ -163,30 +126,32 @@ require('lazy').setup({
     'lewis6991/gitsigns.nvim',
     opts = {
       on_attach = function(bufnr)
-        vim.keymap.set('n', '<leader>hp', require('gitsigns').preview_hunk, { buffer = bufnr })
+        local gitsigns = require('gitsigns')
 
-        vim.keymap.set('n', '<leader>hs', require('gitsigns').stage_hunk, { buffer = bufnr })
-        vim.keymap.set('n', '<leader>hr', require('gitsigns').reset_hunk, { buffer = bufnr })
-        vim.keymap.set('v', '<leader>hs',
-          function() require('gitsigns').stage_hunk { vim.fn.line('.'), vim.fn.line('v') } end,
-          { buffer = bufnr })
-        vim.keymap.set('v', '<leader>hr',
-          function() require('gitsigns').reset_hunk { vim.fn.line('.'), vim.fn.line('v') } end,
-          { buffer = bufnr })
-        vim.keymap.set('n', '<leader>hu', require('gitsigns').undo_stage_hunk, { buffer = bufnr })
-
-        -- don't override the built-in and fugitive keymaps
-        local gs = package.loaded.gitsigns
         vim.keymap.set({ 'n', 'v' }, ']c', function()
           if vim.wo.diff then return ']c' end
-          vim.schedule(function() gs.next_hunk() end)
+          vim.schedule(function() gitsigns.next_hunk() end)
           return '<Ignore>'
         end, { expr = true, buffer = bufnr })
         vim.keymap.set({ 'n', 'v' }, '[c', function()
           if vim.wo.diff then return '[c' end
-          vim.schedule(function() gs.prev_hunk() end)
+          vim.schedule(function() gitsigns.prev_hunk() end)
           return '<Ignore>'
         end, { expr = true, buffer = bufnr })
+
+        vim.keymap.set('n', '<leader>hp', gitsigns.preview_hunk, { buffer = bufnr })
+        vim.keymap.set('n', '<leader>hs', gitsigns.stage_hunk, { buffer = bufnr })
+        vim.keymap.set('n', '<leader>hr', gitsigns.reset_hunk, { buffer = bufnr })
+        vim.keymap.set('v', '<leader>hs',
+          function() gitsigns.stage_hunk { vim.fn.line('.'), vim.fn.line('v') } end,
+          { buffer = bufnr })
+        vim.keymap.set('v', '<leader>hr',
+          function() gitsigns.reset_hunk { vim.fn.line('.'), vim.fn.line('v') } end,
+          { buffer = bufnr })
+        vim.keymap.set('n', '<leader>hu', gitsigns.undo_stage_hunk, { buffer = bufnr })
+
+        -- Text object
+        vim.keymap.set({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
       end,
     },
   },
@@ -301,12 +266,12 @@ require('lazy').setup({
         indent = { enable = true },
         incremental_selection = {
           enable = true,
-          keymaps = {
-            init_selection = '<c-space>',
-            node_incremental = '<c-space>',
-            scope_incremental = '<c-s>',
-            node_decremental = '<M-space>',
-          },
+          -- keymaps = {
+          --   init_selection = "<leader>si",
+          --   node_incremental = "<leader>si",
+          --   scope_incremental = "<leader>sc",
+          --   node_decremental = "<leader>sd",
+          -- },
         },
         textobjects = {
           select = {
@@ -472,6 +437,7 @@ vim.o.tabstop = 4
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+vim.keymap.set('n', '<C-space>', '<C-^>', { silent = true })
 
 -- [[ Highlight on yank ]]
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
@@ -518,20 +484,6 @@ local on_attach = function(_, bufnr)
   end)
 end
 
-vim.api.nvim_create_user_command("Format", function(args)
-  local range = nil
-  if args.count ~= -1 then
-    local end_line = vim.api.nvim_buf_get_lines(0, args.line2 - 1, args.line2, true)[1]
-    range = {
-      start = { args.line1, 0 },
-      ["end"] = { args.line2, end_line:len() },
-    }
-  end
-  require("conform").format({ async = true, lsp_fallback = true, range = range })
-end, { range = true })
-
-vim.api.nvim_set_keymap('n', '<leader>f', ':Format<CR>', { noremap = true, silent = true })
-
 -- Enable the following language servers
 local servers = {
   tsserver = {},
@@ -570,17 +522,8 @@ mason_lspconfig.setup_handlers {
 -- [[ Configure nvim-cmp ]]
 -- See `:help cmp`
 local cmp = require 'cmp'
-local luasnip = require 'luasnip'
-require('luasnip.loaders.from_vscode').lazy_load()
-luasnip.config.setup {}
-
 cmp.setup {
   preselect = cmp.PreselectMode.None,
-  snippet = {
-    expand = function(args)
-      luasnip.lsp_expand(args.body)
-    end,
-  },
   mapping = cmp.mapping.preset.insert {
     ['<C-n>'] = cmp.mapping.select_next_item(),
     ['<C-p>'] = cmp.mapping.select_prev_item(),
@@ -593,7 +536,6 @@ cmp.setup {
     },
   },
   sources = {
-    { name = 'luasnip' },
     { name = 'nvim_lsp' },
     { name = 'buffer' },
     { name = 'nvim_lsp_signature_help' },

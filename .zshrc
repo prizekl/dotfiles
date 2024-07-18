@@ -162,3 +162,33 @@ source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+moment() {
+    local input_date=$1
+    local output_format="+%Y-%m-%d %H:%M:%S"
+
+    # Detect and convert various date formats
+    if echo "$input_date" | grep -qE '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'; then
+        # Format: YYYY-MM-DD
+        date -j -f "%Y-%m-%d" "$input_date" "$output_format"
+    elif echo "$input_date" | grep -qE '^[0-9]{2}/[0-9]{2}/[0-9]{4}$'; then
+        # Format: MM/DD/YYYY
+        date -j -f "%m/%d/%Y" "$input_date" "$output_format"
+    elif echo "$input_date" | grep -qE '^[0-9]{4}/[0-9]{2}/[0-9]{2}$'; then
+        # Format: YYYY/MM/DD
+        date -j -f "%Y/%m/%d" "$input_date" "$output_format"
+    elif echo "$input_date" | grep -qE '^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}$'; then
+        # Format: YYYY-MM-DD HH:MM:SS
+        date -j -f "%Y-%m-%d %H:%M:%S" "$input_date" "$output_format"
+    elif echo "$input_date" | grep -qE '^[0-9]{13}$'; then
+        # Format: Unix timestamp in milliseconds
+        date -r $(($input_date / 1000)) "$output_format"
+    elif echo "$input_date" | grep -qE '^[0-9]{10}$'; then
+        # Format: Unix timestamp in seconds
+        date -r "$input_date" "$output_format"
+    else
+        echo "Unknown date format"
+    fi
+}
+eval 
+TWILIO_AC_ZSH_SETUP_PATH=/Users/prizel/.twilio-cli/autocomplete/zsh_setup && test -f $TWILIO_AC_ZSH_SETUP_PATH && source $TWILIO_AC_ZSH_SETUP_PATH; # twilio autocomplete setup
