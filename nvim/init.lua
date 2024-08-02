@@ -12,19 +12,15 @@ if not vim.loop.fs_stat(lazypath) then
     lazypath,
   }
 end
+
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
 
   -- Essentials
   'tpope/vim-surround',
-  'tpope/vim-fugitive',
-  -- NEW TEST DIFF VIEW AND GIT
-  "sindrets/diffview.nvim",
-  'tpope/vim-rhubarb',
   'tpope/vim-sleuth',
   'tpope/vim-abolish',
-
   {
     'lewis6991/satellite.nvim',
     opts = {
@@ -64,62 +60,18 @@ require('lazy').setup({
     end,
   },
 
+  -- Git
   {
-    'neovim/nvim-lspconfig',
-    dependencies = {
-      { 'williamboman/mason.nvim', config = true },
-      'williamboman/mason-lspconfig.nvim',
-      { 'j-hui/fidget.nvim',       opts = {} },
-      'folke/neodev.nvim',
-    },
-  },
-
-  {
-    -- Formatter
-    'stevearc/conform.nvim',
-    keys = {
-      {
-        '<leader>f',
-        function()
-          require('conform').format { async = true, lsp_fallback = true }
-        end,
-        mode = '',
-      },
-    },
+    "sindrets/diffview.nvim",
     config = function()
-      require('conform').setup {
-        formatters_by_ft = {
-          lua = { "stylua" },
-          python = { "isort", "black" },
-          typescript = { { 'prettierd', "prettier" } },
-          typescriptreact = { { 'prettierd', "prettier" } },
-        },
-      }
-    end,
-  },
-
-  {
-    -- Autocompletion
-    'hrsh7th/nvim-cmp',
-    dependencies = {
-      'hrsh7th/cmp-nvim-lsp-signature-help',
-      'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/cmp-buffer',
-    },
-  },
-  {
-    "windwp/nvim-autopairs",
-    dependencies = { 'hrsh7th/nvim-cmp' },
-    config = function()
-      require("nvim-autopairs").setup {}
-      -- If you want to automatically add `(` after selecting a function or method
-      local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-      local cmp = require('cmp')
-      cmp.event:on(
-        'confirm_done',
-        cmp_autopairs.on_confirm_done()
-      )
-    end,
+      require("diffview").setup({
+        view = {
+          merge_tool = {
+            layout = "diff1_plain"
+          }
+        }
+      })
+    end
   },
 
   {
@@ -156,6 +108,65 @@ require('lazy').setup({
     },
   },
 
+
+  {
+    'neovim/nvim-lspconfig',
+    dependencies = {
+      { 'williamboman/mason.nvim', config = true },
+      'williamboman/mason-lspconfig.nvim',
+      { 'j-hui/fidget.nvim',       opts = {} },
+      'folke/neodev.nvim',
+    },
+  },
+
+  {
+    -- Formatter
+    'stevearc/conform.nvim',
+    keys = {
+      {
+        '<leader>f',
+        function()
+          require('conform').format { async = true, lsp_fallback = true }
+        end,
+        mode = '',
+      },
+    },
+    config = function()
+      require('conform').setup {
+        formatters_by_ft = {
+          lua = { "stylua" },
+          python = { "isort", "black" },
+          typescript = { 'prettierd', "prettier", stop_after_first = true },
+          typescriptreact = { 'prettierd', "prettier", stop_after_first = true },
+        },
+      }
+    end,
+  },
+
+  {
+    -- Autocompletion
+    'hrsh7th/nvim-cmp',
+    dependencies = {
+      'hrsh7th/cmp-nvim-lsp-signature-help',
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-buffer',
+    },
+  },
+  {
+    "windwp/nvim-autopairs",
+    dependencies = { 'hrsh7th/nvim-cmp' },
+    config = function()
+      require("nvim-autopairs").setup {}
+      -- If you want to automatically add `(` after selecting a function or method
+      local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+      local cmp = require('cmp')
+      cmp.event:on(
+        'confirm_done',
+        cmp_autopairs.on_confirm_done()
+      )
+    end,
+  },
+
   {
     'lukas-reineke/indent-blankline.nvim',
     main = "ibl",
@@ -188,7 +199,7 @@ require('lazy').setup({
       local actions = require "telescope.actions"
       require('telescope').setup {
         defaults = {
-          path_display = { "smart" },
+          path_display = { "truncate" },
           layout_strategy = "vertical",
           borderchars = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
           vimgrep_arguments = {
@@ -322,6 +333,26 @@ require('lazy').setup({
   },
 
   {
+    'stevearc/oil.nvim',
+    config = function()
+      require('oil').setup(
+        {
+          float = {
+            winblend = 0,
+            border = 'single'
+          }
+        }
+      )
+
+      vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'NvimDarkGrey2' })
+      vim.keymap.set('n', '<leader>n', ':Oil --float<CR>')
+    end
+    -- Optional dependencies
+    -- dependencies = { { "echasnovski/mini.icons", opts = {} } },
+    -- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
+  },
+
+  {
     'echasnovski/mini.files',
     version = false,
     config = function()
@@ -347,7 +378,7 @@ require('lazy').setup({
         end
       end
 
-      vim.keymap.set('n', '<leader>n', ':lua _G.minifiles_toggle(vim.api.nvim_buf_get_name(0))<CR>')
+      vim.keymap.set('n', '<leader>p', ':lua _G.minifiles_toggle(vim.api.nvim_buf_get_name(0))<CR>')
     end
   },
 
