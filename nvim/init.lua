@@ -168,20 +168,6 @@ require('lazy').setup({
   },
 
   {
-    'lukas-reineke/indent-blankline.nvim',
-    main = "ibl",
-    opts = {
-      indent = { char = "▏" },
-      whitespace = {
-        remove_blankline_trail = true,
-      },
-      scope = {
-        enabled = false,
-      }
-    },
-  },
-
-  {
     'nvim-telescope/telescope.nvim',
     branch = '0.1.x',
     dependencies = {
@@ -468,7 +454,6 @@ vim.o.tabstop = 4
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
-vim.keymap.set('n', '<C-space>', '<C-^>', { silent = true })
 
 -- [[ Highlight on yank ]]
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
