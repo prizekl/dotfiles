@@ -322,38 +322,10 @@ require('lazy').setup({
   },
 
   {
-    'stevearc/oil.nvim',
-    config = function()
-      require('oil').setup(
-        {
-          float = {
-            winblend = 0,
-            border = 'single'
-          }
-        }
-      )
-
-      vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'NvimDarkGrey2' })
-      vim.keymap.set('n', '<leader>n', ':Oil --float<CR>')
-    end
-    -- Optional dependencies
-    -- dependencies = { { "echasnovski/mini.icons", opts = {} } },
-    -- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
-  },
-
-  {
     'echasnovski/mini.files',
     version = false,
     config = function()
       require('mini.files').setup()
-
-      vim.api.nvim_create_autocmd('User', {
-        pattern = 'MiniFilesWindowOpen',
-        callback = function(args)
-          local win_id = args.data.win_id
-          vim.wo[win_id].winblend = 10
-        end,
-      })
 
       vim.api.nvim_exec([[
       highlight MiniFilesNormal guibg=NvimDarkGrey2
@@ -367,29 +339,23 @@ require('lazy').setup({
         end
       end
 
-      vim.keymap.set('n', '<leader>p', ':lua _G.minifiles_toggle(vim.api.nvim_buf_get_name(0))<CR>')
+      vim.keymap.set('n', '<leader>n', ':lua _G.minifiles_toggle(vim.api.nvim_buf_get_name(0))<CR>')
     end
   },
 
   {
     'nvim-lualine/lualine.nvim',
     config = function()
-      local colors = {
-        black        = 'NvimDarkGrey3',
-        white        = 'NvimLightGrey2',
-        inactivegray = 'NvimDarkGrey2',
-      }
-
       local lualine_theme = {
         normal = {
-          a = { bg = colors.black, fg = colors.white, gui = 'bold' },
-          b = { bg = colors.black, fg = colors.white },
-          c = { bg = colors.black, fg = colors.white }
+          a = { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey2', gui = 'bold' },
+          b = { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey2' },
+          c = { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey2' }
         },
         inactive = {
-          a = { bg = colors.inactivegray, fg = colors.white, gui = 'bold' },
-          b = { bg = colors.inactivegray, fg = colors.white },
-          c = { bg = colors.inactivegray, fg = colors.white }
+          a = { bg = 'NvimDarkGrey2', fg = 'NvimLightGrey2', gui = 'bold' },
+          b = { bg = 'NvimDarkGrey2', fg = 'NvimLightGrey2' },
+          c = { bg = 'NvimDarkGrey2', fg = 'NvimLightGrey2' }
         }
       }
 
