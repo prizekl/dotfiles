@@ -23,7 +23,6 @@ require('lazy').setup({
   -- Essentials
   'tpope/vim-surround',
   'tpope/vim-sleuth',
-  'tpope/vim-abolish',
   {
     'lewis6991/satellite.nvim',
     opts = {
@@ -56,10 +55,12 @@ require('lazy').setup({
 
   {
     'Wansmer/treesj',
-    keys = { '<leader>m' },
     dependencies = { 'nvim-treesitter/nvim-treesitter' },
     config = function()
-      require('treesj').setup({})
+      require('treesj').setup({
+        use_default_keymaps = false,
+      })
+      vim.keymap.set('n', '<leader>m', ':TSJToggle<CR>')
     end,
   },
 
@@ -326,11 +327,6 @@ require('lazy').setup({
     version = false,
     config = function()
       require('mini.files').setup()
-
-      vim.api.nvim_exec([[
-      highlight MiniFilesNormal guibg=NvimDarkGrey2
-      highlight MiniFilesBorder guibg=NvimDarkGrey2
-      ]], false)
 
       _G.minifiles_toggle = function(...)
         if not MiniFiles.close() then
