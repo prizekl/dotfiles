@@ -208,7 +208,9 @@ require('lazy').setup({
             hidden = true,
           },
           buffers = {
-            sort_lastused = true,
+            -- testing this out
+            ignore_current_buffer = true,
+            -- sort_lastused = true,
             sort_mru = true,
             mappings = {
               i = {
