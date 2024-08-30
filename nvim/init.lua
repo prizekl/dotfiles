@@ -17,7 +17,7 @@ vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
   {
-    "quentingruber/timespent.nvim"
+    'quentingruber/timespent.nvim',
   },
 
   -- Essentials
@@ -28,82 +28,90 @@ require('lazy').setup({
     opts = {
       handlers = {
         marks = {
-          enable = false
+          enable = false,
         },
         cursor = {
-          enable = false
+          enable = false,
         },
         search = {
-          enable = false
+          enable = false,
         },
       },
-    }
+    },
   },
 
   {
-    "supermaven-inc/supermaven-nvim",
+    'supermaven-inc/supermaven-nvim',
     config = function()
-      require("supermaven-nvim").setup({})
+      require('supermaven-nvim').setup {}
     end,
   },
 
   {
-    "folke/ts-comments.nvim",
+    'folke/ts-comments.nvim',
     opts = {},
-    event = "VeryLazy",
+    event = 'VeryLazy',
   },
 
   {
     'Wansmer/treesj',
     dependencies = { 'nvim-treesitter/nvim-treesitter' },
     config = function()
-      require('treesj').setup({
+      require('treesj').setup {
         use_default_keymaps = false,
-      })
+      }
       vim.keymap.set('n', '<leader>m', ':TSJToggle<CR>')
     end,
   },
 
   -- Git
   {
-    "sindrets/diffview.nvim",
+    'sindrets/diffview.nvim',
     config = function()
-      require("diffview").setup({
+      require('diffview').setup {
         view = {
           merge_tool = {
-            layout = "diff1_plain"
-          }
-        }
-      })
-    end
+            layout = 'diff1_plain',
+          },
+        },
+      }
+    end,
   },
 
   {
     'lewis6991/gitsigns.nvim',
     opts = {
       on_attach = function(bufnr)
-        local gitsigns = require('gitsigns')
+        local gitsigns = require 'gitsigns'
 
         vim.keymap.set({ 'n', 'v' }, ']c', function()
-          if vim.wo.diff then return ']c' end
-          vim.schedule(function() gitsigns.next_hunk() end)
+          if vim.wo.diff then
+            return ']c'
+          end
+          vim.schedule(function()
+            gitsigns.next_hunk()
+          end)
           return '<Ignore>'
         end, { expr = true, buffer = bufnr })
         vim.keymap.set({ 'n', 'v' }, '[c', function()
-          if vim.wo.diff then return '[c' end
-          vim.schedule(function() gitsigns.prev_hunk() end)
+          if vim.wo.diff then
+            return '[c'
+          end
+          vim.schedule(function()
+            gitsigns.prev_hunk()
+          end)
           return '<Ignore>'
         end, { expr = true, buffer = bufnr })
 
         vim.keymap.set('n', '<leader>hp', gitsigns.preview_hunk, { buffer = bufnr })
         vim.keymap.set('n', '<leader>hs', gitsigns.stage_hunk, { buffer = bufnr })
         vim.keymap.set('n', '<leader>hr', gitsigns.reset_hunk, { buffer = bufnr })
-        vim.keymap.set('v', '<leader>hs',
-          function() gitsigns.stage_hunk { vim.fn.line('.'), vim.fn.line('v') } end,
-          { buffer = bufnr })
-        vim.keymap.set('v', '<leader>hr',
-          function() gitsigns.reset_hunk { vim.fn.line('.'), vim.fn.line('v') } end,
-          { buffer = bufnr })
+        vim.keymap.set('v', '<leader>hs', function()
+          gitsigns.stage_hunk { vim.fn.line '.', vim.fn.line 'v' }
+        end, { buffer = bufnr })
+        vim.keymap.set('v', '<leader>hr', function()
+          gitsigns.reset_hunk { vim.fn.line '.', vim.fn.line 'v' }
+        end, { buffer = bufnr })
         vim.keymap.set('n', '<leader>hu', gitsigns.undo_stage_hunk, { buffer = bufnr })
 
         -- Text object
@@ -112,15 +120,77 @@ require('lazy').setup({
     },
   },
 
-
+  -- LSP and Completion
   {
     'neovim/nvim-lspconfig',
     dependencies = {
       { 'williamboman/mason.nvim', config = true },
       'williamboman/mason-lspconfig.nvim',
-      { 'j-hui/fidget.nvim',       opts = {} },
+      { 'j-hui/fidget.nvim', opts = {} },
       'folke/neodev.nvim',
     },
+    config = function()
+      require('neodev').setup()
+
+      vim.api.nvim_create_autocmd('LspAttach', {
+        group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
+        callback = function(event)
+          local map = function(keys, func, mode)
+            mode = mode or 'n'
+            vim.keymap.set(mode, keys, func, { buffer = event.buf })
+          end
+
+          map('crn', vim.lsp.buf.rename)
+          map('crr', vim.lsp.buf.code_action)
+
+          map('gd', require('telescope.builtin').lsp_definitions)
+          map('gD', vim.lsp.buf.declaration)
+          map('gt', require('telescope.builtin').lsp_type_definitions)
+          map('gr', require('telescope.builtin').lsp_references)
+          map('gI', require('telescope.builtin').lsp_implementations)
+          map('<leader>o', require('telescope.builtin').lsp_document_symbols)
+          map('<leader>t', require('telescope.builtin').lsp_dynamic_workspace_symbols)
+
+          map('K', vim.lsp.buf.hover)
+          map('<C-k>', vim.lsp.buf.signature_help, { 'i', 'n' })
+        end,
+      })
+
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
+
+      local servers = {
+        tsserver = {},
+        html = { filetypes = { 'html', 'twig', 'hbs' } },
+        lua_ls = {
+          Lua = {
+            workspace = { checkThirdParty = false },
+            telemetry = { enable = false },
+          },
+        },
+      }
+
+      local mason_lspconfig = require 'mason-lspconfig'
+
+      mason_lspconfig.setup {
+        ensure_installed = vim.tbl_keys(servers),
+      }
+
+      local handlers = {
+        ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = 'single' }),
+        ['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'single' }),
+      }
+      vim.diagnostic.config { float = { border = 'single' } }
+
+      mason_lspconfig.setup_handlers {
+        function(server_name)
+          local server = servers[server_name] or {}
+          server.handlers = handlers
+          server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
+          require('lspconfig')[server_name].setup(server)
+        end,
+      }
+    end,
   },
 
   {
@@ -138,10 +208,10 @@ require('lazy').setup({
     config = function()
       require('conform').setup {
         formatters_by_ft = {
-          lua = { "stylua" },
-          python = { "isort", "black" },
-          typescript = { 'prettierd', "prettier", stop_after_first = true },
-          typescriptreact = { 'prettierd', "prettier", stop_after_first = true },
+          lua = { 'stylua' },
+          python = { 'isort', 'black' },
+          typescript = { 'prettierd', 'prettier', stop_after_first = true },
+          typescriptreact = { 'prettierd', 'prettier', stop_after_first = true },
         },
       }
     end,
@@ -155,22 +225,41 @@ require('lazy').setup({
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-buffer',
     },
+    config = function()
+      local cmp = require 'cmp'
+      cmp.setup {
+        preselect = cmp.PreselectMode.None,
+        mapping = cmp.mapping.preset.insert {
+          ['<C-n>'] = cmp.mapping.select_next_item(),
+          ['<C-p>'] = cmp.mapping.select_prev_item(),
+          ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+          ['<C-f>'] = cmp.mapping.scroll_docs(4),
+          ['<C-Space>'] = cmp.mapping.complete {},
+          ['<C-e>'] = cmp.mapping.abort(),
+          ['<CR>'] = cmp.mapping.confirm {
+            select = true,
+          },
+        },
+        sources = {
+          { name = 'nvim_lsp' },
+          { name = 'buffer' },
+          { name = 'nvim_lsp_signature_help' },
+        },
+      }
+    end,
   },
   {
-    "windwp/nvim-autopairs",
+    'windwp/nvim-autopairs',
     dependencies = { 'hrsh7th/nvim-cmp' },
     config = function()
-      require("nvim-autopairs").setup {}
-      -- If you want to automatically add `(` after selecting a function or method
-      local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-      local cmp = require('cmp')
-      cmp.event:on(
-        'confirm_done',
-        cmp_autopairs.on_confirm_done()
-      )
+      require('nvim-autopairs').setup {}
+      local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
+      local cmp = require 'cmp'
+      cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
     end,
   },
 
+  -- Telescope
   {
     'nvim-telescope/telescope.nvim',
     branch = '0.1.x',
@@ -186,22 +275,22 @@ require('lazy').setup({
     },
     config = function()
       pcall(require('telescope').load_extension, 'fzf')
-      local actions = require "telescope.actions"
+      local actions = require 'telescope.actions'
       require('telescope').setup {
         defaults = {
-          path_display = { "truncate" },
-          layout_strategy = "vertical",
+          path_display = { 'truncate' },
+          layout_strategy = 'vertical',
           borderchars = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
           vimgrep_arguments = {
-            "rg",
-            "-U", -- Multi-line search
-            "--color=never",
-            "--no-heading",
-            "--with-filename",
-            "--line-number",
-            "--column",
-            "--smart-case"
-          }
+            'rg',
+            '--multiline',
+            '--color=never',
+            '--no-heading',
+            '--with-filename',
+            '--line-number',
+            '--column',
+            '--smart-case',
+          },
         },
         pickers = {
           find_files = {
@@ -214,11 +303,11 @@ require('lazy').setup({
             sort_mru = true,
             mappings = {
               i = {
-                ["<c-d>"] = actions.delete_buffer
-              }
+                ['<c-d>'] = actions.delete_buffer,
+              },
             },
           },
-        }
+        },
       }
 
       vim.keymap.set('n', '<leader>/', function()
@@ -235,12 +324,12 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>lg', require('telescope.builtin').live_grep)
       vim.keymap.set('n', '<leader>d', require('telescope.builtin').diagnostics)
       vim.keymap.set('n', '<leader>re', require('telescope.builtin').resume)
-    end
+    end,
   },
 
   {
     'windwp/nvim-ts-autotag',
-    opts = {}
+    opts = {},
   },
 
   {
@@ -269,12 +358,6 @@ require('lazy').setup({
         indent = { enable = true },
         incremental_selection = {
           enable = true,
-          -- keymaps = {
-          --   init_selection = "<leader>si",
-          --   node_incremental = "<leader>si",
-          --   scope_incremental = "<leader>sc",
-          --   node_decremental = "<leader>sd",
-          -- },
         },
         textobjects = {
           select = {
@@ -321,7 +404,7 @@ require('lazy').setup({
           },
         },
       }
-    end
+    end,
   },
 
   {
@@ -338,7 +421,7 @@ require('lazy').setup({
       end
 
       vim.keymap.set('n', '<leader>n', ':lua _G.minifiles_toggle(vim.api.nvim_buf_get_name(0))<CR>')
-    end
+    end,
   },
 
   {
@@ -348,13 +431,13 @@ require('lazy').setup({
         normal = {
           a = { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey2', gui = 'bold' },
           b = { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey2' },
-          c = { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey2' }
+          c = { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey2' },
         },
         inactive = {
           a = { bg = 'NvimDarkGrey2', fg = 'NvimLightGrey2', gui = 'bold' },
           b = { bg = 'NvimDarkGrey2', fg = 'NvimLightGrey2' },
-          c = { bg = 'NvimDarkGrey2', fg = 'NvimLightGrey2' }
-        }
+          c = { bg = 'NvimDarkGrey2', fg = 'NvimLightGrey2' },
+        },
       }
 
       require('lualine').setup {
@@ -366,33 +449,32 @@ require('lazy').setup({
         },
         sections = {
           lualine_a = { 'mode' },
-          lualine_b = { 'branch', 'diff', },
-          lualine_c = { { 'filename', path = 1, } },
+          lualine_b = { 'branch', 'diff' },
+          lualine_c = { { 'filename', path = 1 } },
           lualine_x = { 'diagnostics' },
-          lualine_y = { 'progress', },
-          lualine_z = { 'location', },
+          lualine_y = { 'progress' },
+          lualine_z = { 'location' },
         },
         inactive_sections = {
-          lualine_c = { { 'filename', path = 1, } },
+          lualine_c = { { 'filename', path = 1 } },
           lualine_x = { 'diagnostics' },
-          lualine_y = { 'progress', },
-          lualine_z = { 'location', },
+          lualine_y = { 'progress' },
+          lualine_z = { 'location' },
         },
       }
-    end
+    end,
   },
 
   {
-    "utilyre/barbecue.nvim",
-    name = "barbecue",
-    version = "*",
+    'utilyre/barbecue.nvim',
+    name = 'barbecue',
+    version = '*',
     dependencies = {
-      "SmiteshP/nvim-navic",
-      "nvim-tree/nvim-web-devicons",
+      'SmiteshP/nvim-navic',
+      'nvim-tree/nvim-web-devicons',
     },
     opts = {},
   },
-
 }, {})
 
 -- [[ Setting options ]]
@@ -409,7 +491,7 @@ vim.o.completeopt = 'menuone,noselect'
 vim.o.termguicolors = true
 vim.o.undofile = true
 vim.o.showmode = false
-vim.api.nvim_command("packadd cFilter")
+vim.api.nvim_command 'packadd cFilter'
 
 -- default tabs/spaces
 vim.o.expandtab = true
@@ -432,104 +514,8 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
-
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
-
--- [[ Configure LSP ]]
-local on_attach = function(_, bufnr)
-  local nmap = function(keys, func)
-    vim.keymap.set('n', keys, func, { buffer = bufnr })
-  end
-
-  nmap('crn', vim.lsp.buf.rename)
-  nmap('crr', vim.lsp.buf.code_action)
-
-  nmap('gd', require('telescope.builtin').lsp_definitions)
-  nmap('gt', require('telescope.builtin').lsp_type_definitions)
-  nmap('gr', require('telescope.builtin').lsp_references)
-  nmap('gI', require('telescope.builtin').lsp_implementations)
-  nmap('<leader>o', require('telescope.builtin').lsp_document_symbols)
-  nmap('<leader>t', require('telescope.builtin').lsp_dynamic_workspace_symbols)
-
-  nmap('K', vim.lsp.buf.hover)
-  -- Signature Documentation
-  vim.keymap.set({ 'i', 'n' }, '<C-k>', vim.lsp.buf.signature_help, { buffer = bufnr })
-
-  nmap('gD', vim.lsp.buf.declaration)
-  nmap('<leader>wa', vim.lsp.buf.add_workspace_folder)
-  nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder)
-  nmap('<leader>wl', function()
-    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-  end)
-end
-
--- Enable the following language servers
-local servers = {
-  tsserver = {},
-  html = { filetypes = { 'html', 'twig', 'hbs' } },
-  lua_ls = {
-    Lua = {
-      workspace = { checkThirdParty = false },
-      telemetry = { enable = false },
-    },
-  },
-}
-
--- Setup neovim lua configuration
-require('neodev').setup()
-
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
-
-local mason_lspconfig = require 'mason-lspconfig'
-
-mason_lspconfig.setup {
-  ensure_installed = vim.tbl_keys(servers),
-}
-
--- UI borders
-local handlers = {
-  ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = 'single' }),
-  ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'single' }),
-}
-
-vim.diagnostic.config { float = { border = "single" }, }
-
-mason_lspconfig.setup_handlers {
-  function(server_name)
-    require('lspconfig')[server_name].setup {
-      handlers = handlers,
-      capabilities = capabilities,
-      on_attach = on_attach,
-      settings = servers[server_name],
-      filetypes = (servers[server_name] or {}).filetypes,
-    }
-  end
-}
-
--- [[ Configure nvim-cmp ]]
--- See `:help cmp`
-local cmp = require 'cmp'
-cmp.setup {
-  preselect = cmp.PreselectMode.None,
-  mapping = cmp.mapping.preset.insert {
-    ['<C-n>'] = cmp.mapping.select_next_item(),
-    ['<C-p>'] = cmp.mapping.select_prev_item(),
-    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete {},
-    ['<C-e>'] = cmp.mapping.abort(),
-    ['<CR>'] = cmp.mapping.confirm {
-      select = true,
-    },
-  },
-  sources = {
-    { name = 'nvim_lsp' },
-    { name = 'buffer' },
-    { name = 'nvim_lsp_signature_help' },
-  },
-}
