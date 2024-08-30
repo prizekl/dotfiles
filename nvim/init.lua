@@ -8,7 +8,7 @@ if not vim.loop.fs_stat(lazypath) then
     'clone',
     '--filter=blob:none',
     'https://github.com/folke/lazy.nvim.git',
-    '--branch=stable', -- latest stable release
+    '--branch=stable',
     lazypath,
   }
 end
@@ -16,26 +16,17 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
-  {
-    'quentingruber/timespent.nvim',
-  },
+  { 'quentingruber/timespent.nvim' },
 
-  -- Essentials
   'tpope/vim-surround',
   'tpope/vim-sleuth',
   {
     'lewis6991/satellite.nvim',
     opts = {
       handlers = {
-        marks = {
-          enable = false,
-        },
-        cursor = {
-          enable = false,
-        },
-        search = {
-          enable = false,
-        },
+        marks = { enable = false },
+        cursor = { enable = false },
+        search = { enable = false },
       },
     },
   },
@@ -60,6 +51,7 @@ require('lazy').setup({
       require('treesj').setup {
         use_default_keymaps = false,
       }
+
       vim.keymap.set('n', '<leader>m', ':TSJToggle<CR>')
     end,
   },
@@ -69,11 +61,7 @@ require('lazy').setup({
     'sindrets/diffview.nvim',
     config = function()
       require('diffview').setup {
-        view = {
-          merge_tool = {
-            layout = 'diff1_plain',
-          },
-        },
+        view = { merge_tool = { layout = 'diff1_plain' } },
       }
     end,
   },
@@ -125,9 +113,9 @@ require('lazy').setup({
     'neovim/nvim-lspconfig',
     dependencies = {
       { 'williamboman/mason.nvim', config = true },
-      'williamboman/mason-lspconfig.nvim',
+      { 'williamboman/mason-lspconfig.nvim' },
       { 'j-hui/fidget.nvim', opts = {} },
-      'folke/neodev.nvim',
+      { 'folke/neodev.nvim' },
     },
     config = function()
       require('neodev').setup()
@@ -259,7 +247,6 @@ require('lazy').setup({
     end,
   },
 
-  -- Telescope
   {
     'nvim-telescope/telescope.nvim',
     branch = '0.1.x',
@@ -297,7 +284,6 @@ require('lazy').setup({
             hidden = true,
           },
           buffers = {
-            -- testing this out
             ignore_current_buffer = true,
             -- sort_lastused = true,
             sort_mru = true,
@@ -316,6 +302,7 @@ require('lazy').setup({
           previewer = false,
         })
       end)
+
       vim.keymap.set('n', '<C-f>', require('telescope.builtin').buffers)
       vim.keymap.set('n', '<C-p>', require('telescope.builtin').find_files)
       vim.keymap.set('n', '<leader>gf', require('telescope.builtin').git_status)
@@ -327,16 +314,11 @@ require('lazy').setup({
     end,
   },
 
-  {
-    'windwp/nvim-ts-autotag',
-    opts = {},
-  },
+  { 'windwp/nvim-ts-autotag', opts = {} },
 
   {
     'nvim-treesitter/nvim-treesitter',
-    dependencies = {
-      'nvim-treesitter/nvim-treesitter-textobjects',
-    },
+    dependencies = { 'nvim-treesitter/nvim-treesitter-textobjects' },
     build = ':TSUpdate',
     config = function()
       require('nvim-treesitter.configs').setup {
@@ -492,13 +474,10 @@ vim.o.termguicolors = true
 vim.o.undofile = true
 vim.o.showmode = false
 vim.api.nvim_command 'packadd cFilter'
-
--- default tabs/spaces
 vim.o.expandtab = true
 vim.o.shiftwidth = 4
 vim.o.tabstop = 4
 
--- [[ Basic Keymaps ]]
 -- Keymaps for better default experience
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
