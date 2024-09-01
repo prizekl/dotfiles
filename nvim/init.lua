@@ -120,6 +120,8 @@ require('lazy').setup({
     config = function()
       require('neodev').setup()
 
+      vim.api.nvim_set_hl(0, 'TelescopeNormal', { bg = 'NvimDarkGrey1' })
+
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
         callback = function(event)
@@ -331,7 +333,6 @@ require('lazy').setup({
           'typescript',
           'html',
         },
-        -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
         auto_install = true,
         modules = {},
         ignore_install = {},
@@ -344,11 +345,8 @@ require('lazy').setup({
         textobjects = {
           select = {
             enable = true,
-            lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
+            lookahead = true,
             keymaps = {
-              -- You can use the capture groups defined in textobjects.scm
-              ['aa'] = '@parameter.outer',
-              ['ia'] = '@parameter.inner',
               ['af'] = '@function.outer',
               ['if'] = '@function.inner',
               ['ac'] = '@class.outer',
@@ -373,15 +371,6 @@ require('lazy').setup({
             goto_previous_end = {
               ['[M'] = '@function.outer',
               ['[]'] = '@class.outer',
-            },
-          },
-          swap = {
-            enable = true,
-            swap_next = {
-              ['<leader>a'] = '@parameter.inner',
-            },
-            swap_previous = {
-              ['<leader>A'] = '@parameter.inner',
             },
           },
         },
@@ -409,6 +398,9 @@ require('lazy').setup({
   {
     'nvim-lualine/lualine.nvim',
     config = function()
+      vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = 'NvimDarkGrey3' })
+      vim.api.nvim_set_hl(0, 'StatusLine', { bg = 'NvimDarkGrey3' })
+
       local lualine_theme = {
         normal = {
           a = { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey2', gui = 'bold' },
