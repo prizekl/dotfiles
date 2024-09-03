@@ -72,24 +72,28 @@ require('lazy').setup({
       on_attach = function(bufnr)
         local gitsigns = require 'gitsigns'
 
-        vim.keymap.set({ 'n', 'v' }, ']c', function()
+        local function map(mode, l, r, opts)
+          opts = opts or {}
+          opts.buffer = bufnr
+          vim.keymap.set(mode, l, r, opts)
+        end
+
+        -- Navigation
+        map('n', ']c', function()
           if vim.wo.diff then
-            return ']c'
+            vim.cmd.normal { ']c', bang = true }
+          else
+            gitsigns.nav_hunk 'next'
           end
-          vim.schedule(function()
-            gitsigns.next_hunk()
-          end)
-          return '<Ignore>'
-        end, { expr = true, buffer = bufnr })
-        vim.keymap.set({ 'n', 'v' }, '[c', function()
+        end)
+
+        map('n', '[c', function()
           if vim.wo.diff then
-            return '[c'
+            vim.cmd.normal { '[c', bang = true }
+          else
+            gitsigns.nav_hunk 'prev'
           end
-          vim.schedule(function()
-            gitsigns.prev_hunk()
-          end)
-          return '<Ignore>'
-        end, { expr = true, buffer = bufnr })
+        end)
 
         vim.keymap.set('n', '<leader>hp', gitsigns.preview_hunk, { buffer = bufnr })
         vim.keymap.set('n', '<leader>hs', gitsigns.stage_hunk, { buffer = bufnr })
@@ -351,6 +355,8 @@ require('lazy').setup({
               ['if'] = '@function.inner',
               ['ac'] = '@class.outer',
               ['ic'] = '@class.inner',
+              ['al'] = '@loop.outer', -- testing
+              ['ar'] = '@conditional.outer', -- testing
             },
           },
           move = {
@@ -359,6 +365,8 @@ require('lazy').setup({
             goto_next_start = {
               [']m'] = '@function.outer',
               [']]'] = '@class.outer',
+              [']f'] = '@loop.outer', -- testing
+              [']r'] = '@conditional.outer', -- testing
             },
             goto_next_end = {
               [']M'] = '@function.outer',
@@ -367,6 +375,8 @@ require('lazy').setup({
             goto_previous_start = {
               ['[m'] = '@function.outer',
               ['[['] = '@class.outer',
+              ['[f'] = '@loop.outer', -- testing
+              ['[r'] = '@conditional.outer', -- testing
             },
             goto_previous_end = {
               ['[M'] = '@function.outer',
@@ -398,7 +408,7 @@ require('lazy').setup({
   {
     'nvim-lualine/lualine.nvim',
     config = function()
-      vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = 'NvimDarkGrey3' })
+      vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = 'NvimDarkGrey2' })
       vim.api.nvim_set_hl(0, 'StatusLine', { bg = 'NvimDarkGrey3' })
 
       local lualine_theme = {
