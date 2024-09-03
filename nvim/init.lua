@@ -124,8 +124,6 @@ require('lazy').setup({
     config = function()
       require('neodev').setup()
 
-      vim.api.nvim_set_hl(0, 'TelescopeNormal', { bg = 'NvimDarkGrey1' })
-
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
         callback = function(event)
