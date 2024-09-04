@@ -16,8 +16,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
-  { 'quentingruber/timespent.nvim' },
-
   'tpope/vim-surround',
   'tpope/vim-sleuth',
   {
@@ -359,7 +357,7 @@ require('lazy').setup({
           },
           move = {
             enable = true,
-            set_jumps = true, -- whether to set jumps in the jumplist
+            set_jumps = true,
             goto_next_start = {
               [']m'] = '@function.outer',
               [']]'] = '@class.outer',
@@ -478,7 +476,6 @@ vim.o.expandtab = true
 vim.o.shiftwidth = 4
 vim.o.tabstop = 4
 
--- Keymaps for better default experience
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
