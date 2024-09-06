@@ -180,9 +180,16 @@ require('lazy').setup({
         ensure_installed = vim.tbl_keys(servers),
       }
 
+      local handlers = {
+        ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = 'single' }),
+        ['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'single' }),
+      }
+      vim.diagnostic.config { float = { border = 'single' } }
+
       mason_lspconfig.setup_handlers {
         function(server_name)
           local server = servers[server_name] or {}
+          server.handlers = handlers
           server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
           require('lspconfig')[server_name].setup(server)
         end,
@@ -225,6 +232,12 @@ require('lazy').setup({
     config = function()
       local cmp = require 'cmp'
       cmp.setup {
+        window = {
+          documentation = cmp.config.window.bordered {
+            winhighlight = 'Normal:NormalFloat',
+            border = 'single',
+          },
+        },
         preselect = cmp.PreselectMode.None,
         mapping = cmp.mapping.preset.insert {
           ['<C-n>'] = cmp.mapping.select_next_item(),
@@ -262,11 +275,14 @@ require('lazy').setup({
       },
     },
     config = function()
+      vim.api.nvim_set_hl(0, 'TelescopeNormal', { bg = 'NvimDarkGrey1' })
+
       pcall(require('telescope').load_extension, 'fzf')
       local actions = require 'telescope.actions'
       require('telescope').setup {
         defaults = {
           path_display = { 'truncate' },
+          borderchars = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
           layout_strategy = 'vertical',
           vimgrep_arguments = {
             'rg',
