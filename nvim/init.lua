@@ -1,5 +1,6 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
+vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 
 vim.wo.number = true
 vim.o.mouse = 'a'
@@ -66,30 +67,7 @@ require('lazy').setup({
     },
   },
 
-  {
-    'supermaven-inc/supermaven-nvim',
-    config = function()
-      require('supermaven-nvim').setup {}
-    end,
-  },
-
-  {
-    'folke/ts-comments.nvim',
-    opts = {},
-    event = 'VeryLazy',
-  },
-
-  {
-    'Wansmer/treesj',
-    dependencies = { 'nvim-treesitter/nvim-treesitter' },
-    config = function()
-      require('treesj').setup {
-        use_default_keymaps = false,
-      }
-
-      vim.keymap.set('n', '<leader>m', ':TSJToggle<CR>')
-    end,
-  },
+  { 'supermaven-inc/supermaven-nvim', opts = {} },
 
   -- Git
   {
@@ -113,7 +91,6 @@ require('lazy').setup({
           vim.keymap.set(mode, l, r, opts)
         end
 
-        -- Navigation
         map('n', ']c', function()
           if vim.wo.diff then
             vim.cmd.normal { ']c', bang = true }
@@ -203,16 +180,9 @@ require('lazy').setup({
         ensure_installed = vim.tbl_keys(servers),
       }
 
-      local handlers = {
-        ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = 'single' }),
-        ['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'single' }),
-      }
-      vim.diagnostic.config { float = { border = 'single' } }
-
       mason_lspconfig.setup_handlers {
         function(server_name)
           local server = servers[server_name] or {}
-          server.handlers = handlers
           server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
           require('lspconfig')[server_name].setup(server)
         end,
@@ -306,7 +276,6 @@ require('lazy').setup({
         defaults = {
           path_display = { 'truncate' },
           layout_strategy = 'vertical',
-          borderchars = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
           vimgrep_arguments = {
             'rg',
             '--multiline',
@@ -319,10 +288,10 @@ require('lazy').setup({
           },
         },
         pickers = {
-          find_files = {
-            hidden = true,
-          },
+          lsp_references = { show_line = false },
+          find_files = { previewer = false, hidden = true },
           buffers = {
+            previewer = false,
             ignore_current_buffer = true,
             -- sort_lastused = true,
             sort_mru = true,
@@ -335,17 +304,9 @@ require('lazy').setup({
         },
       }
 
-      vim.keymap.set('n', '<leader>/', function()
-        require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-          winblend = 10,
-          previewer = false,
-        })
-      end)
-
       vim.keymap.set('n', '<C-f>', require('telescope.builtin').buffers)
       vim.keymap.set('n', '<C-p>', require('telescope.builtin').find_files)
       vim.keymap.set('n', '<leader>gf', require('telescope.builtin').git_status)
-      vim.keymap.set('n', '<leader>gc', require('telescope.builtin').git_bcommits)
       vim.keymap.set('n', '<leader>gs', require('telescope.builtin').grep_string)
       vim.keymap.set('n', '<leader>lg', require('telescope.builtin').live_grep)
       vim.keymap.set('n', '<leader>d', require('telescope.builtin').diagnostics)
@@ -353,11 +314,29 @@ require('lazy').setup({
     end,
   },
 
-  { 'windwp/nvim-ts-autotag', opts = {} },
-
   {
     'nvim-treesitter/nvim-treesitter',
-    dependencies = { 'nvim-treesitter/nvim-treesitter-textobjects' },
+
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter-textobjects',
+      {
+        'Wansmer/treesj',
+        config = function()
+          require('treesj').setup {
+            use_default_keymaps = false,
+          }
+
+          vim.keymap.set('n', '<leader>m', ':TSJToggle<CR>')
+        end,
+      },
+      {
+        'folke/ts-comments.nvim',
+        opts = {},
+        event = 'VeryLazy',
+      },
+      { 'windwp/nvim-ts-autotag', opts = {} },
+    },
+
     build = ':TSUpdate',
     config = function()
       require('nvim-treesitter.configs').setup {
@@ -388,8 +367,8 @@ require('lazy').setup({
               ['if'] = '@function.inner',
               ['ac'] = '@class.outer',
               ['ic'] = '@class.inner',
-              ['al'] = '@loop.outer', -- testing
-              ['ar'] = '@conditional.outer', -- testing
+              ['al'] = '@loop.outer', -- TESTING
+              ['ar'] = '@conditional.outer', -- TESTING
             },
           },
           move = {
@@ -398,8 +377,8 @@ require('lazy').setup({
             goto_next_start = {
               [']m'] = '@function.outer',
               [']]'] = '@class.outer',
-              [']f'] = '@loop.outer', -- testing
-              [']r'] = '@conditional.outer', -- testing
+              [']f'] = '@loop.outer', -- TESTING
+              [']r'] = '@conditional.outer', -- TESTING
             },
             goto_next_end = {
               [']M'] = '@function.outer',
@@ -408,8 +387,8 @@ require('lazy').setup({
             goto_previous_start = {
               ['[m'] = '@function.outer',
               ['[['] = '@class.outer',
-              ['[f'] = '@loop.outer', -- testing
-              ['[r'] = '@conditional.outer', -- testing
+              ['[f'] = '@loop.outer', -- TESTING
+              ['[r'] = '@conditional.outer', -- TESTING
             },
             goto_previous_end = {
               ['[M'] = '@function.outer',
@@ -490,6 +469,6 @@ require('lazy').setup({
       'SmiteshP/nvim-navic',
       'nvim-tree/nvim-web-devicons',
     },
-    opts = {},
+    opts = { kinds = false },
   },
 }, {})
