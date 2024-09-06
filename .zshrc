@@ -6,14 +6,15 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 alias ls='exa'
-alias cdev='npx convex dev --tail-logs'
-echo 'eval "$(atuin init zsh)"' >> ~/.zshrc
+eval "$(atuin init zsh)"
 alias gs='git status'
 function gac() {
     git add .
     local commitMessage="$*"
     git commit -a -m "$commitMessage"
 }
+
+alias cdev='npx convex dev --tail-logs'
 
 users() {
     if [ "$#" -lt 1 ]; then
@@ -188,83 +189,3 @@ moment() {
         echo "Unknown date format"
     fi
 }
-eval 
-TWILIO_AC_ZSH_SETUP_PATH=/Users/prizel/.twilio-cli/autocomplete/zsh_setup && test -f $TWILIO_AC_ZSH_SETUP_PATH && source $TWILIO_AC_ZSH_SETUP_PATH; # twilio autocomplete setup
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
