@@ -67,7 +67,7 @@ require('lazy').setup({
     },
   },
 
-  { 'supermaven-inc/supermaven-nvim', opts = {} },
+  { 'supermaven-inc/supermaven-nvim', opts = { ignore_filetypes = { 'TelescopePrompt' } } },
 
   -- Git
   {
@@ -245,6 +245,7 @@ require('lazy').setup({
       }
     end,
   },
+
   {
     'windwp/nvim-autopairs',
     dependencies = { 'hrsh7th/nvim-cmp' },
