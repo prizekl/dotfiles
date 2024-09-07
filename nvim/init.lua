@@ -10,7 +10,6 @@ vim.o.ignorecase = true
 vim.o.smartcase = true
 vim.wo.signcolumn = 'yes'
 vim.o.updatetime = 250
-vim.o.timeoutlen = 300
 vim.o.completeopt = 'menuone,noselect'
 vim.o.termguicolors = true
 vim.o.undofile = true
@@ -74,7 +73,7 @@ require('lazy').setup({
     'sindrets/diffview.nvim',
     config = function()
       require('diffview').setup {
-        view = { merge_tool = { layout = 'diff1_plain' } },
+        view = { merge_tool = { layout = 'diff1_plain', disable_diagnostics = false } },
       }
     end,
   },
