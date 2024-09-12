@@ -18,6 +18,8 @@ vim.api.nvim_command 'packadd cFilter'
 vim.o.expandtab = true
 vim.o.shiftwidth = 4
 vim.o.tabstop = 4
+vim.o.autoread = true
+vim.o.swapfile = false
 
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
@@ -66,7 +68,7 @@ require('lazy').setup({
     },
   },
 
-  { 'supermaven-inc/supermaven-nvim', opts = { ignore_filetypes = { 'TelescopePrompt' } } },
+  { 'supermaven-inc/supermaven-nvim', opts = { ignore_filetypes = { 'TelescopePrompt', 'text' } } },
 
   -- Git
   {
