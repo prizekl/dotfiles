@@ -14,7 +14,7 @@ vim.o.completeopt = 'menuone,noselect'
 vim.o.termguicolors = true
 vim.o.undofile = true
 vim.o.showmode = false
-vim.api.nvim_command 'packadd cFilter'
+vim.api.nvim_command 'packadd Cfilter'
 vim.o.expandtab = true
 vim.o.shiftwidth = 4
 vim.o.tabstop = 4
@@ -57,16 +57,6 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   'tpope/vim-surround',
   'tpope/vim-sleuth',
-  {
-    'lewis6991/satellite.nvim',
-    opts = {
-      handlers = {
-        marks = { enable = false },
-        cursor = { enable = false },
-        search = { enable = false },
-      },
-    },
-  },
 
   { 'supermaven-inc/supermaven-nvim', opts = { ignore_filetypes = { 'TelescopePrompt', 'text' } } },
 
@@ -165,7 +155,7 @@ require('lazy').setup({
       capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
 
       local servers = {
-        tsserver = {},
+        ts_ls = {},
         html = { filetypes = { 'html', 'twig', 'hbs' } },
         lua_ls = {
           Lua = {
