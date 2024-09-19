@@ -35,9 +35,10 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
+-- Floats are disabled by default: https://github.com/neovim/neovim/pull/16230
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
-vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
+-- vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
 
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
@@ -146,7 +147,6 @@ require('lazy').setup({
           map('<leader>o', require('telescope.builtin').lsp_document_symbols)
           map('<leader>t', require('telescope.builtin').lsp_dynamic_workspace_symbols)
 
-          map('K', vim.lsp.buf.hover)
           map('<C-k>', vim.lsp.buf.signature_help, { 'i', 'n' })
         end,
       })
@@ -175,7 +175,12 @@ require('lazy').setup({
         ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = 'single' }),
         ['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'single' }),
       }
-      vim.diagnostic.config { float = { border = 'single' } }
+
+      vim.diagnostic.config {
+        float = { border = 'single' },
+        severity_sort = true,
+        virtual_text = false,
+      }
 
       mason_lspconfig.setup_handlers {
         function(server_name)
