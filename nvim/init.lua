@@ -320,6 +320,21 @@ require('lazy').setup({
     'nvim-treesitter/nvim-treesitter',
 
     dependencies = {
+      {
+        'nvim-treesitter/nvim-treesitter-context',
+        config = function()
+          vim.api.nvim_set_hl(0, 'TreesitterContext', { bg = 'NvimDarkGrey2' })
+          vim.api.nvim_set_hl(0, 'TreesitterContextSeparator', {
+            bg = 'NvimDarkGrey2',
+            fg = 'NvimDarkGrey4',
+          })
+          require('treesitter-context').setup {
+            max_lines = 1,
+            trim_scope = 'inner',
+            separator = '─',
+          }
+        end,
+      },
       'nvim-treesitter/nvim-treesitter-textobjects',
       {
         'Wansmer/treesj',
@@ -461,16 +476,5 @@ require('lazy').setup({
         },
       }
     end,
-  },
-
-  {
-    'utilyre/barbecue.nvim',
-    name = 'barbecue',
-    version = '*',
-    dependencies = {
-      'SmiteshP/nvim-navic',
-      'nvim-tree/nvim-web-devicons',
-    },
-    opts = { kinds = false },
   },
 }, {})
