@@ -323,9 +323,9 @@ require('lazy').setup({
       {
         'nvim-treesitter/nvim-treesitter-context',
         config = function()
-          vim.api.nvim_set_hl(0, 'TreesitterContext', { bg = 'NvimDarkGrey2' })
+          vim.api.nvim_set_hl(0, 'TreesitterContext', { bg = 'NONE' })
           vim.api.nvim_set_hl(0, 'TreesitterContextSeparator', {
-            bg = 'NvimDarkGrey2',
+            bg = 'NONE',
             fg = 'NvimDarkGrey4',
           })
           require('treesitter-context').setup {
