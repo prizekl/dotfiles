@@ -419,6 +419,7 @@ require('lazy').setup({
 
   {
     'echasnovski/mini.files',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
     version = false,
     config = function()
       require('mini.files').setup()
@@ -437,8 +438,8 @@ require('lazy').setup({
   {
     'nvim-lualine/lualine.nvim',
     config = function()
-      vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = 'NvimDarkGrey2' })
-      vim.api.nvim_set_hl(0, 'StatusLine', { bg = 'NvimDarkGrey3' })
+      vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = 'NvimLightGrey2' })
+      vim.api.nvim_set_hl(0, 'StatusLine', { bg = 'NvimLightGrey2' })
 
       local lualine_theme = {
         normal = {
@@ -447,9 +448,9 @@ require('lazy').setup({
           c = { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey2' },
         },
         inactive = {
-          a = { bg = 'NvimDarkGrey2', fg = 'NvimLightGrey2', gui = 'bold' },
-          b = { bg = 'NvimDarkGrey2', fg = 'NvimLightGrey2' },
-          c = { bg = 'NvimDarkGrey2', fg = 'NvimLightGrey2' },
+          a = { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey2', gui = 'bold' },
+          b = { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey2' },
+          c = { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey2' },
         },
       }
 
