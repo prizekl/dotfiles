@@ -259,6 +259,7 @@ require('lazy').setup({
     'nvim-telescope/telescope.nvim',
     branch = '0.1.x',
     dependencies = {
+      'nvim-tree/nvim-web-devicons',
       'nvim-lua/plenary.nvim',
       {
         'nvim-telescope/telescope-fzf-native.nvim',
@@ -419,7 +420,6 @@ require('lazy').setup({
 
   {
     'echasnovski/mini.files',
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
     version = false,
     config = function()
       require('mini.files').setup()
