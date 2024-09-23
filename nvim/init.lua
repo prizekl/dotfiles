@@ -15,7 +15,6 @@ vim.o.updatetime = 250
 vim.o.completeopt = 'menuone,noselect'
 vim.o.termguicolors = true
 vim.o.undofile = true
-vim.o.showmode = false
 vim.api.nvim_command 'packadd Cfilter'
 vim.o.expandtab = true
 vim.o.shiftwidth = 4
@@ -438,19 +437,17 @@ require('lazy').setup({
   {
     'nvim-lualine/lualine.nvim',
     config = function()
-      vim.api.nvim_set_hl(0, 'StatusLine', { bg = 'NvimDarkGrey3' })
+      vim.api.nvim_set_hl(0, 'StatusLine', { bg = 'NvimDarkGrey2' })
       vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = 'NvimDarkGrey2' })
 
       local lualine_theme = {
         normal = {
-          a = { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey2', gui = 'bold' },
           b = { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey2' },
           c = { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey2' },
+          z = { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey2' },
         },
         inactive = {
-          a = { bg = 'NvimDarkGrey2', fg = 'NvimLightGrey2', gui = 'bold' },
-          b = { bg = 'NvimDarkGrey2', fg = 'NvimLightGrey2' },
-          c = { bg = 'NvimDarkGrey2', fg = 'NvimLightGrey2' },
+          c = { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey4' },
         },
       }
 
@@ -462,19 +459,14 @@ require('lazy').setup({
           section_separators = '',
         },
         sections = {
-          lualine_a = { 'mode' },
+          lualine_a = {},
           lualine_b = { 'branch', 'diff' },
           lualine_c = { { 'filename', path = 1 } },
           lualine_x = { 'diagnostics' },
-          lualine_y = { 'progress' },
-          lualine_z = { 'location' },
+          lualine_y = { 'location' },
+          lualine_z = { 'progress' },
         },
-        inactive_sections = {
-          lualine_c = { { 'filename', path = 1 } },
-          lualine_x = { 'diagnostics' },
-          lualine_y = { 'progress' },
-          lualine_z = { 'location' },
-        },
+        inactive_sections = { lualine_c = { { 'filename', path = 1 } } },
       }
     end,
   },
