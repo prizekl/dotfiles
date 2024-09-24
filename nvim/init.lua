@@ -450,19 +450,15 @@ require('lazy').setup({
         inactive = { c = { bg = 'NvimDarkGrey1', fg = 'NvimLightGrey2' } },
       }
 
-      local function get_diff_count()
-        local gitsigns = vim.b.gitsigns_status_dict
-        return gitsigns and (gitsigns.added + gitsigns.changed + gitsigns.removed)
-      end
-
       local function branch_with_diff_count()
         local branch = vim.b.gitsigns_head or ''
-        local diff_count = get_diff_count() or ''
-        if branch ~= '' or diff_count ~= '' then
-          return string.format('[%s %s]', branch, '%#LualineDiffCount#' .. diff_count .. '%*')
-        else
+        local status_dict = vim.b.gitsigns_status_dict
+        local diff_count = status_dict and (status_dict.added + status_dict.changed + status_dict.removed) or 0
+        if branch == '' then
           return ''
         end
+        local diff_str = diff_count > 0 and (' %#LualineDiffCount#' .. diff_count .. '%*') or ''
+        return string.format('[%s%s]', branch, diff_str)
       end
 
       require('lualine').setup {
