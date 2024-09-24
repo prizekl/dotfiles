@@ -450,7 +450,6 @@ require('lazy').setup({
         local branch = vim.b.gitsigns_head or ''
         local diff_count = get_diff_count() or ''
         if branch ~= '' or diff_count ~= '' then
-          -- Apply the custom highlight group to the diff count
           return string.format('[%s %s]', branch, '%#LualineDiffCount#' .. diff_count .. '%*')
         else
           return ''
