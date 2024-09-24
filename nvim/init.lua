@@ -437,15 +437,33 @@ require('lazy').setup({
   {
     'nvim-lualine/lualine.nvim',
     config = function()
-      vim.api.nvim_set_hl(0, 'StatusLine', { bg = 'NvimDarkBlue' })
+      vim.api.nvim_set_hl(0, 'StatusLine', { bg = 'NvimDarkGrey3' })
+      vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = 'NvimDarkGrey1' })
+      vim.api.nvim_set_hl(0, 'LualineDiffCount', { bg = 'NvimDarkGrey3', fg = 'NvimLightMagenta', bold = true })
+
+      local function get_diff_count()
+        local gitsigns = vim.b.gitsigns_status_dict
+        return gitsigns and (gitsigns.added + gitsigns.changed + gitsigns.removed)
+      end
+
+      local function branch_with_diff_count()
+        local branch = vim.b.gitsigns_head or ''
+        local diff_count = get_diff_count() or ''
+        if branch ~= '' or diff_count ~= '' then
+          -- Apply the custom highlight group to the diff count
+          return string.format('[%s %s]', branch, '%#LualineDiffCount#' .. diff_count .. '%*')
+        else
+          return ''
+        end
+      end
 
       local lualine_theme = {
         normal = {
-          b = { bg = 'NvimDarkBlue', fg = 'NvimLightGrey1' },
-          c = { bg = 'NvimDarkBlue', fg = 'NvimLightGrey1' },
-          z = { bg = 'NvimDarkBlue', fg = 'NvimLightGrey1' },
+          a = { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey1' },
+          b = { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey1' },
+          c = { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey1' },
         },
-        inactive = { c = { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey2' } },
+        inactive = { c = { bg = 'NvimDarkGrey1', fg = 'NvimLightGrey2' } },
       }
 
       require('lualine').setup {
@@ -456,20 +474,10 @@ require('lazy').setup({
           section_separators = '',
         },
         sections = {
-          lualine_a = {},
-          lualine_b = { 'branch', 'diff' },
+          lualine_a = { branch_with_diff_count },
           lualine_c = { { 'filename', path = 1 } },
-          lualine_x = {
-            {
-              'diagnostics',
-              diagnostics_color = {
-                error = { gui = 'bold' },
-                warn = { gui = 'bold' },
-                info = { gui = 'bold' },
-                hint = { gui = 'bold' },
-              },
-            },
-          },
+          lualine_b = { { 'diagnostics' } },
+          lualine_x = {},
         },
         inactive_sections = { lualine_c = { { 'filename', path = 1 } } },
       }
