@@ -439,27 +439,15 @@ require('lazy').setup({
     config = function()
       vim.api.nvim_set_hl(0, 'StatusLine', { bg = 'NvimDarkGrey3' })
       vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = 'NvimDarkGrey1' })
-      vim.api.nvim_set_hl(0, 'LualineDiffCount', { bg = 'NvimDarkGrey3', fg = 'NvimLightMagenta', bold = true })
 
       local lualine_theme = {
         normal = {
-          a = { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey1' },
-          b = { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey1' },
-          c = { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey1' },
+          a = { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey2' },
+          b = { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey2' },
+          c = { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey2' },
         },
         inactive = { c = { bg = 'NvimDarkGrey1', fg = 'NvimLightGrey2' } },
       }
-
-      local function branch_with_diff_count()
-        local branch = vim.b.gitsigns_head or ''
-        local status_dict = vim.b.gitsigns_status_dict
-        local diff_count = status_dict and (status_dict.added + status_dict.changed + status_dict.removed) or 0
-        if branch == '' then
-          return ''
-        end
-        local diff_str = diff_count > 0 and (' %#LualineDiffCount#' .. diff_count .. '%*') or ''
-        return string.format('[%s%s]', branch, diff_str)
-      end
 
       require('lualine').setup {
         options = {
@@ -469,10 +457,10 @@ require('lazy').setup({
           section_separators = '',
         },
         sections = {
-          lualine_a = { branch_with_diff_count },
+          lualine_a = {},
+          lualine_b = { 'branch', 'diff' },
           lualine_c = { { 'filename', path = 1 } },
-          lualine_b = { { 'diagnostics' } },
-          lualine_x = {},
+          lualine_x = { 'diagnostics' },
         },
         inactive_sections = { lualine_c = { { 'filename', path = 1 } } },
       }
