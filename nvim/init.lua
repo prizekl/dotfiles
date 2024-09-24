@@ -441,6 +441,15 @@ require('lazy').setup({
       vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = 'NvimDarkGrey1' })
       vim.api.nvim_set_hl(0, 'LualineDiffCount', { bg = 'NvimDarkGrey3', fg = 'NvimLightMagenta', bold = true })
 
+      local lualine_theme = {
+        normal = {
+          a = { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey1' },
+          b = { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey1' },
+          c = { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey1' },
+        },
+        inactive = { c = { bg = 'NvimDarkGrey1', fg = 'NvimLightGrey2' } },
+      }
+
       local function get_diff_count()
         local gitsigns = vim.b.gitsigns_status_dict
         return gitsigns and (gitsigns.added + gitsigns.changed + gitsigns.removed)
@@ -455,15 +464,6 @@ require('lazy').setup({
           return ''
         end
       end
-
-      local lualine_theme = {
-        normal = {
-          a = { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey1' },
-          b = { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey1' },
-          c = { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey1' },
-        },
-        inactive = { c = { bg = 'NvimDarkGrey1', fg = 'NvimLightGrey2' } },
-      }
 
       require('lualine').setup {
         options = {
