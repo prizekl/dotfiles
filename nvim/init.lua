@@ -324,10 +324,7 @@ require('lazy').setup({
         'nvim-treesitter/nvim-treesitter-context',
         config = function()
           vim.api.nvim_set_hl(0, 'TreesitterContext', { bg = 'NONE' })
-          vim.api.nvim_set_hl(0, 'TreesitterContextSeparator', {
-            bg = 'NONE',
-            fg = 'NvimDarkGrey4',
-          })
+          vim.api.nvim_set_hl(0, 'TreesitterContextSeparator', { link = 'LineNr' })
           require('treesitter-context').setup {
             max_lines = 1,
             trim_scope = 'inner',
