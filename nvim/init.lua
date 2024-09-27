@@ -239,9 +239,7 @@ require('lazy').setup({
           ['<C-d>'] = cmp.mapping.scroll_docs(4),
           ['<C-Space>'] = cmp.mapping.complete {},
           ['<C-e>'] = cmp.mapping.abort(),
-          ['<CR>'] = cmp.mapping.confirm {
-            select = true,
-          },
+          ['<CR>'] = cmp.mapping.confirm { select = true },
         },
         sources = {
           { name = 'nvim_lsp' },
@@ -297,11 +295,7 @@ require('lazy').setup({
             ignore_current_buffer = true,
             -- sort_lastused = true,
             sort_mru = true,
-            mappings = {
-              i = {
-                ['<c-d>'] = actions.delete_buffer,
-              },
-            },
+            mappings = { i = { ['<c-d>'] = actions.delete_buffer } },
           },
         },
       }
@@ -335,9 +329,7 @@ require('lazy').setup({
       {
         'Wansmer/treesj',
         config = function()
-          require('treesj').setup {
-            use_default_keymaps = false,
-          }
+          require('treesj').setup { use_default_keymaps = false }
 
           vim.keymap.set('n', '<leader>m', require('treesj').toggle)
           vim.keymap.set('n', '<leader>M', function()
@@ -345,11 +337,7 @@ require('lazy').setup({
           end)
         end,
       },
-      {
-        'folke/ts-comments.nvim',
-        opts = {},
-        event = 'VeryLazy',
-      },
+      { 'folke/ts-comments.nvim', opts = {}, event = 'VeryLazy' },
       { 'windwp/nvim-ts-autotag', opts = {} },
     },
 
