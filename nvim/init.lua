@@ -53,10 +53,11 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
+  'Eandrju/cellular-automaton.nvim',
   'tpope/vim-surround',
   'tpope/vim-sleuth',
 
-  { 'supermaven-inc/supermaven-nvim', opts = { ignore_filetypes = { 'TelescopePrompt', 'text' } } },
+  -- { 'supermaven-inc/supermaven-nvim', opts = { ignore_filetypes = { 'TelescopePrompt', 'text' } } },
 
   -- Git
   {
@@ -273,6 +274,7 @@ require('lazy').setup({
       local actions = require 'telescope.actions'
       require('telescope').setup {
         defaults = {
+          file_ignore_patterns = { 'node_modules' },
           path_display = { 'truncate' },
           borderchars = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
           layout_strategy = 'vertical',
@@ -320,6 +322,7 @@ require('lazy').setup({
           vim.api.nvim_set_hl(0, 'TreesitterContext', { bg = 'NONE' })
           vim.api.nvim_set_hl(0, 'TreesitterContextSeparator', { link = 'LineNr' })
           require('treesitter-context').setup {
+            max_lines = 3,
             trim_scope = 'inner',
             separator = '─',
           }
