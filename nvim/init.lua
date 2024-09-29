@@ -321,6 +321,9 @@ require('lazy').setup({
         config = function()
           vim.api.nvim_set_hl(0, 'TreesitterContext', { bg = 'NONE' })
           vim.api.nvim_set_hl(0, 'TreesitterContextSeparator', { link = 'LineNr' })
+          vim.keymap.set('n', '[t', function()
+            require('treesitter-context').go_to_context(vim.v.count1)
+          end, { silent = true })
           require('treesitter-context').setup {
             max_lines = 3,
             trim_scope = 'inner',
@@ -345,66 +348,59 @@ require('lazy').setup({
     },
 
     build = ':TSUpdate',
-    config = function()
-      require('nvim-treesitter.configs').setup {
-        ensure_installed = {
-          'go',
-          'lua',
-          'python',
-          'tsx',
-          'javascript',
-          'typescript',
-          'html',
-        },
-        auto_install = true,
-        modules = {},
-        ignore_install = {},
-        sync_install = false,
-        highlight = { enable = true },
-        indent = { enable = true },
-        incremental_selection = {
+    opts = {
+      ensure_installed = {
+        'go',
+        'lua',
+        'python',
+        'tsx',
+        'javascript',
+        'typescript',
+        'html',
+      },
+      auto_install = true,
+      highlight = { enable = true },
+      indent = { enable = true },
+      incremental_selection = { enable = true },
+      textobjects = {
+        select = {
           enable = true,
-        },
-        textobjects = {
-          select = {
-            enable = true,
-            lookahead = true,
-            keymaps = {
-              ['af'] = '@function.outer',
-              ['if'] = '@function.inner',
-              ['ac'] = '@class.outer',
-              ['ic'] = '@class.inner',
-              ['al'] = '@loop.outer', -- TESTING
-              ['ar'] = '@conditional.outer', -- TESTING
-            },
-          },
-          move = {
-            enable = true,
-            set_jumps = true,
-            goto_next_start = {
-              [']m'] = '@function.outer',
-              [']]'] = '@class.outer',
-              [']f'] = '@loop.outer', -- TESTING
-              [']r'] = '@conditional.outer', -- TESTING
-            },
-            goto_next_end = {
-              [']M'] = '@function.outer',
-              [']['] = '@class.outer',
-            },
-            goto_previous_start = {
-              ['[m'] = '@function.outer',
-              ['[['] = '@class.outer',
-              ['[f'] = '@loop.outer', -- TESTING
-              ['[r'] = '@conditional.outer', -- TESTING
-            },
-            goto_previous_end = {
-              ['[M'] = '@function.outer',
-              ['[]'] = '@class.outer',
-            },
+          lookahead = true,
+          keymaps = {
+            ['af'] = '@function.outer',
+            ['if'] = '@function.inner',
+            ['ac'] = '@class.outer',
+            ['ic'] = '@class.inner',
+            ['al'] = '@loop.outer', -- TESTING
+            ['ar'] = '@conditional.outer', -- TESTING
           },
         },
-      }
-    end,
+        move = {
+          enable = true,
+          set_jumps = true,
+          goto_next_start = {
+            [']m'] = '@function.outer',
+            [']]'] = '@class.outer',
+            [']f'] = '@loop.outer', -- TESTING
+            [']r'] = '@conditional.outer', -- TESTING
+          },
+          goto_next_end = {
+            [']M'] = '@function.outer',
+            [']['] = '@class.outer',
+          },
+          goto_previous_start = {
+            ['[m'] = '@function.outer',
+            ['[['] = '@class.outer',
+            ['[f'] = '@loop.outer', -- TESTING
+            ['[r'] = '@conditional.outer', -- TESTING
+          },
+          goto_previous_end = {
+            ['[M'] = '@function.outer',
+            ['[]'] = '@class.outer',
+          },
+        },
+      },
+    },
   },
 
   {
