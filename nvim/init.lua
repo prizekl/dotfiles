@@ -348,59 +348,64 @@ require('lazy').setup({
     },
 
     build = ':TSUpdate',
-    opts = {
-      ensure_installed = {
-        'go',
-        'lua',
-        'python',
-        'tsx',
-        'javascript',
-        'typescript',
-        'html',
-      },
-      auto_install = true,
-      highlight = { enable = true },
-      indent = { enable = true },
-      incremental_selection = { enable = true },
-      textobjects = {
-        select = {
-          enable = true,
-          lookahead = true,
-          keymaps = {
-            ['af'] = '@function.outer',
-            ['if'] = '@function.inner',
-            ['ac'] = '@class.outer',
-            ['ic'] = '@class.inner',
-            ['al'] = '@loop.outer', -- TESTING
-            ['ar'] = '@conditional.outer', -- TESTING
+    config = function()
+      require('nvim-treesitter.configs').setup {
+        ensure_installed = {
+          'go',
+          'lua',
+          'python',
+          'tsx',
+          'javascript',
+          'typescript',
+          'html',
+        },
+        auto_install = true,
+        modules = {},
+        ignore_install = {},
+        sync_install = false,
+        highlight = { enable = true },
+        indent = { enable = true },
+        incremental_selection = { enable = true },
+        textobjects = {
+          select = {
+            enable = true,
+            lookahead = true,
+            keymaps = {
+              ['af'] = '@function.outer',
+              ['if'] = '@function.inner',
+              ['ac'] = '@class.outer',
+              ['ic'] = '@class.inner',
+              ['al'] = '@loop.outer', -- TESTING
+              ['ar'] = '@conditional.outer', -- TESTING
+            },
+          },
+          move = {
+            enable = true,
+            set_jumps = true,
+            goto_next_start = {
+              [']m'] = '@function.outer',
+              [']]'] = '@class.outer',
+              [']f'] = '@loop.outer', -- TESTING
+              [']r'] = '@conditional.outer', -- TESTING
+            },
+            goto_next_end = {
+              [']M'] = '@function.outer',
+              [']['] = '@class.outer',
+            },
+            goto_previous_start = {
+              ['[m'] = '@function.outer',
+              ['[['] = '@class.outer',
+              ['[f'] = '@loop.outer', -- TESTING
+              ['[r'] = '@conditional.outer', -- TESTING
+            },
+            goto_previous_end = {
+              ['[M'] = '@function.outer',
+              ['[]'] = '@class.outer',
+            },
           },
         },
-        move = {
-          enable = true,
-          set_jumps = true,
-          goto_next_start = {
-            [']m'] = '@function.outer',
-            [']]'] = '@class.outer',
-            [']f'] = '@loop.outer', -- TESTING
-            [']r'] = '@conditional.outer', -- TESTING
-          },
-          goto_next_end = {
-            [']M'] = '@function.outer',
-            [']['] = '@class.outer',
-          },
-          goto_previous_start = {
-            ['[m'] = '@function.outer',
-            ['[['] = '@class.outer',
-            ['[f'] = '@loop.outer', -- TESTING
-            ['[r'] = '@conditional.outer', -- TESTING
-          },
-          goto_previous_end = {
-            ['[M'] = '@function.outer',
-            ['[]'] = '@class.outer',
-          },
-        },
-      },
-    },
+      }
+    end,
   },
 
   {
