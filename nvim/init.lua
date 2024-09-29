@@ -57,6 +57,7 @@ require('lazy').setup({
   'tpope/vim-surround',
   'tpope/vim-sleuth',
 
+  -- { 'windwp/nvim-autopairs', opts = {} },
   -- { 'supermaven-inc/supermaven-nvim', opts = { ignore_filetypes = { 'TelescopePrompt', 'text' } } },
 
   -- Git
@@ -251,8 +252,6 @@ require('lazy').setup({
     end,
   },
 
-  { 'windwp/nvim-autopairs', opts = {} },
-
   {
     'nvim-telescope/telescope.nvim',
     branch = '0.1.x',
@@ -375,8 +374,6 @@ require('lazy').setup({
               ['if'] = '@function.inner',
               ['ac'] = '@class.outer',
               ['ic'] = '@class.inner',
-              ['al'] = '@loop.outer', -- TESTING
-              ['ar'] = '@conditional.outer', -- TESTING
             },
           },
           move = {
@@ -385,8 +382,6 @@ require('lazy').setup({
             goto_next_start = {
               [']m'] = '@function.outer',
               [']]'] = '@class.outer',
-              [']f'] = '@loop.outer', -- TESTING
-              [']r'] = '@conditional.outer', -- TESTING
             },
             goto_next_end = {
               [']M'] = '@function.outer',
@@ -395,8 +390,6 @@ require('lazy').setup({
             goto_previous_start = {
               ['[m'] = '@function.outer',
               ['[['] = '@class.outer',
-              ['[f'] = '@loop.outer', -- TESTING
-              ['[r'] = '@conditional.outer', -- TESTING
             },
             goto_previous_end = {
               ['[M'] = '@function.outer',
