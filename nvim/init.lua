@@ -267,7 +267,7 @@ require('lazy').setup({
       },
     },
     config = function()
-      vim.api.nvim_set_hl(0, 'TelescopeNormal', { bg = 'NvimDarkGrey1' })
+      vim.api.nvim_set_hl(0, 'TelescopeNormal', { link = 'NormalFloat' })
 
       pcall(require('telescope').load_extension, 'fzf')
       local actions = require 'telescope.actions'
@@ -438,7 +438,6 @@ require('lazy').setup({
           theme = lualine_theme,
           icons_enabled = false,
           component_separators = '',
-          section_separators = '',
         },
         sections = {
           lualine_a = {},
