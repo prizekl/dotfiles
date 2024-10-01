@@ -429,7 +429,7 @@ require('lazy').setup({
     'nvim-lualine/lualine.nvim',
     config = function()
       vim.api.nvim_set_hl(0, 'StatusLine', { bg = 'NvimDarkGrey3' })
-      vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = 'NvimDarkGrey1' })
+      vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = 'NvimDarkGrey2' })
 
       local lualine_theme = {
         normal = {
@@ -437,7 +437,7 @@ require('lazy').setup({
           b = { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey2' },
           c = { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey2' },
         },
-        inactive = { c = { bg = 'NvimDarkGrey1', fg = 'NvimLightGrey2' } },
+        inactive = { c = { bg = 'NvimDarkGrey2', fg = 'NvimLightGrey2' } },
       }
 
       require('lualine').setup {
