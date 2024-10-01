@@ -370,7 +370,6 @@ require('lazy').setup({
         ignore_install = {},
         sync_install = false,
         highlight = { enable = true },
-        indent = { enable = true },
         incremental_selection = { enable = true },
         textobjects = {
           select = {
