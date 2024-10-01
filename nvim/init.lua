@@ -55,9 +55,8 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   'Eandrju/cellular-automaton.nvim',
   'tpope/vim-surround',
-  'tpope/vim-sleuth',
+  { 'windwp/nvim-autopairs', event = 'InsertEnter', config = true },
 
-  -- { 'windwp/nvim-autopairs', opts = {} },
   -- { 'supermaven-inc/supermaven-nvim', opts = { ignore_filetypes = { 'TelescopePrompt', 'text' } } },
 
   -- Git
