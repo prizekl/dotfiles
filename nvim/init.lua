@@ -53,7 +53,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
-  'Eandrju/cellular-automaton.nvim',
+  { 'MeanderingProgrammer/render-markdown.nvim', opts = {} },
   'tpope/vim-surround',
   {
     'm4xshen/autoclose.nvim',
@@ -427,16 +427,15 @@ require('lazy').setup({
   {
     'nvim-lualine/lualine.nvim',
     config = function()
-      vim.api.nvim_set_hl(0, 'StatusLine', { bg = 'NvimDarkGrey3' })
-      vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = 'NvimDarkGrey1' })
+      local active_hl = { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey2' }
+      local inactive_hl = { bg = 'NvimDarkGrey1', fg = 'NvimLightGrey2' }
+
+      vim.api.nvim_set_hl(0, 'StatusLine', active_hl)
+      vim.api.nvim_set_hl(0, 'StatusLineNC', inactive_hl)
 
       local lualine_theme = {
-        normal = {
-          a = { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey2' },
-          b = { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey2' },
-          c = { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey2' },
-        },
-        inactive = { c = { bg = 'NvimDarkGrey1', fg = 'NvimLightGrey2' } },
+        normal = { a = active_hl, b = active_hl, c = active_hl },
+        inactive = { c = inactive_hl },
       }
 
       require('lualine').setup {
