@@ -53,7 +53,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
-  { 'MeanderingProgrammer/render-markdown.nvim', opts = {} },
   'tpope/vim-surround',
   {
     'm4xshen/autoclose.nvim',
@@ -202,17 +201,14 @@ require('lazy').setup({
   {
     -- Formatter
     'stevearc/conform.nvim',
-    keys = {
-      {
-        '<leader>f',
-        function()
-          require('conform').format { async = true, lsp_fallback = true }
-        end,
-        mode = '',
-      },
-    },
     config = function()
-      require('conform').setup {
+      local conform = require 'conform'
+
+      conform.setup {
+        format_on_save = {
+          timeout_ms = 500,
+          lsp_format = 'fallback',
+        },
         formatters_by_ft = {
           lua = { 'stylua' },
           python = { 'isort', 'black' },
@@ -220,6 +216,10 @@ require('lazy').setup({
           typescriptreact = { 'prettierd', 'prettier', stop_after_first = true },
         },
       }
+
+      vim.keymap.set('n', '<leader>f', function()
+        conform.format { async = true }
+      end)
     end,
   },
 
