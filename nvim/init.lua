@@ -424,8 +424,8 @@ require('lazy').setup({
   {
     'nvim-lualine/lualine.nvim',
     config = function()
-      local active_hl = { bg = '#343434', fg = '#f1f1f1' }
-      local inactive_hl = { bg = '#000000', fg = '#f1f1f1' }
+      local active_hl = { bg = '#343434' }
+      local inactive_hl = { bg = '#000000' }
 
       vim.api.nvim_set_hl(0, 'StatusLine', active_hl)
       vim.api.nvim_set_hl(0, 'StatusLineNC', inactive_hl)
