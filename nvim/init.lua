@@ -13,7 +13,6 @@ vim.o.smartcase = true
 vim.wo.signcolumn = 'yes'
 vim.o.updatetime = 250
 vim.o.completeopt = 'menuone,noselect'
-vim.o.termguicolors = true
 vim.o.undofile = true
 vim.o.expandtab = true
 vim.o.shiftwidth = 4
@@ -21,6 +20,9 @@ vim.o.tabstop = 4
 vim.o.autoread = true
 vim.o.swapfile = false
 vim.api.nvim_command 'packadd Cfilter'
+
+vim.o.termguicolors = true
+vim.api.nvim_set_hl(0, 'Normal', { bg = 'NONE' })
 
 -- [[ Highlight on yank ]]
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
@@ -422,8 +424,8 @@ require('lazy').setup({
   {
     'nvim-lualine/lualine.nvim',
     config = function()
-      local active_hl = { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey2' }
-      local inactive_hl = { bg = 'NvimDarkGrey1', fg = 'NvimLightGrey2' }
+      local active_hl = { bg = '#343434', fg = '#f1f1f1' }
+      local inactive_hl = { bg = '#000000', fg = '#f1f1f1' }
 
       vim.api.nvim_set_hl(0, 'StatusLine', active_hl)
       vim.api.nvim_set_hl(0, 'StatusLineNC', inactive_hl)
