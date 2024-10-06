@@ -325,9 +325,11 @@ require('lazy').setup({
         config = function()
           vim.api.nvim_set_hl(0, 'TreesitterContext', { bg = 'NONE' })
           vim.api.nvim_set_hl(0, 'TreesitterContextSeparator', { link = 'LineNr' })
+
           vim.keymap.set('n', '[t', function()
             require('treesitter-context').go_to_context(vim.v.count1)
           end, { silent = true })
+
           require('treesitter-context').setup {
             max_lines = 3,
             trim_scope = 'inner',
@@ -404,40 +406,27 @@ require('lazy').setup({
     end,
   },
 
-  {
-    'echasnovski/mini.files',
-    version = false,
-    config = function()
-      require('mini.files').setup()
-
-      _G.minifiles_toggle = function(...)
-        if not MiniFiles.close() then
-          MiniFiles.open(...)
-          MiniFiles.reveal_cwd()
-        end
-      end
-
-      vim.keymap.set('n', '<leader>n', ':lua _G.minifiles_toggle(vim.api.nvim_buf_get_name(0))<CR>')
+  { 'echasnovski/mini.files', version = false, opts = {}, keys = { {
+    '<leader>n',
+    function()
+      MiniFiles.open()
     end,
-  },
+  } } },
 
   {
     'nvim-lualine/lualine.nvim',
     config = function()
-      local active_hl = { bg = '#343434' }
-      local inactive_hl = { bg = '#000000' }
+      local hl = { active = { bg = '#343434' }, inactive = { bg = '#000000' } }
 
-      vim.api.nvim_set_hl(0, 'StatusLine', active_hl)
-      vim.api.nvim_set_hl(0, 'StatusLineNC', inactive_hl)
-
-      local lualine_theme = {
-        normal = { a = active_hl, b = active_hl, c = active_hl },
-        inactive = { c = inactive_hl },
-      }
+      vim.api.nvim_set_hl(0, 'StatusLine', hl.active)
+      vim.api.nvim_set_hl(0, 'StatusLineNC', hl.inactive)
 
       require('lualine').setup {
         options = {
-          theme = lualine_theme,
+          theme = {
+            normal = { a = hl.active, b = hl.active, c = hl.active },
+            inactive = { c = hl.inactive },
+          },
           icons_enabled = false,
           component_separators = '',
         },
