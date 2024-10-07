@@ -23,7 +23,9 @@ vim.api.nvim_command 'packadd Cfilter'
 
 -- Colorscheme
 vim.o.termguicolors = true
-vim.api.nvim_set_hl(0, 'Normal', { bg = 'NONE' })
+vim.api.nvim_set_hl(0, 'Normal', { bg = '#161616' })
+vim.api.nvim_set_hl(0, 'StatusLine', { bg = '#343434' })
+vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = '#000000' })
 
 -- Highlight on yank
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
@@ -415,30 +417,15 @@ require('lazy').setup({
   } } },
 
   {
-    'nvim-lualine/lualine.nvim',
-    config = function()
-      local hl = { active = { bg = '#343434' }, inactive = { bg = '#000000' } }
-
-      vim.api.nvim_set_hl(0, 'StatusLine', hl.active)
-      vim.api.nvim_set_hl(0, 'StatusLineNC', hl.inactive)
-
-      require('lualine').setup {
-        options = {
-          theme = {
-            normal = { a = hl.active, b = hl.active, c = hl.active },
-            inactive = { c = hl.inactive },
-          },
-          icons_enabled = false,
-          component_separators = '',
-        },
-        sections = {
-          lualine_a = {},
-          lualine_b = { 'branch', 'diff' },
-          lualine_c = { { 'filename', path = 1 } },
-          lualine_x = { 'diagnostics' },
-        },
-        inactive_sections = { lualine_c = { { 'filename', path = 1 } } },
-      }
-    end,
+    'lewis6991/satellite.nvim',
+    opts = {
+      handlers = {
+        cursor = { enable = false },
+        search = { enable = false },
+        marks = { enable = false },
+        quickfix = { enable = false },
+        -- diagnostic = { signs = { '█' } },
+      },
+    },
   },
 }, {})
