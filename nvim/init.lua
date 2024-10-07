@@ -407,12 +407,22 @@ require('lazy').setup({
     end,
   },
 
-  { 'echasnovski/mini.files', version = false, opts = {}, keys = { {
-    '<leader>n',
-    function()
-      MiniFiles.open()
+  {
+    'echasnovski/mini.files',
+    version = false,
+    config = function()
+      require('mini.files').setup()
+
+      _G.minifiles_toggle = function(...)
+        if not MiniFiles.close() then
+          MiniFiles.open(...)
+          MiniFiles.reveal_cwd()
+        end
+      end
+
+      vim.keymap.set('n', '<leader>n', ':lua _G.minifiles_toggle(vim.api.nvim_buf_get_name(0))<CR>')
     end,
-  } } },
+  },
 
   {
     'nvim-lualine/lualine.nvim',
