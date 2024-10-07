@@ -21,10 +21,11 @@ vim.o.autoread = true
 vim.o.swapfile = false
 vim.api.nvim_command 'packadd Cfilter'
 
+-- Colorscheme
 vim.o.termguicolors = true
 vim.api.nvim_set_hl(0, 'Normal', { bg = 'NONE' })
 
--- [[ Highlight on yank ]]
+-- Highlight on yank
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {
   callback = function()
