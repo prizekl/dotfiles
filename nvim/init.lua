@@ -424,7 +424,7 @@ require('lazy').setup({
         search = { enable = false },
         marks = { enable = false },
         quickfix = { enable = false },
-        -- diagnostic = { signs = { '█' } },
+        diagnostic = { signs = { '█' } },
       },
     },
   },
