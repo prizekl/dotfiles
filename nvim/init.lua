@@ -456,7 +456,7 @@ require('lazy').setup({
         cursor = { enable = false },
         search = { enable = false },
         marks = { enable = false },
-        diagnostic = { signs = { '█' } },
+        diagnostic = { signs = { '■' } },
       },
     },
   },
