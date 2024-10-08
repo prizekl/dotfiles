@@ -43,7 +43,7 @@ function _G.update_last_git_modified()
   vim.b.last_git_modified = mtime > 0 and os.date('%Y-%m-%d %H:%M:%S', mtime) or ''
 end
 
-vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost' }, {
+vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost', 'FocusGained' }, {
   group = vim.api.nvim_create_augroup('UpdateLastGitModified', { clear = true }),
   callback = _G.update_last_git_modified,
 })
