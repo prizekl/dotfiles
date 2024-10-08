@@ -23,7 +23,39 @@ vim.api.nvim_command 'packadd Cfilter'
 
 -- Colorscheme
 vim.o.termguicolors = true
-vim.api.nvim_set_hl(0, 'Normal', { bg = 'NONE' })
+vim.api.nvim_set_hl(0, 'Normal', { bg = '#161616' })
+
+-- StatusLine
+vim.api.nvim_set_hl(0, 'StatusLine', { bg = '#343434' })
+vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = '#000000' })
+
+-- Function to compute and store the last git modification time in a buffer-local variable
+function _G.update_last_git_modified()
+  local file = vim.fn.expand('%:p')
+  if file == '' or not vim.fn.filereadable(file) then
+    vim.b.last_git_modified = ''
+    return
+  end
+  local git_cmd = 'git log -1 --date=format-local:%Y-%m-%d\\ %H:%M:%S --format=%ad -- ' .. vim.fn.fnameescape(file)
+  local git_time = vim.fn.system(git_cmd):gsub('%s+$', '')
+  if vim.v.shell_error == 0 and git_time ~= '' then
+    vim.b.last_git_modified = git_time
+  else
+    local mtime = vim.fn.getftime(file)
+    vim.b.last_git_modified = mtime > 0 and os.date('%Y-%m-%d %H:%M:%S', mtime) or ''
+  end
+end
+
+-- Autocommand to update the git time when entering a buffer
+vim.cmd([[
+  augroup UpdateLastGitModified
+    autocmd!
+    autocmd BufEnter * lua update_last_git_modified()
+  augroup END
+]])
+
+-- Update your status line to use the buffer-local variable
+vim.opt.statusline = '%<%f %h%m%r %=%{get(b:, "last_git_modified", "")}'
 
 -- Highlight on yank
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
@@ -425,30 +457,14 @@ require('lazy').setup({
   },
 
   {
-    'nvim-lualine/lualine.nvim',
-    config = function()
-      local hl = { active = { bg = '#343434' }, inactive = { bg = '#000000' } }
-
-      vim.api.nvim_set_hl(0, 'StatusLine', hl.active)
-      vim.api.nvim_set_hl(0, 'StatusLineNC', hl.inactive)
-
-      require('lualine').setup {
-        options = {
-          theme = {
-            normal = { a = hl.active, b = hl.active, c = hl.active },
-            inactive = { c = hl.inactive },
-          },
-          icons_enabled = false,
-          component_separators = '',
-        },
-        sections = {
-          lualine_a = {},
-          lualine_b = { 'branch', 'diff' },
-          lualine_c = { { 'filename', path = 1 } },
-          lualine_x = { 'diagnostics' },
-        },
-        inactive_sections = { lualine_c = { { 'filename', path = 1 } } },
-      }
-    end,
+    'lewis6991/satellite.nvim',
+    opts = {
+      handlers = {
+        cursor = { enable = false },
+        search = { enable = false },
+        marks = { enable = false },
+        diagnostic = { signs = { '█' } },
+      },
+    },
   },
 }, {})
