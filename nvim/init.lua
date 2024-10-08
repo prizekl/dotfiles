@@ -21,12 +21,13 @@ vim.o.autoread = true
 vim.o.swapfile = false
 vim.api.nvim_command 'packadd Cfilter'
 
+-- Colorscheme
 vim.o.termguicolors = true
 vim.api.nvim_set_hl(0, 'Normal', { bg = '#161616' })
-
 vim.api.nvim_set_hl(0, 'StatusLine', { bg = '#343434' })
 vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = '#000000' })
 
+-- StatusLine
 function _G.update_last_git_modified()
   local file = vim.fn.expand '%:p'
   if file == '' or not vim.fn.filereadable(file) then
@@ -42,12 +43,10 @@ function _G.update_last_git_modified()
   vim.b.last_git_modified = mtime > 0 and os.date('%Y-%m-%d %H:%M:%S', mtime) or ''
 end
 
-vim.cmd [[
-  augroup UpdateLastGitModified
-    autocmd!
-    autocmd BufEnter,BufWritePost * lua _G.update_last_git_modified()
-  augroup END
-]]
+vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost' }, {
+  group = vim.api.nvim_create_augroup('UpdateLastGitModified', { clear = true }),
+  callback = _G.update_last_git_modified,
+})
 
 vim.opt.statusline = '%<%f %h%m%r %=%{get(b:,"last_git_modified","")}'
 
