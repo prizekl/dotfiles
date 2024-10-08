@@ -21,41 +21,35 @@ vim.o.autoread = true
 vim.o.swapfile = false
 vim.api.nvim_command 'packadd Cfilter'
 
--- Colorscheme
 vim.o.termguicolors = true
 vim.api.nvim_set_hl(0, 'Normal', { bg = '#161616' })
 
--- StatusLine
 vim.api.nvim_set_hl(0, 'StatusLine', { bg = '#343434' })
 vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = '#000000' })
 
--- Function to compute and store the last git modification time in a buffer-local variable
 function _G.update_last_git_modified()
-  local file = vim.fn.expand('%:p')
+  local file = vim.fn.expand '%:p'
   if file == '' or not vim.fn.filereadable(file) then
     vim.b.last_git_modified = ''
     return
   end
-  local git_cmd = 'git log -1 --date=format-local:%Y-%m-%d\\ %H:%M:%S --format=%ad -- ' .. vim.fn.fnameescape(file)
-  local git_time = vim.fn.system(git_cmd):gsub('%s+$', '')
+  local git_time = vim.fn.system('git log -1 --date=format-local:%Y-%m-%d\\ %H:%M:%S --format=%ad -- ' .. vim.fn.fnameescape(file)):gsub('%s+$', '')
   if vim.v.shell_error == 0 and git_time ~= '' then
     vim.b.last_git_modified = git_time
-  else
-    local mtime = vim.fn.getftime(file)
-    vim.b.last_git_modified = mtime > 0 and os.date('%Y-%m-%d %H:%M:%S', mtime) or ''
+    return
   end
+  local mtime = vim.fn.getftime(file)
+  vim.b.last_git_modified = mtime > 0 and os.date('%Y-%m-%d %H:%M:%S', mtime) or ''
 end
 
--- Autocommand to update the git time when entering a buffer
-vim.cmd([[
+vim.cmd [[
   augroup UpdateLastGitModified
     autocmd!
-    autocmd BufEnter * lua update_last_git_modified()
+    autocmd BufEnter,BufWritePost * lua _G.update_last_git_modified()
   augroup END
-]])
+]]
 
--- Update your status line to use the buffer-local variable
-vim.opt.statusline = '%<%f %h%m%r %=%{get(b:, "last_git_modified", "")}'
+vim.opt.statusline = '%<%f %h%m%r %=%{get(b:,"last_git_modified","")}'
 
 -- Highlight on yank
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
