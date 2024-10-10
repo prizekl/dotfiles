@@ -445,3 +445,18 @@ require('lazy').setup({
     end,
   },
 }, {})
+
+vim.api.nvim_set_hl(0, 'Priority', { fg = 'red' })
+vim.api.nvim_set_hl(0, 'Ongoing', { fg = 'orange' })
+vim.api.nvim_set_hl(0, 'Done', { fg = 'green' })
+
+local function match_words()
+  vim.fn.matchadd('Priority', '\\[!\\]')
+  vim.fn.matchadd('Ongoing', '\\[o\\]')
+  vim.fn.matchadd('Done', '\\[x\\]')
+end
+
+vim.api.nvim_create_autocmd({ 'BufReadPost', 'InsertLeave' }, {
+  pattern = '*',
+  callback = match_words,
+})
