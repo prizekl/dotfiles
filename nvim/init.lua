@@ -56,6 +56,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
+  'tpope/vim-abolish',
   'tpope/vim-surround',
   {
     'm4xshen/autoclose.nvim',
@@ -332,8 +333,7 @@ require('lazy').setup({
           end, { silent = true })
 
           require('treesitter-context').setup {
-            max_lines = 3,
-            trim_scope = 'inner',
+            multiline_threshold = 1,
             separator = '─',
           }
         end,
