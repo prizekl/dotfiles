@@ -56,8 +56,8 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
-  'tpope/vim-abolish',
-  'tpope/vim-surround',
+  { 'tpope/vim-abolish', cmd = { 'S', 'Abolish', 'Subvert' } },
+  { 'tpope/vim-surround', keys = { 'ds', 'cs', 'ys', { 'S', mode = 'v' } } },
   {
     'm4xshen/autoclose.nvim',
     event = 'InsertEnter',
@@ -70,11 +70,10 @@ require('lazy').setup({
   -- Git
   {
     'sindrets/diffview.nvim',
-    config = function()
-      require('diffview').setup {
-        view = { merge_tool = { layout = 'diff1_plain', disable_diagnostics = false } },
-      }
-    end,
+    cmd = { 'DiffviewOpen', 'DiffviewFileHistory' },
+    opts = {
+      view = { merge_tool = { layout = 'diff1_plain', disable_diagnostics = false } },
+    },
   },
 
   {
@@ -202,10 +201,14 @@ require('lazy').setup({
   {
     -- Formatter
     'stevearc/conform.nvim',
+    keys = { {
+      '<leader>f',
+      function()
+        require('conform').format { async = true }
+      end,
+    } },
     config = function()
-      local conform = require 'conform'
-
-      conform.setup {
+      require('conform').setup {
         formatters_by_ft = {
           lua = { 'stylua' },
           python = { 'isort', 'black' },
@@ -213,16 +216,13 @@ require('lazy').setup({
           typescriptreact = { 'prettierd', 'prettier', stop_after_first = true },
         },
       }
-
-      vim.keymap.set('n', '<leader>f', function()
-        conform.format { async = true }
-      end)
     end,
   },
 
   {
     -- Autocompletion
     'hrsh7th/nvim-cmp',
+    event = 'InsertEnter',
     dependencies = {
       'hrsh7th/cmp-nvim-lsp-signature-help',
       'hrsh7th/cmp-nvim-lsp',
@@ -317,7 +317,6 @@ require('lazy').setup({
 
   {
     'nvim-treesitter/nvim-treesitter',
-
     dependencies = {
       {
         'nvim-treesitter/nvim-treesitter-context',
@@ -406,14 +405,16 @@ require('lazy').setup({
 
   {
     'echasnovski/mini.files',
-    version = false,
-    config = function()
-      require('mini.files').setup()
-      vim.keymap.set('n', '<leader>n', function()
-        MiniFiles.open(vim.api.nvim_buf_get_name(0), false)
-        MiniFiles.reveal_cwd()
-      end)
-    end,
+    keys = {
+      {
+        '<leader>n',
+        function()
+          require('mini.files').open(vim.api.nvim_buf_get_name(0), false)
+          require('mini.files').reveal_cwd()
+        end,
+      },
+    },
+    opts = {},
   },
 
   {
