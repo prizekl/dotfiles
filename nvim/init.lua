@@ -67,9 +67,6 @@ require('lazy').setup({
     } },
   },
 
-  -- TODO: Remove subscription
-  -- { 'supermaven-inc/supermaven-nvim', opts = { ignore_filetypes = { 'TelescopePrompt', 'text' } } },
-
   -- Git
   {
     'sindrets/diffview.nvim',
