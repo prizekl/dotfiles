@@ -23,7 +23,7 @@ vim.api.nvim_command 'packadd Cfilter'
 
 -- Colorscheme
 vim.o.termguicolors = true
-vim.api.nvim_set_hl(0, 'Normal', { bg = '#161616' })
+vim.api.nvim_set_hl(0, 'Normal', { bg = 'NONE' })
 
 -- Highlight on yank
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
@@ -409,15 +409,10 @@ require('lazy').setup({
     version = false,
     config = function()
       require('mini.files').setup()
-
-      _G.minifiles_toggle = function(...)
-        if not MiniFiles.close() then
-          MiniFiles.open(...)
-          MiniFiles.reveal_cwd()
-        end
-      end
-
-      vim.keymap.set('n', '<leader>n', ':lua _G.minifiles_toggle(vim.api.nvim_buf_get_name(0))<CR>')
+      vim.keymap.set('n', '<leader>n', function()
+        MiniFiles.open(vim.api.nvim_buf_get_name(0), false)
+        MiniFiles.reveal_cwd()
+      end)
     end,
   },
 
