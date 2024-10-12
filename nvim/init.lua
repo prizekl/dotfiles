@@ -425,6 +425,8 @@ require('lazy').setup({
       vim.api.nvim_set_hl(0, 'StatusLine', hl.active)
       vim.api.nvim_set_hl(0, 'StatusLineNC', hl.inactive)
 
+      vim.api.nvim_create_autocmd('DiagnosticChanged', { callback = require('lualine').refresh })
+
       require('lualine').setup {
         options = {
           theme = {
@@ -446,17 +448,23 @@ require('lazy').setup({
   },
 }, {})
 
+vim.api.nvim_set_keymap('n', '<c-l>', '<nop>', { noremap = true, silent = true })
+
 vim.api.nvim_set_hl(0, 'Priority', { fg = 'red' })
 vim.api.nvim_set_hl(0, 'Ongoing', { fg = 'orange' })
 vim.api.nvim_set_hl(0, 'Done', { fg = 'green' })
+vim.api.nvim_set_hl(0, 'Time', { fg = 'pink' })
+vim.api.nvim_set_hl(0, 'Heading', { bold = true })
 
 local function match_words()
-  vim.fn.matchadd('Priority', '\\[!\\]')
-  vim.fn.matchadd('Ongoing', '\\[o\\]')
-  vim.fn.matchadd('Done', '\\[x\\]')
+  vim.cmd "syntax match Priority '\\[!\\]'"
+  vim.cmd "syntax match Ongoing '\\[o\\]'"
+  vim.cmd "syntax match Done '\\[x\\]'"
+  vim.cmd "syntax match Time '\\*\\*[^\\*]\\+\\*\\*'"
+  vim.cmd "syntax match Heading '#.*'"
 end
 
 vim.api.nvim_create_autocmd({ 'BufReadPost', 'InsertLeave' }, {
-  pattern = '*',
+  pattern = '*.txt',
   callback = match_words,
 })
