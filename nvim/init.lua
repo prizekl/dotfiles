@@ -331,7 +331,6 @@ require('lazy').setup({
           }
         end,
       },
-      'nvim-treesitter/nvim-treesitter-textobjects',
       {
         'Wansmer/treesj',
         config = function()
@@ -348,56 +347,23 @@ require('lazy').setup({
     },
 
     build = ':TSUpdate',
-    config = function()
-      require('nvim-treesitter.configs').setup {
-        ensure_installed = {
-          'go',
-          'lua',
-          'python',
-          'tsx',
-          'javascript',
-          'typescript',
-          'html',
-        },
-        auto_install = true,
-        modules = {},
-        ignore_install = {},
-        sync_install = false,
-        highlight = { enable = true },
-        textobjects = {
-          select = {
-            enable = true,
-            lookahead = true,
-            keymaps = {
-              ['af'] = '@function.outer',
-              ['if'] = '@function.inner',
-              ['ac'] = '@class.outer',
-              ['ic'] = '@class.inner',
-            },
-          },
-          move = {
-            enable = true,
-            set_jumps = true,
-            goto_next_start = {
-              [']m'] = '@function.outer',
-              [']]'] = '@class.outer',
-            },
-            goto_next_end = {
-              [']M'] = '@function.outer',
-              [']['] = '@class.outer',
-            },
-            goto_previous_start = {
-              ['[m'] = '@function.outer',
-              ['[['] = '@class.outer',
-            },
-            goto_previous_end = {
-              ['[M'] = '@function.outer',
-              ['[]'] = '@class.outer',
-            },
-          },
-        },
-      }
-    end,
+    main = 'nvim-treesitter.configs',
+    opts = {
+      ensure_installed = 'all',
+      auto_install = true,
+      sync_install = false,
+      highlight = {
+        enable = true,
+        disable = function(lang, buf)
+          local max_filesize = 1000 * 1024 -- 1 MB
+          local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+          if ok and stats and stats.size > max_filesize then
+            return true
+          end
+        end,
+      },
+      indent = { enable = true },
+    },
   },
 
   {
