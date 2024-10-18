@@ -271,10 +271,8 @@ require('lazy').setup({
       vim.api.nvim_set_hl(0, 'TelescopeNormal', { link = 'NormalFloat' })
 
       pcall(require('telescope').load_extension, 'fzf')
-      local actions = require 'telescope.actions'
       require('telescope').setup {
         defaults = {
-          file_ignore_patterns = { 'node_modules' },
           path_display = { 'truncate' },
           borderchars = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
           layout_strategy = 'vertical',
@@ -297,7 +295,7 @@ require('lazy').setup({
             ignore_current_buffer = true,
             -- sort_lastused = true,
             sort_mru = true,
-            mappings = { i = { ['<c-d>'] = actions.delete_buffer } },
+            mappings = { i = { ['<c-d>'] = require('telescope.actions').delete_buffer } },
           },
         },
       }
