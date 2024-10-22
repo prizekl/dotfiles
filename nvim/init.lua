@@ -6,7 +6,6 @@ vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = tr
 vim.api.nvim_set_keymap('n', '<c-l>', '<nop>', { noremap = true, silent = true })
 
 vim.wo.number = true
-vim.o.mouse = 'a'
 vim.opt.clipboard = 'unnamedplus'
 vim.o.breakindent = true
 vim.o.ignorecase = true
@@ -18,7 +17,6 @@ vim.o.undofile = true
 vim.o.expandtab = true
 vim.o.shiftwidth = 4
 vim.o.tabstop = 4
-vim.o.autoread = true
 vim.o.swapfile = false
 vim.api.nvim_command 'packadd Cfilter'
 
@@ -353,12 +351,10 @@ require('lazy').setup({
       sync_install = false,
       highlight = {
         enable = true,
-        disable = function(lang, buf)
+        disable = function(_, buf)
           local max_filesize = 1000 * 1024 -- 1 MB
           local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-          if ok and stats and stats.size > max_filesize then
-            return true
-          end
+          return ok and stats and stats.size > max_filesize
         end,
       },
       indent = { enable = true },
@@ -382,27 +378,37 @@ require('lazy').setup({
   {
     'nvim-lualine/lualine.nvim',
     config = function()
-      local hl = { active = { bg = '#343434' }, inactive = { bg = '#000000' } }
+      local hl_active, hl_inactive = { bg = '#343434' }, { bg = '#000000' }
 
-      vim.api.nvim_set_hl(0, 'StatusLine', hl.active)
-      vim.api.nvim_set_hl(0, 'StatusLineNC', hl.inactive)
+      vim.api.nvim_set_hl(0, 'StatusLine', hl_active)
+      vim.api.nvim_set_hl(0, 'StatusLineNC', hl_inactive)
 
       vim.api.nvim_create_autocmd('DiagnosticChanged', { callback = require('lualine').refresh })
+
+      vim.opt.showmode, vim.opt.showcmd = false, false
 
       require('lualine').setup {
         options = {
           theme = {
-            normal = { a = hl.active, b = hl.active, c = hl.active },
-            inactive = { c = hl.inactive },
+            normal = { a = hl_active, b = hl_active, c = hl_active },
+            inactive = { c = hl_inactive },
           },
           icons_enabled = false,
           component_separators = '',
         },
         sections = {
-          lualine_a = {},
-          lualine_b = { 'branch', 'diff' },
-          lualine_c = { { 'filename', path = 1 } },
-          lualine_x = { 'diagnostics' },
+          lualine_a = {
+            {
+              'mode',
+              fmt = function(str)
+                return str:sub(1, 3)
+              end,
+            },
+            'selectioncount',
+          },
+          lualine_b = { { 'filename', path = 1 }, 'diagnostics' },
+          lualine_c = {},
+          lualine_x = { 'branch', 'diff' },
         },
         inactive_sections = { lualine_c = { { 'filename', path = 1 } } },
       }
@@ -418,6 +424,7 @@ require('lazy').setup({
       vim.api.nvim_set_hl(0, 'Postponed', { fg = 'magenta' })
 
       require('render-markdown').setup {
+        overrides = { buftype = { nofile = { enabled = false } } },
         checkbox = {
           position = 'overlay',
           unchecked = { highlight = 'Normal' },
