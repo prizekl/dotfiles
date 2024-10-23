@@ -418,6 +418,8 @@ require('lazy').setup({
   {
     'MeanderingProgrammer/render-markdown.nvim',
     config = function()
+      vim.keymap.set('n', '<leader>rm', require('render-markdown').toggle)
+
       vim.api.nvim_set_hl(0, 'Done', { fg = 'green' })
       vim.api.nvim_set_hl(0, 'Priority', { fg = 'red' })
       vim.api.nvim_set_hl(0, 'Ongoing', { fg = 'orange' })
