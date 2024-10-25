@@ -428,7 +428,6 @@ require('lazy').setup({
       require('render-markdown').setup {
         overrides = { buftype = { nofile = { enabled = false } } },
         checkbox = {
-          position = 'overlay',
           unchecked = { highlight = 'Normal' },
           checked = { highlight = 'Done' },
           custom = {
