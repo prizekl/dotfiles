@@ -12,6 +12,8 @@ autoload -Uz compinit && compinit
 alias ls='exa'
 eval "$(atuin init zsh)"
 alias cdev='npx convex dev --tail-logs'
+alias diffview='nvim -c :DiffviewOpen'
+
 bindkey '\e[91;5u' vi-cmd-mode # vi mode escape binding for ghostty
 
 users() {
