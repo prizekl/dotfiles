@@ -404,7 +404,6 @@ require('lazy').setup({
                 return str:sub(1, 3)
               end,
             },
-            'selectioncount',
           },
           lualine_b = { { 'filename', path = 1 }, 'diagnostics' },
           lualine_c = {},
