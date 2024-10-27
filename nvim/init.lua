@@ -20,11 +20,17 @@ vim.o.tabstop = 4
 vim.o.swapfile = false
 vim.api.nvim_command 'packadd Cfilter'
 
--- Colorscheme
+-- Floats are disabled by default: https://github.com/neovim/neovim/pull/16230
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
+vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
+vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
+
+-- [[ Colorscheme ]]
 vim.o.termguicolors = true
 vim.api.nvim_set_hl(0, 'Normal', { bg = 'NONE' })
 
--- Highlight on yank
+-- [[ Highlight on yank ]]
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {
   callback = function()
@@ -34,13 +40,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
--- Floats are disabled by default: https://github.com/neovim/neovim/pull/16230
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
-vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
-
--- Statusline Config
+-- [[ Statusline ]]
 vim.api.nvim_set_hl(0, 'StatusLine', { bg = '#343434', fg = 'white' })
 vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = '#000000', fg = 'lightgrey' })
 vim.api.nvim_set_hl(0, 'WinSeparator', { fg = '#343434' })
@@ -182,6 +182,8 @@ vim.api.nvim_create_autocmd('DiagnosticChanged', {
     vim.cmd 'redrawstatus!'
   end,
 })
+
+-- [[ Plugins ]]
 
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
