@@ -40,6 +40,149 @@ vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
 
+-- Statusline Config
+vim.api.nvim_set_hl(0, 'StatusLine', { bg = '#343434', fg = 'white' })
+vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = '#000000', fg = 'lightgrey' })
+vim.api.nvim_set_hl(0, 'WinSeparator', { fg = '#343434' })
+
+vim.opt.showmode = false
+vim.opt.showcmd = false
+
+-- adapted from MariaSol0s https://github.com/MariaSolOs/dotfiles/blob/main/.config/nvim/lua/statusline.lua
+
+local M = {}
+
+M.diagnostic_cache = {}
+M.highlight_cache = {}
+
+local DIAGNOSTIC_ICONS = { ERROR = 'E:', WARN = 'W:', INFO = 'I:', HINT = 'H:' }
+local SEVERITY_ORDER = { 'ERROR', 'WARN', 'HINT', 'INFO' }
+
+function M.get_diagnostics_component(bufnr, is_active)
+  if vim.startswith(vim.api.nvim_get_mode().mode, 'i') then
+    return M.diagnostic_cache[bufnr] or ''
+  end
+
+  local counts = vim.iter(vim.diagnostic.get(bufnr)):fold({}, function(acc, diagnostic)
+    local severity = vim.diagnostic.severity[diagnostic.severity]
+    acc[severity] = (acc[severity] or 0) + 1
+    return acc
+  end)
+
+  local parts = {}
+
+  for _, severity in ipairs(SEVERITY_ORDER) do
+    local count = counts[severity] or 0
+    if count > 0 then
+      local hl = 'Diagnostic' .. severity
+      table.insert(parts, string.format('%%#%s#%s%d', M.create_hl(hl, is_active), DIAGNOSTIC_ICONS[severity], count))
+    end
+  end
+
+  local diagnostics_str = table.concat(parts, ' ')
+
+  diagnostics_str = diagnostics_str .. (is_active and '%#StatusLine#' or '%#StatusLineNC#')
+
+  M.diagnostic_cache[bufnr] = diagnostics_str
+  return diagnostics_str
+end
+
+function M.create_hl(hl, is_active)
+  local hl_name = 'StatusLine' .. hl .. (is_active and 'Active' or 'Inactive')
+  if M.highlight_cache[hl_name] then
+    return hl_name
+  end
+
+  local bg_group = is_active and 'StatusLine' or 'StatusLineNC'
+  local bg_hl = vim.api.nvim_get_hl(0, { name = bg_group })
+  local fg_hl = vim.api.nvim_get_hl(0, { name = hl })
+
+  vim.api.nvim_set_hl(0, hl_name, { bg = ('#%06x'):format(bg_hl.bg), fg = ('#%06x'):format(fg_hl.fg) })
+
+  return hl_name
+end
+
+-- Ripped from lualine https://github.com/nvim-lualine/lualine.nvim/blob/master/lua/lualine/utils/mode.lua
+
+local MODE_MAP = {
+  ['n'] = 'NORMAL',
+  ['no'] = 'O-PENDING',
+  ['nov'] = 'O-PENDING',
+  ['noV'] = 'O-PENDING',
+  ['no\22'] = 'O-PENDING',
+  ['niI'] = 'NORMAL',
+  ['niR'] = 'NORMAL',
+  ['niV'] = 'NORMAL',
+  ['nt'] = 'NORMAL',
+  ['ntT'] = 'NORMAL',
+  ['v'] = 'VISUAL',
+  ['vs'] = 'VISUAL',
+  ['V'] = 'V-LINE',
+  ['Vs'] = 'V-LINE',
+  ['\22'] = 'V-BLOCK',
+  ['\22s'] = 'V-BLOCK',
+  ['s'] = 'SELECT',
+  ['S'] = 'S-LINE',
+  ['\19'] = 'S-BLOCK',
+  ['i'] = 'INSERT',
+  ['ic'] = 'INSERT',
+  ['ix'] = 'INSERT',
+  ['R'] = 'REPLACE',
+  ['Rc'] = 'REPLACE',
+  ['Rx'] = 'REPLACE',
+  ['Rv'] = 'V-REPLACE',
+  ['Rvc'] = 'V-REPLACE',
+  ['Rvx'] = 'V-REPLACE',
+  ['c'] = 'COMMAND',
+  ['cv'] = 'EX',
+  ['ce'] = 'EX',
+  ['r'] = 'REPLACE',
+  ['rm'] = 'MORE',
+  ['r?'] = 'CONFIRM',
+  ['!'] = 'SHELL',
+  ['t'] = 'TERMINAL',
+}
+
+function M.get_mode_component()
+  local mode_code = vim.api.nvim_get_mode().mode
+  if MODE_MAP[mode_code] == nil then
+    return mode_code
+  end
+  return MODE_MAP[mode_code]
+end
+
+function M.render()
+  local active_winid = vim.api.nvim_get_current_win()
+  local status_winid = vim.g.statusline_winid
+  local is_active = (active_winid == status_winid)
+
+  local bufnr = vim.api.nvim_win_get_buf(status_winid)
+  local diagnostics = M.get_diagnostics_component(bufnr, is_active)
+  local mode = M.get_mode_component()
+
+  local components = {
+    ' ',
+    is_active and (mode:sub(1, 3) .. '   ') or '      ',
+    '%<%f %h%m%r',
+    '%=',
+    diagnostics,
+    '   ',
+    '%l/%L:%c%V%',
+    '  ',
+  }
+
+  return table.concat(components)
+end
+
+_G.render = M.render
+vim.o.statusline = '%!v:lua._G.render()'
+
+vim.api.nvim_create_autocmd('DiagnosticChanged', {
+  callback = function()
+    vim.cmd 'redrawstatus!'
+  end,
+})
+
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system {
@@ -373,45 +516,6 @@ require('lazy').setup({
       },
     },
     opts = {},
-  },
-
-  {
-    'nvim-lualine/lualine.nvim',
-    config = function()
-      local hl_active, hl_inactive = { bg = '#343434' }, { bg = '#000000' }
-
-      vim.api.nvim_set_hl(0, 'StatusLine', hl_active)
-      vim.api.nvim_set_hl(0, 'StatusLineNC', hl_inactive)
-
-      vim.api.nvim_create_autocmd('DiagnosticChanged', { callback = require('lualine').refresh })
-
-      vim.opt.showmode, vim.opt.showcmd = false, false
-
-      require('lualine').setup {
-        options = {
-          theme = {
-            normal = { a = hl_active, b = hl_active, c = hl_active },
-            inactive = { c = hl_inactive },
-          },
-          icons_enabled = false,
-          component_separators = '',
-        },
-        sections = {
-          lualine_a = {
-            {
-              'mode',
-              fmt = function(str)
-                return str:sub(1, 3)
-              end,
-            },
-          },
-          lualine_b = { { 'filename', path = 1 }, 'diagnostics' },
-          lualine_c = {},
-          lualine_x = { 'branch', 'diff' },
-        },
-        inactive_sections = { lualine_c = { { 'filename', path = 1 } } },
-      }
-    end,
   },
 
   {
