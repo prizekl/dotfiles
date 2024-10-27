@@ -151,7 +151,7 @@ function M.get_mode_component()
   return MODE_MAP[mode_code]
 end
 
-function M.render()
+function M.render_statusline()
   local active_winid = vim.api.nvim_get_current_win()
   local status_winid = vim.g.statusline_winid
   local is_active = (active_winid == status_winid)
@@ -174,8 +174,8 @@ function M.render()
   return table.concat(components)
 end
 
-_G.render = M.render
-vim.o.statusline = '%!v:lua._G.render()'
+_G.render_statusline = M.render_statusline
+vim.o.statusline = '%!v:lua.render_statusline()'
 
 vim.api.nvim_create_autocmd('DiagnosticChanged', {
   callback = function()
