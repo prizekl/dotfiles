@@ -167,7 +167,7 @@ function M.render()
     '%=',
     diagnostics,
     '   ',
-    '%l/%L:%c%V%',
+    '%l/%L,%c%V%',
     '  ',
   }
 
