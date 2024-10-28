@@ -160,15 +160,17 @@ function M.render_statusline()
   local diagnostics = M.get_diagnostics_component(bufnr, is_active)
   local mode = M.get_mode_component()
 
+  local pad = '\x20'
+
   local components = {
-    ' ',
-    is_active and (mode:sub(1, 3) .. '   ') or '      ',
+    pad,
+    is_active and (mode:sub(1, 3) .. pad:rep(3)) or pad:rep(6),
     '%<%f %h%m%r',
     '%=',
     diagnostics,
-    '   ',
+    pad:rep(3),
     '%l/%L,%c%V%',
-    '  ',
+    pad:rep(2),
   }
 
   return table.concat(components)
