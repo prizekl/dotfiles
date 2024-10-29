@@ -547,3 +547,11 @@ require('lazy').setup({
     end,
   },
 }, {})
+
+-- Typescript compiling
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'typescript', 'typescriptreact' },
+  callback = function()
+    vim.cmd.compiler 'tsc'
+  end,
+})
