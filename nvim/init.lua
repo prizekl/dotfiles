@@ -60,7 +60,6 @@ local DIAGNOSTIC_ICONS = { ERROR = 'E:', WARN = 'W:', INFO = 'I:', HINT = 'H:' }
 local SEVERITY_ORDER = { 'ERROR', 'WARN', 'HINT', 'INFO' }
 
 function M.update_diagnostic_counts(bufnr)
-  local start_time = vim.loop.hrtime()
   local counts = vim.iter(vim.diagnostic.get(bufnr)):fold({}, function(acc, diagnostic)
     local severity = vim.diagnostic.severity[diagnostic.severity]
     acc[severity] = (acc[severity] or 0) + 1
@@ -68,9 +67,6 @@ function M.update_diagnostic_counts(bufnr)
   end)
 
   M.diagnostic_counts[bufnr] = counts
-
-  local end_time = vim.loop.hrtime()
-  print(string.format('Diagnostics Component Time: %.3f ms', (end_time - start_time) / 1e6))
 end
 
 function M.get_diagnostics_component(bufnr, is_active)
