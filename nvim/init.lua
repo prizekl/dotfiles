@@ -52,22 +52,36 @@ vim.opt.showcmd = false
 
 local M = {}
 
+M.diagnostic_counts = {}
 M.diagnostic_cache = {}
 M.highlight_cache = {}
 
 local DIAGNOSTIC_ICONS = { ERROR = 'E:', WARN = 'W:', INFO = 'I:', HINT = 'H:' }
 local SEVERITY_ORDER = { 'ERROR', 'WARN', 'HINT', 'INFO' }
 
-function M.get_diagnostics_component(bufnr, is_active)
-  if vim.startswith(vim.api.nvim_get_mode().mode, 'i') then
-    return M.diagnostic_cache[bufnr] or ''
-  end
-
+function M.update_diagnostic_counts(bufnr)
+  local start_time = vim.loop.hrtime()
   local counts = vim.iter(vim.diagnostic.get(bufnr)):fold({}, function(acc, diagnostic)
     local severity = vim.diagnostic.severity[diagnostic.severity]
     acc[severity] = (acc[severity] or 0) + 1
     return acc
   end)
+
+  M.diagnostic_counts[bufnr] = counts
+
+  local end_time = vim.loop.hrtime()
+  print(string.format('Diagnostics Component Time: %.3f ms', (end_time - start_time) / 1e6))
+end
+
+function M.get_diagnostics_component(bufnr, is_active)
+  if vim.startswith(vim.api.nvim_get_mode().mode, 'i') then
+    return M.diagnostic_cache[bufnr] or ''
+  end
+
+  local counts = M.diagnostic_counts[bufnr]
+  if counts == nil then
+    return ''
+  end
 
   local parts = {}
 
@@ -75,7 +89,7 @@ function M.get_diagnostics_component(bufnr, is_active)
     local count = counts[severity] or 0
     if count > 0 then
       local hl = 'Diagnostic' .. severity
-      table.insert(parts, string.format('%%#%s#%s%d', M.create_hl(hl, is_active), DIAGNOSTIC_ICONS[severity], count))
+      table.insert(parts, '%#' .. M.create_hl(hl, is_active) .. '#' .. DIAGNOSTIC_ICONS[severity] .. count)
     end
   end
 
@@ -180,7 +194,8 @@ _G.render_statusline = M.render_statusline
 vim.o.statusline = '%!v:lua.render_statusline()'
 
 vim.api.nvim_create_autocmd('DiagnosticChanged', {
-  callback = function()
+  callback = function(args)
+    M.update_diagnostic_counts(args.buf)
     vim.cmd 'redrawstatus!'
   end,
 })
