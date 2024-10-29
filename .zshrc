@@ -9,6 +9,8 @@ source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 autoload -Uz compinit && compinit
+export VISUAL='nvim'
+export EDITOR="$VISUAL"
 alias ls='exa'
 eval "$(atuin init zsh)"
 alias cdev='npx convex dev --tail-logs'
