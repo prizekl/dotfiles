@@ -40,15 +40,17 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
--- [[ Statusline ]]
+-- [[ Statusline ]] 
+-- inspired by Helix's statusline 
+-- adapted from MariaSol0s https://github.com/MariaSolOs/dotfiles/blob/main/.config/nvim/lua/statusline.lua
+-- ripped mode map from lualine https://github.com/nvim-lualine/lualine.nvim/blob/master/lua/lualine/utils/mode.lua
+
 vim.api.nvim_set_hl(0, 'StatusLine', { bg = '#343434', fg = 'white' })
 vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = '#000000', fg = 'lightgrey' })
 vim.api.nvim_set_hl(0, 'WinSeparator', { fg = '#343434' })
 
 vim.opt.showmode = false
 vim.opt.showcmd = false
-
--- adapted from MariaSol0s https://github.com/MariaSolOs/dotfiles/blob/main/.config/nvim/lua/statusline.lua
 
 local M = {}
 
@@ -111,8 +113,6 @@ function M.create_hl(hl, is_active)
 
   return hl_name
 end
-
--- Ripped from lualine https://github.com/nvim-lualine/lualine.nvim/blob/master/lua/lualine/utils/mode.lua
 
 local MODE_MAP = {
   ['n'] = 'NORMAL',
