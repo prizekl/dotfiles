@@ -40,8 +40,8 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
--- [[ Statusline ]] 
--- inspired by Helix's statusline 
+-- [[ Statusline ]]
+-- inspired by Helix's statusline
 -- adapted from MariaSol0s https://github.com/MariaSolOs/dotfiles/blob/main/.config/nvim/lua/statusline.lua
 -- ripped mode map from lualine https://github.com/nvim-lualine/lualine.nvim/blob/master/lua/lualine/utils/mode.lua
 
