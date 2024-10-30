@@ -481,6 +481,7 @@ require('lazy').setup({
           end, { silent = true })
 
           require('treesitter-context').setup {
+            multiwindow = true,
             multiline_threshold = 1,
             separator = '─',
           }
