@@ -50,7 +50,6 @@ vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = '#000000', fg = 'lightgrey' })
 vim.api.nvim_set_hl(0, 'WinSeparator', { fg = '#343434' })
 
 vim.opt.showmode = false
-vim.opt.showcmd = false
 
 local M = {}
 
