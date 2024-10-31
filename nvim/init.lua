@@ -108,7 +108,6 @@ function M.create_hl(hl, is_active)
   local bg_group = is_active and 'StatusLine' or 'StatusLineNC'
   local bg_hl = vim.api.nvim_get_hl(0, { name = bg_group })
   local fg_hl = vim.api.nvim_get_hl(0, { name = hl })
-
   print('bg_hl for group ' .. bg_group .. ': ' .. vim.inspect(bg_hl))
   print('fg_hl for group ' .. hl .. ': ' .. vim.inspect(fg_hl))
 
@@ -538,31 +537,6 @@ require('lazy').setup({
     },
     opts = {},
   },
-
-  {
-    'MeanderingProgrammer/render-markdown.nvim',
-    config = function()
-      vim.keymap.set('n', '<leader>rm', require('render-markdown').toggle)
-
-      vim.api.nvim_set_hl(0, 'Done', { fg = 'green' })
-      vim.api.nvim_set_hl(0, 'Priority', { fg = 'red' })
-      vim.api.nvim_set_hl(0, 'Ongoing', { fg = 'orange' })
-      vim.api.nvim_set_hl(0, 'Postponed', { fg = 'magenta' })
-
-      require('render-markdown').setup {
-        overrides = { buftype = { nofile = { enabled = false } } },
-        checkbox = {
-          unchecked = { highlight = 'Normal' },
-          checked = { highlight = 'Done' },
-          custom = {
-            ongoing = { raw = '[o]', rendered = '󰄱 ', highlight = 'Ongoing' },
-            priority = { raw = '[!]', rendered = '󰄱 ', highlight = 'Priority' },
-            cancelled = { raw = '[~]', rendered = '󰄱 ', highlight = 'Postponed' },
-          },
-        },
-      }
-    end,
-  },
 }, {})
 
 -- Typescript compiling
@@ -571,4 +545,23 @@ vim.api.nvim_create_autocmd('FileType', {
   callback = function()
     vim.cmd.compiler 'tsc'
   end,
+})
+
+vim.api.nvim_set_hl(0, 'Priority', { fg = 'red' })
+vim.api.nvim_set_hl(0, 'Ongoing', { fg = 'orange' })
+vim.api.nvim_set_hl(0, 'Done', { fg = 'green' })
+vim.api.nvim_set_hl(0, 'Time', { fg = 'pink' })
+vim.api.nvim_set_hl(0, 'Heading', { bold = true })
+
+local function match_words()
+  vim.cmd "syntax match Priority '\\[!\\]'"
+  vim.cmd "syntax match Ongoing '\\[o\\]'"
+  vim.cmd "syntax match Done '\\[x\\]'"
+  vim.cmd "syntax match Time '\\*\\*[^\\*]\\+\\*\\*'"
+  vim.cmd "syntax match Heading '#.*'"
+end
+
+vim.api.nvim_create_autocmd({ 'BufReadPost', 'InsertLeave' }, {
+  pattern = '*.txt',
+  callback = match_words,
 })
