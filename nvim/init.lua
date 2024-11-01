@@ -49,8 +49,6 @@ vim.api.nvim_set_hl(0, 'StatusLine', { bg = '#343434', fg = 'white' })
 vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = '#000000', fg = 'lightgrey' })
 vim.api.nvim_set_hl(0, 'WinSeparator', { fg = '#343434' })
 
-vim.opt.showmode = false
-
 local M = {}
 
 M.diagnostic_counts = {}
@@ -191,6 +189,7 @@ end
 
 _G.render_statusline = M.render_statusline
 vim.o.statusline = '%!v:lua.render_statusline()'
+vim.opt.showmode = false
 
 vim.api.nvim_create_autocmd('DiagnosticChanged', {
   callback = function(args)
