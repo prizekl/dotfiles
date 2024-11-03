@@ -13,4 +13,5 @@ shell-integration-features = no-cursor
 cursor-style-blink = false
 cursor-color = magenta
 
+macos-option-as-alt = true
 keybind = super+shift+j=write_screen_file:paste
