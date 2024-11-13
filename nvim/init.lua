@@ -105,8 +105,8 @@ function M.create_hl(hl, is_active)
   local bg_group = is_active and 'StatusLine' or 'StatusLineNC'
   local bg_hl = vim.api.nvim_get_hl(0, { name = bg_group, link = false })
   local fg_hl = vim.api.nvim_get_hl(0, { name = hl, link = false })
-  print('bg_hl for group ' .. bg_group .. ': ' .. vim.inspect(bg_hl))
-  print('fg_hl for group ' .. hl .. ': ' .. vim.inspect(fg_hl))
+  -- print('bg_hl for group ' .. bg_group .. ': ' .. vim.inspect(bg_hl))
+  -- print('fg_hl for group ' .. hl .. ': ' .. vim.inspect(fg_hl))
 
   vim.api.nvim_set_hl(0, hl_name, { bg = ('#%06x'):format(bg_hl.bg), fg = ('#%06x'):format(fg_hl.fg) })
 
