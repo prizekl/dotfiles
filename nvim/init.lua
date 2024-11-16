@@ -28,10 +28,10 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
 
 -- [[ Colorscheme ]]
 vim.o.termguicolors = true
--- vim.api.nvim_set_hl(0, 'Normal', { bg = 'NONE' })
--- vim.api.nvim_set_hl(0, 'StatusLine', { bg = '#343434', fg = 'white' })
--- vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = '#000000', fg = 'lightgrey' })
--- vim.api.nvim_set_hl(0, 'WinSeparator', { fg = '#343434' })
+vim.api.nvim_set_hl(0, 'Normal', { bg = 'NONE' })
+vim.api.nvim_set_hl(0, 'StatusLine', { bg = '#343434', fg = 'white' })
+vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = '#000000', fg = 'lightgrey' })
+vim.api.nvim_set_hl(0, 'WinSeparator', { fg = '#343434' })
 
 -- [[ Highlight on yank ]]
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
@@ -212,27 +212,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
-  {
-    'ellisonleao/gruvbox.nvim',
-    lazy = false,
-    priority = 1000,
-    config = function()
-      local gruvbox = require 'gruvbox'
-      local palette = gruvbox.palette
-
-      gruvbox.setup {
-        overrides = {
-          Normal = { bg = 'NONE' },
-          NormalFloat = { bg = palette.dark0 },
-          WinSeparator = { bg = 'NONE' },
-          StatusLine = { bg = palette.dark2, fg = palette.light1, reverse = false },
-          StatusLineNC = { bg = palette.dark1, fg = palette.light4, reverse = false },
-        },
-      }
-
-      vim.cmd.colorscheme 'gruvbox'
-    end,
-  },
   { 'tpope/vim-abolish', cmd = { 'S', 'Abolish', 'Subvert' } },
   { 'tpope/vim-surround', keys = { 'ds', 'cs', 'ys', { 'S', mode = 'v' } } },
   {
