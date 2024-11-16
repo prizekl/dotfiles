@@ -224,6 +224,7 @@ require('lazy').setup({
         overrides = {
           Normal = { bg = 'NONE' },
           NormalFloat = { bg = palette.dark0 },
+          WinSeparator = { bg = 'NONE' },
           StatusLine = { bg = palette.dark2, fg = palette.light1, reverse = false },
           StatusLineNC = { bg = palette.dark1, fg = palette.light4, reverse = false },
         },
