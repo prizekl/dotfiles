@@ -5,7 +5,7 @@ window-padding-x = 5
 window-padding-y = 2
 window-padding-balance = true
 
-theme = NvimDark
+theme = GruvboxDark
 background = 1B1B1B
 font-feature = -calt
 
