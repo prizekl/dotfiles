@@ -28,7 +28,10 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
 
 -- [[ Colorscheme ]]
 vim.o.termguicolors = true
-vim.api.nvim_set_hl(0, 'Normal', { bg = 'NONE' })
+-- vim.api.nvim_set_hl(0, 'Normal', { bg = 'NONE' })
+-- vim.api.nvim_set_hl(0, 'StatusLine', { bg = '#343434', fg = 'white' })
+-- vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = '#000000', fg = 'lightgrey' })
+-- vim.api.nvim_set_hl(0, 'WinSeparator', { fg = '#343434' })
 
 -- [[ Highlight on yank ]]
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
@@ -44,10 +47,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- inspired by Helix's statusline
 -- adapted from MariaSol0s https://github.com/MariaSolOs/dotfiles/blob/main/.config/nvim/lua/statusline.lua
 -- ripped mode map from lualine https://github.com/nvim-lualine/lualine.nvim/blob/master/lua/lualine/utils/mode.lua
-
-vim.api.nvim_set_hl(0, 'StatusLine', { bg = '#343434', fg = 'white' })
-vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = '#000000', fg = 'lightgrey' })
-vim.api.nvim_set_hl(0, 'WinSeparator', { fg = '#343434' })
 
 local M = {}
 
@@ -96,6 +95,10 @@ function M.get_diagnostics_component(bufnr, is_active)
   return diagnostics_str
 end
 
+function M.get_color(name, attr)
+  return string.format('#%06x', vim.api.nvim_get_hl(0, { name = name, link = false })[attr])
+end
+
 function M.create_hl(hl, is_active)
   local hl_name = 'StatusLine' .. hl .. (is_active and 'Active' or 'Inactive')
   if M.highlight_cache[hl_name] then
@@ -103,15 +106,9 @@ function M.create_hl(hl, is_active)
   end
 
   local bg_group = is_active and 'StatusLine' or 'StatusLineNC'
-  local bg_hl = vim.api.nvim_get_hl(0, { name = bg_group, link = false })
-  local fg_hl = vim.api.nvim_get_hl(0, { name = hl, link = false })
-  -- print('bg_hl for group ' .. bg_group .. ': ' .. vim.inspect(bg_hl))
-  -- print('fg_hl for group ' .. hl .. ': ' .. vim.inspect(fg_hl))
 
-  vim.api.nvim_set_hl(0, hl_name, { bg = ('#%06x'):format(bg_hl.bg), fg = ('#%06x'):format(fg_hl.fg) })
-
+  vim.api.nvim_set_hl(0, hl_name, { bg = M.get_color(bg_group, 'bg'), fg = M.get_color(hl, 'fg') })
   M.highlight_cache[hl_name] = true
-
   return hl_name
 end
 
@@ -215,6 +212,26 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
+  {
+    'ellisonleao/gruvbox.nvim',
+    lazy = false,
+    priority = 1000,
+    config = function()
+      local gruvbox = require 'gruvbox'
+      local palette = gruvbox.palette
+
+      gruvbox.setup {
+        overrides = {
+          Normal = { bg = 'NONE' },
+          NormalFloat = { bg = palette.dark0 },
+          StatusLine = { bg = palette.dark2, fg = palette.light1, reverse = false },
+          StatusLineNC = { bg = palette.dark1, fg = palette.light4, reverse = false },
+        },
+      }
+
+      vim.cmd.colorscheme 'gruvbox'
+    end,
+  },
   { 'tpope/vim-abolish', cmd = { 'S', 'Abolish', 'Subvert' } },
   { 'tpope/vim-surround', keys = { 'ds', 'cs', 'ys', { 'S', mode = 'v' } } },
   {
