@@ -32,6 +32,24 @@ vim.api.nvim_set_hl(0, 'Normal', { bg = 'NONE' })
 vim.api.nvim_set_hl(0, 'StatusLine', { bg = '#343434', fg = 'white' })
 vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = '#000000', fg = 'lightgrey' })
 vim.api.nvim_set_hl(0, 'WinSeparator', { fg = '#343434' })
+vim.api.nvim_set_hl(0, 'DiffAdd', { bg = 'NvimDarkGreen' })
+vim.api.nvim_set_hl(0, 'DiffChange', { bg = 'NvimDarkBlue' })
+vim.api.nvim_set_hl(0, 'String', { fg = 'NvimLightGreen' })
+vim.api.nvim_set_hl(0, 'Number', { fg = 'NvimLightRed' })
+vim.api.nvim_set_hl(0, 'Float', { link = 'Number' })
+vim.api.nvim_set_hl(0, 'Boolean', { link = 'Number' })
+vim.api.nvim_set_hl(0, 'Identifier', { fg = 'NvimLightBlue' })
+vim.api.nvim_set_hl(0, 'Function', { fg = 'NvimLightYellow' })
+vim.api.nvim_set_hl(0, 'Statement', { fg = 'NvimLightMagenta' })
+vim.api.nvim_set_hl(0, 'Operator', { fg = 'NvimLightGrey1' })
+vim.api.nvim_set_hl(0, 'Type', { fg = 'NvimLightCyan' })
+vim.api.nvim_set_hl(0, 'Special', { fg = 'NvimLightGrey1' })
+vim.api.nvim_set_hl(0, '@operator', { link = 'Operator' })
+vim.api.nvim_set_hl(0, '@keyword.return', { fg = 'NvimLightMagenta', bold = true })
+vim.api.nvim_set_hl(0, '@punctuation.special', { link = 'Operator' })
+vim.api.nvim_set_hl(0, '@variable.parameter', { fg = 'NvimLightBlue' })
+vim.api.nvim_set_hl(0, '@variable.member', { fg = 'NvimLightBlue' })
+vim.api.nvim_set_hl(0, '@lsp.type.enumMember', { fg = 'NvimLightGrey1', bold = true })
 
 -- [[ Highlight on yank ]]
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
@@ -212,6 +230,12 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
+  'ellisonleao/gruvbox.nvim',
+  'fenetikm/falcon',
+  {
+    'rktjmp/lush.nvim',
+    { dir = '~/3e', lazy = true },
+  },
   { 'supermaven-inc/supermaven-nvim', opts = { ignore_filetypes = { 'TelescopePrompt', 'text' } } },
   { 'tpope/vim-abolish', cmd = { 'S', 'Abolish', 'Subvert' } },
   { 'tpope/vim-surround', keys = { 'ds', 'cs', 'ys', { 'S', mode = 'v' } } },
