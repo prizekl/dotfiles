@@ -212,12 +212,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
-  'ellisonleao/gruvbox.nvim',
-  'fenetikm/falcon',
-  {
-    'rktjmp/lush.nvim',
-    { dir = '~/3e', lazy = true },
-  },
   { 'supermaven-inc/supermaven-nvim', opts = { ignore_filetypes = { 'TelescopePrompt', 'text' } } },
   { 'tpope/vim-abolish', cmd = { 'S', 'Abolish', 'Subvert' } },
   { 'tpope/vim-surround', keys = { 'ds', 'cs', 'ys', { 'S', mode = 'v' } } },
@@ -235,6 +229,7 @@ require('lazy').setup({
     'sindrets/diffview.nvim',
     cmd = { 'DiffviewOpen', 'DiffviewFileHistory' },
     opts = {
+      default_args = { DiffviewOpen = { '--imply-local' } },
       view = { merge_tool = { layout = 'diff1_plain', disable_diagnostics = false } },
     },
   },
