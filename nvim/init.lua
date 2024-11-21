@@ -32,8 +32,6 @@ vim.api.nvim_set_hl(0, 'Normal', { bg = 'NONE' })
 vim.api.nvim_set_hl(0, 'StatusLine', { bg = '#343434', fg = 'white' })
 vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = '#000000', fg = 'lightgrey' })
 vim.api.nvim_set_hl(0, 'WinSeparator', { fg = '#343434' })
-vim.api.nvim_set_hl(0, 'DiffAdd', { bg = 'NvimDarkGreen' })
-vim.api.nvim_set_hl(0, 'DiffChange', { bg = 'NvimDarkBlue' })
 
 -- [[ Highlight on yank ]]
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
