@@ -28,10 +28,9 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
 
 -- [[ Colorscheme ]]
 vim.o.termguicolors = true
-vim.api.nvim_set_hl(0, 'Normal', { bg = 'NONE' })
-vim.api.nvim_set_hl(0, 'StatusLine', { bg = '#343434', fg = 'white' })
-vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = '#000000', fg = 'lightgrey' })
-vim.api.nvim_set_hl(0, 'WinSeparator', { fg = '#343434' })
+vim.api.nvim_set_hl(0, 'StatusLine', { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey2' })
+vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = 'NvimDarkGrey1', fg = 'NvimLightGrey3' })
+vim.api.nvim_set_hl(0, 'WinSeparator', { fg = 'NvimDarkGrey3' })
 
 -- [[ Highlight on yank ]]
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
