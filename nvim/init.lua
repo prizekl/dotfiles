@@ -546,6 +546,7 @@ vim.api.nvim_create_autocmd('FileType', {
 vim.api.nvim_set_hl(0, 'Priority', { fg = 'red' })
 vim.api.nvim_set_hl(0, 'Ongoing', { fg = 'orange' })
 vim.api.nvim_set_hl(0, 'Done', { fg = 'green' })
+vim.api.nvim_set_hl(0, 'Cancelled', { fg = 'magenta' })
 vim.api.nvim_set_hl(0, 'Time', { fg = 'pink' })
 vim.api.nvim_set_hl(0, 'Heading', { bold = true })
 
@@ -553,6 +554,7 @@ local function match_words()
   vim.cmd "syntax match Priority '\\[!\\]'"
   vim.cmd "syntax match Ongoing '\\[o\\]'"
   vim.cmd "syntax match Done '\\[x\\]'"
+  vim.cmd "syntax match Cancelled '\\[\\~\\]'"
   vim.cmd "syntax match Time '\\*\\*[^\\*]\\+\\*\\*'"
   vim.cmd "syntax match Heading '#.*'"
 end
