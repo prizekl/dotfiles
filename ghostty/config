@@ -8,9 +8,9 @@ window-padding-balance = true
 font-feature = -calt
 shell-integration-features = no-cursor
 cursor-style-blink = false
-cursor-color = magenta
 
 macos-option-as-alt = true
 keybind = super+shift+j=write_screen_file:paste
 
 theme = NvimDark
+cursor-color = magenta
