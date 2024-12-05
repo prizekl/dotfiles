@@ -25,7 +25,6 @@ vim.api.nvim_create_user_command('CF', function()
   vim.fn.setreg('+', filename)
 end, {})
 
-
 -- Floats are disabled by default: https://github.com/neovim/neovim/pull/16230
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
