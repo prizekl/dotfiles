@@ -20,9 +20,9 @@ vim.o.tabstop = 4
 vim.o.swapfile = false
 vim.api.nvim_command 'packadd Cfilter'
 
-vim.api.nvim_create_user_command('CF', function()
-  local filename = vim.fn.expand '%'
-  vim.fn.setreg('+', filename)
+vim.api.nvim_create_user_command('RelPath', function()
+  local filepath = vim.fn.expand '%'
+  vim.fn.setreg('+', filepath)
 end, {})
 
 -- Floats are disabled by default: https://github.com/neovim/neovim/pull/16230
