@@ -116,7 +116,6 @@ function M.create_hl(hl, is_active)
   return hl_name
 end
 
-
 function M.update_diagnostic_counts(bufnr)
   local counts = vim.iter(vim.diagnostic.get(bufnr)):fold({}, function(acc, diagnostic)
     local severity = vim.diagnostic.severity[diagnostic.severity]
@@ -222,10 +221,7 @@ require('lazy').setup({
   {
     'm4xshen/autoclose.nvim',
     event = 'InsertEnter',
-    opts = { options = {
-      disabled_filetypes = { 'TelescopePrompt' },
-      disable_command_mode = true,
-    } },
+    opts = { options = { disabled_filetypes = { 'TelescopePrompt' }, disable_command_mode = true } },
   },
 
   -- Git
