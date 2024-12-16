@@ -52,6 +52,8 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- adapted from MariaSol0s https://github.com/MariaSolOs/dotfiles/blob/main/.config/nvim/lua/statusline.lua
 -- ripped mode map from lualine https://github.com/nvim-lualine/lualine.nvim/blob/master/lua/lualine/utils/mode.lua
 
+local M = {}
+
 local DIAGNOSTIC_ICONS = { ERROR = 'E:', WARN = 'W:', INFO = 'I:', HINT = 'H:' }
 local SEVERITY_ORDER = { 'ERROR', 'WARN', 'HINT', 'INFO' }
 local MODE_MAP = {
@@ -93,8 +95,6 @@ local MODE_MAP = {
   ['t'] = 'TERMINAL',
 }
 
-
-local M = {}
 M.diagnostic_counts = {}
 M.diagnostic_cache = {}
 M.highlight_cache = {}
