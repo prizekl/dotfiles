@@ -3,7 +3,7 @@ vim.g.maplocalleader = ' '
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
-vim.api.nvim_set_keymap('n', '<c-l>', '<nop>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<c-l>', '<nop>', { noremap = true, silent = true }) -- Bad Habit
 
 vim.wo.number = true
 vim.opt.clipboard = 'unnamedplus'
