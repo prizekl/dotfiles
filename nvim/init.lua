@@ -52,70 +52,8 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- adapted from MariaSol0s https://github.com/MariaSolOs/dotfiles/blob/main/.config/nvim/lua/statusline.lua
 -- ripped mode map from lualine https://github.com/nvim-lualine/lualine.nvim/blob/master/lua/lualine/utils/mode.lua
 
-local M = {}
-
-M.diagnostic_counts = {}
-M.diagnostic_cache = {}
-M.highlight_cache = {}
-
 local DIAGNOSTIC_ICONS = { ERROR = 'E:', WARN = 'W:', INFO = 'I:', HINT = 'H:' }
 local SEVERITY_ORDER = { 'ERROR', 'WARN', 'HINT', 'INFO' }
-
-function M.update_diagnostic_counts(bufnr)
-  local counts = vim.iter(vim.diagnostic.get(bufnr)):fold({}, function(acc, diagnostic)
-    local severity = vim.diagnostic.severity[diagnostic.severity]
-    acc[severity] = (acc[severity] or 0) + 1
-    return acc
-  end)
-
-  M.diagnostic_counts[bufnr] = counts
-end
-
-function M.get_diagnostics_component(bufnr, is_active)
-  if vim.startswith(vim.api.nvim_get_mode().mode, 'i') then
-    return M.diagnostic_cache[bufnr] or ''
-  end
-
-  local counts = M.diagnostic_counts[bufnr]
-  if counts == nil then
-    return ''
-  end
-
-  local parts = {}
-
-  for _, severity in ipairs(SEVERITY_ORDER) do
-    local count = counts[severity] or 0
-    if count > 0 then
-      local hl = 'Diagnostic' .. severity
-      table.insert(parts, '%#' .. M.create_hl(hl, is_active) .. '#' .. DIAGNOSTIC_ICONS[severity] .. count)
-    end
-  end
-
-  local diagnostics_str = table.concat(parts, ' ')
-
-  diagnostics_str = diagnostics_str .. (is_active and '%#StatusLine#' or '%#StatusLineNC#')
-
-  M.diagnostic_cache[bufnr] = diagnostics_str
-  return diagnostics_str
-end
-
-function M.get_color(name, attr)
-  return string.format('#%06x', vim.api.nvim_get_hl(0, { name = name, link = false })[attr])
-end
-
-function M.create_hl(hl, is_active)
-  local hl_name = 'StatusLine' .. hl .. (is_active and 'Active' or 'Inactive')
-  if M.highlight_cache[hl_name] then
-    return hl_name
-  end
-
-  local bg_group = is_active and 'StatusLine' or 'StatusLineNC'
-
-  vim.api.nvim_set_hl(0, hl_name, { bg = M.get_color(bg_group, 'bg'), fg = M.get_color(hl, 'fg') })
-  M.highlight_cache[hl_name] = true
-  return hl_name
-end
-
 local MODE_MAP = {
   ['n'] = 'NORMAL',
   ['no'] = 'O-PENDING',
@@ -154,6 +92,68 @@ local MODE_MAP = {
   ['!'] = 'SHELL',
   ['t'] = 'TERMINAL',
 }
+
+
+local M = {}
+M.diagnostic_counts = {}
+M.diagnostic_cache = {}
+M.highlight_cache = {}
+
+function M.get_color(name, attr)
+  return string.format('#%06x', vim.api.nvim_get_hl(0, { name = name, link = false })[attr])
+end
+
+function M.create_hl(hl, is_active)
+  local hl_name = 'StatusLine' .. hl .. (is_active and 'Active' or 'Inactive')
+  if M.highlight_cache[hl_name] then
+    return hl_name
+  end
+
+  local bg_group = is_active and 'StatusLine' or 'StatusLineNC'
+
+  vim.api.nvim_set_hl(0, hl_name, { bg = M.get_color(bg_group, 'bg'), fg = M.get_color(hl, 'fg') })
+  M.highlight_cache[hl_name] = true
+  return hl_name
+end
+
+
+function M.update_diagnostic_counts(bufnr)
+  local counts = vim.iter(vim.diagnostic.get(bufnr)):fold({}, function(acc, diagnostic)
+    local severity = vim.diagnostic.severity[diagnostic.severity]
+    acc[severity] = (acc[severity] or 0) + 1
+    return acc
+  end)
+
+  M.diagnostic_counts[bufnr] = counts
+end
+
+function M.get_diagnostics_component(bufnr, is_active)
+  if vim.startswith(vim.api.nvim_get_mode().mode, 'i') then
+    return M.diagnostic_cache[bufnr] or ''
+  end
+
+  local counts = M.diagnostic_counts[bufnr]
+  if counts == nil then
+    return ''
+  end
+
+  local parts = {}
+
+  for _, severity in ipairs(SEVERITY_ORDER) do
+    local count = counts[severity] or 0
+    if count > 0 then
+      local hl = 'Diagnostic' .. severity
+      table.insert(parts, '%#' .. M.create_hl(hl, is_active) .. '#' .. DIAGNOSTIC_ICONS[severity] .. count)
+    end
+  end
+
+  local diagnostics_str = table.concat(parts, ' ')
+
+  diagnostics_str = diagnostics_str .. (is_active and '%#StatusLine#' or '%#StatusLineNC#')
+
+  M.diagnostic_cache[bufnr] = diagnostics_str
+  return diagnostics_str
+end
 
 function M.get_mode_component()
   local mode_code = vim.api.nvim_get_mode().mode
