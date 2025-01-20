@@ -15,7 +15,7 @@ alias ls='exa'
 eval "$(atuin init zsh)"
 alias cdev='npx convex dev --tail-logs'
 alias diffview='nvim -c :DiffviewOpen'
-
+export HISTIGNORE="fg*"
 bindkey '\e[91;5u' vi-cmd-mode # vi mode escape binding for ghostty
 
 users() {
