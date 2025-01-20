@@ -1,6 +1,7 @@
 macos-titlebar-style = native
 unfocused-split-opacity = 1
 
+font-size = 14
 window-padding-x = 5
 window-padding-y = 2
 window-padding-balance = true
@@ -13,4 +14,5 @@ macos-option-as-alt = true
 keybind = super+shift+j=write_screen_file:paste
 
 theme = NvimDark
+split-divider-color = #2c2e33
 cursor-color = magenta
