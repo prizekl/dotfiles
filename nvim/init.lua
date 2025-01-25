@@ -434,16 +434,7 @@ require('lazy').setup({
           path_display = { 'truncate' },
           borderchars = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
           layout_strategy = 'vertical',
-          vimgrep_arguments = {
-            'rg',
-            '--multiline',
-            '--color=never',
-            '--no-heading',
-            '--with-filename',
-            '--line-number',
-            '--column',
-            '--smart-case',
-          },
+          vimgrep_arguments = { 'rg', '--multiline', '--color=never', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case' },
         },
         pickers = {
           lsp_references = { show_line = false },

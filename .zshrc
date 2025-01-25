@@ -17,6 +17,7 @@ alias cdev='npx convex dev --tail-logs'
 alias diffview='nvim -c :DiffviewOpen'
 export HISTIGNORE="fg*"
 bindkey '\e[91;5u' vi-cmd-mode # vi mode escape binding for ghostty
+export ANTHROPIC_API_KEY=$(security find-generic-password -a "$USER" -s "anthropic-api-key" -w)
 
 users() {
     if [ "$#" -lt 1 ]; then
