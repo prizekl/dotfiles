@@ -228,6 +228,20 @@ require('lazy').setup({
   {
     'sindrets/diffview.nvim',
     cmd = { 'DiffviewOpen', 'DiffviewFileHistory' },
+    keys = {
+      {
+        '<leader>go',
+        function()
+          local lib = require 'diffview.lib'
+          local view = lib.get_current_view()
+          if view then
+            vim.cmd.DiffviewClose()
+          else
+            vim.cmd.DiffviewOpen()
+          end
+        end,
+      },
+    },
     opts = {
       default_args = { DiffviewOpen = { '--imply-local' } },
       view = { merge_tool = { layout = 'diff1_plain', disable_diagnostics = false } },
@@ -271,8 +285,10 @@ require('lazy').setup({
         vim.keymap.set('v', '<leader>hr', function()
           gitsigns.reset_hunk { vim.fn.line '.', vim.fn.line 'v' }
         end, { buffer = bufnr })
-        vim.keymap.set('n', '<leader>hu', gitsigns.undo_stage_hunk, { buffer = bufnr })
         vim.keymap.set('n', '<leader>hR', gitsigns.reset_buffer, { buffer = bufnr })
+        vim.keymap.set('n', '<leader>hd', function()
+          gitsigns.diffthis '~'
+        end, { buffer = bufnr })
 
         vim.keymap.set({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
       end,
