@@ -271,9 +271,7 @@ require('lazy').setup({
           gitsigns.reset_hunk { vim.fn.line '.', vim.fn.line 'v' }
         end, { buffer = bufnr })
         vim.keymap.set('n', '<leader>hR', gitsigns.reset_buffer, { buffer = bufnr })
-        vim.keymap.set('n', '<leader>hd', function()
-          gitsigns.diffthis '~'
-        end, { buffer = bufnr })
+        vim.keymap.set('n', '<leader>hd', gitsigns.diffthis, { buffer = bufnr })
 
         vim.keymap.set({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
       end,
