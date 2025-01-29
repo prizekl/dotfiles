@@ -233,7 +233,6 @@ require('lazy').setup({
       view = { merge_tool = { layout = 'diff1_plain', disable_diagnostics = false } },
     },
   },
-
   {
     'lewis6991/gitsigns.nvim',
     opts = {
