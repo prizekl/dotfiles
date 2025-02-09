@@ -215,7 +215,58 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
+  {
+    'oonamo/ef-themes.nvim',
+    config = function()
+      ---@diagnostic disable-next-line: missing-fields
+      require('ef-themes').setup {
+        modules = {
+          cmp = true,
+          gitsigns = true,
+          render_markdown = true,
+          telescope = true,
+        },
+      }
+
+      vim.cmd [[ colorscheme ef-elea-dark ]]
+    end,
+  },
+  {
+    'olimorris/codecompanion.nvim',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-treesitter/nvim-treesitter',
+    },
+    config = function()
+      require('codecompanion').setup {
+        display = { chat = { window = { width = 0.25 } } },
+        strategies = {
+          chat = {
+            slash_commands = {
+              ['buffer'] = { opts = { provider = 'telescope' } },
+              ['file'] = { opts = { provider = 'telescope' } },
+              ['symbols'] = { opts = { provider = 'telescope' } },
+            },
+            keymaps = {
+              pin = { modes = { n = 'gb' }, index = 9, callback = 'keymaps.pin_reference' },
+              next_chat = { modes = { n = 'gn' }, index = 11, callback = 'keymaps.next_chat' },
+              previous_chat = { modes = { n = 'gp' }, index = 12, callback = 'keymaps.previous_chat' },
+            },
+            adapter = 'anthropic',
+          },
+          inline = { adapter = 'anthropic' },
+        },
+      }
+
+      vim.api.nvim_set_keymap('v', '<leader>s', '<cmd>CodeCompanionChat Toggle<cr>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('n', '<leader>s', '<cmd>CodeCompanionChat Toggle<cr>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('v', '<leader>ae', '<cmd>CodeCompanionChat Add<cr>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('n', '<leader>ac', '<cmd>CodeCompanionChat<cr>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('v', '<leader>ac', '<cmd>CodeCompanionChat<cr>', { noremap = true, silent = true })
+    end,
+  },
   { 'supermaven-inc/supermaven-nvim', opts = { ignore_filetypes = { 'TelescopePrompt', 'text' } } },
+
   { 'tpope/vim-abolish', cmd = { 'S', 'Abolish', 'Subvert' } },
   { 'tpope/vim-surround', keys = { 'ds', 'cs', 'ys', { 'S', mode = 'v' } } },
   {
@@ -321,6 +372,11 @@ require('lazy').setup({
         html = { filetypes = { 'html', 'twig', 'hbs' } },
         lua_ls = {
           Lua = {
+            diagnostics = {
+              globals = { 'vim' },
+              undefined_global = false, -- remove this from diag!
+              missing_fields = false,
+            },
             workspace = { checkThirdParty = false },
             telemetry = { enable = false },
           },
