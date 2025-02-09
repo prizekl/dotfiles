@@ -11,7 +11,6 @@ shell-integration-features = no-cursor
 cursor-style-blink = false
 
 macos-option-as-alt = true
-keybind = super+shift+j=write_screen_file:paste
 
 theme = NvimDark
 split-divider-color = #2c2e33
