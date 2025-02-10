@@ -226,6 +226,9 @@ require('lazy').setup({
           render_markdown = true,
           telescope = true,
         },
+        on_highlights = function(highlights, colors, name)
+          return { EndOfBuffer = { link = 'NonText' } }
+        end,
       }
 
       vim.cmd [[ colorscheme ef-elea-dark ]]

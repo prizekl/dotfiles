@@ -11,7 +11,6 @@ shell-integration-features = no-cursor
 cursor-style-blink = false
 
 macos-option-as-alt = true
-split-divider-color = #2c2e33
 
 # https://github.com/oonamo/ef-themes.nvim/blob/main/extras/ghostty/ef-elea-dark
 
@@ -37,3 +36,4 @@ foreground = #eaf2ef
 cursor-color = #ef7fa8
 selection-background = #2f413f
 selection-foreground = #eaf2ef
+split-divider-color = gray35
