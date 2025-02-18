@@ -420,7 +420,7 @@ require('lazy').setup({
     keys = { {
       '<leader>f',
       function()
-        require('conform').format { async = true }
+        require('conform').format { async = true, lsp_format = 'fallback' }
       end,
     } },
     config = function()
@@ -430,6 +430,7 @@ require('lazy').setup({
           python = { 'isort', 'black' },
           typescript = { 'prettierd', 'prettier', stop_after_first = true },
           typescriptreact = { 'prettierd', 'prettier', stop_after_first = true },
+          json = { 'prettierd', 'prettier', stop_after_first = true },
         },
       }
     end,
@@ -439,7 +440,6 @@ require('lazy').setup({
     -- Autocompletion
     'hrsh7th/nvim-cmp',
     dependencies = {
-      'hrsh7th/cmp-nvim-lsp-signature-help',
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-buffer',
     },
@@ -463,7 +463,6 @@ require('lazy').setup({
         sources = {
           { name = 'nvim_lsp' },
           { name = 'buffer' },
-          { name = 'nvim_lsp_signature_help' },
         },
       }
     end,
