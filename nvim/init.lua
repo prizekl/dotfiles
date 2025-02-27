@@ -3,6 +3,7 @@ vim.g.maplocalleader = ' '
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+vim.keymap.set('x', 'g/', '<Esc>/\\%V')
 -- vim.api.nvim_set_keymap('n', '<c-l>', '<nop>', { noremap = true, silent = true }) -- Bad Habit
 
 vim.wo.number = true
@@ -371,7 +372,15 @@ require('lazy').setup({
       capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
 
       local servers = {
-        ts_ls = {},
+        ts_ls = {
+          commands = {
+            OrganizeImports = {
+              function()
+                vim.lsp.buf.execute_command { command = '_typescript.organizeImports', arguments = { vim.fn.expand '%:p' } }
+              end,
+            },
+          },
+        },
         html = { filetypes = { 'html', 'twig', 'hbs' } },
         lua_ls = {
           Lua = {
