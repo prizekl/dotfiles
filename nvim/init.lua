@@ -223,6 +223,7 @@ require('lazy').setup({
       require('ef-themes').setup {
         modules = {
           cmp = true,
+          mini = true,
           gitsigns = true,
           render_markdown = true,
           telescope = true,
