@@ -354,15 +354,15 @@ require('lazy').setup({
             vim.keymap.set(mode, keys, func, { buffer = event.buf })
           end
 
-          map('crn', vim.lsp.buf.rename)
-          map('crr', vim.lsp.buf.code_action)
+          map('grn', vim.lsp.buf.rename)
+          map('gra', vim.lsp.buf.code_action)
 
           map('gd', require('telescope.builtin').lsp_definitions)
           map('gD', vim.lsp.buf.declaration)
           map('<leader>D', require('telescope.builtin').lsp_type_definitions)
-          map('gr', require('telescope.builtin').lsp_references)
-          map('gI', require('telescope.builtin').lsp_implementations)
-          map('<leader>o', require('telescope.builtin').lsp_document_symbols)
+          map('grr', require('telescope.builtin').lsp_references)
+          map('gri', require('telescope.builtin').lsp_implementations)
+          map('gO', require('telescope.builtin').lsp_document_symbols)
           map('<leader>t', require('telescope.builtin').lsp_dynamic_workspace_symbols)
 
           map('<C-k>', vim.lsp.buf.signature_help, { 'i', 'n' })
