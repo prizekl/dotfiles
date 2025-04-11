@@ -151,7 +151,7 @@ require('lazy').setup({
 
           map('gd', require('telescope.builtin').lsp_definitions)
           map('gD', vim.lsp.buf.declaration)
-          map('gry', require('telescope.builtin').lsp_type_definitions)
+          map('grt', require('telescope.builtin').lsp_type_definitions)
           map('grr', require('telescope.builtin').lsp_references)
           map('gri', require('telescope.builtin').lsp_implementations)
           map('gO', require('telescope.builtin').lsp_document_symbols)
