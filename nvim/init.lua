@@ -178,11 +178,7 @@ require('lazy').setup({
         html = { filetypes = { 'html', 'twig', 'hbs' } },
         lua_ls = {
           Lua = {
-            diagnostics = {
-              globals = { 'vim' },
-              undefined_global = false, -- remove this from diag!
-              missing_fields = false,
-            },
+            diagnostics = { globals = { 'vim' }, missing_fields = false },
             workspace = { checkThirdParty = false },
             telemetry = { enable = false },
           },
@@ -318,20 +314,7 @@ require('lazy').setup({
 
     build = ':TSUpdate',
     main = 'nvim-treesitter.configs',
-    opts = {
-      ensure_installed = 'all',
-      auto_install = true,
-      sync_install = false,
-      highlight = {
-        enable = true,
-        disable = function(_, buf)
-          local max_filesize = 1000 * 1024 -- 1 MB
-          local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-          return ok and stats and stats.size > max_filesize
-        end,
-      },
-      indent = { enable = true },
-    },
+    opts = { ensure_installed = 'all', auto_install = true, sync_install = false, indent = { enable = true } },
   },
 
   {
@@ -519,16 +502,8 @@ function M.render_statusline()
 
   local pad = '\x20'
 
-  local components = {
-    pad,
-    is_active and (mode:sub(1, 3) .. pad:rep(3)) or pad:rep(6),
-    '%<%f %h%m%r',
-    '%=',
-    diagnostics,
-    pad:rep(3),
-    '%l/%L,%c%V%',
-    pad:rep(2),
-  }
+  local components =
+    { pad, is_active and (mode:sub(1, 3) .. pad:rep(3)) or pad:rep(6), '%<%f %h%m%r', '%=', diagnostics, pad:rep(3), '%l/%L,%c%V%', pad:rep(2) }
 
   return table.concat(components)
 end
