@@ -12,7 +12,6 @@ autoload -Uz compinit && compinit
 export VISUAL='nvim'
 export EDITOR="$VISUAL"
 alias ls='exa'
-eval "$(atuin init zsh)"
 alias cdev='npx convex dev --tail-logs'
 alias diffview='nvim -c :DiffviewOpen'
 export HISTIGNORE="fg*"
