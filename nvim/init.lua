@@ -4,6 +4,7 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 vim.keymap.set('x', 'g/', '<Esc>/\\%V')
+-- vim.keymap.set('n', '/', 'mf/')
 
 vim.wo.number = true
 vim.opt.clipboard = 'unnamedplus'
@@ -385,44 +386,31 @@ local M = {}
 
 local DIAGNOSTIC_ICONS = { ERROR = 'E:', WARN = 'W:', INFO = 'I:', HINT = 'H:' }
 local SEVERITY_ORDER = { 'ERROR', 'WARN', 'HINT', 'INFO' }
-local MODE_MAP = {
-  ['n'] = 'NORMAL',
-  ['no'] = 'O-PENDING',
-  ['nov'] = 'O-PENDING',
-  ['noV'] = 'O-PENDING',
-  ['no\22'] = 'O-PENDING',
-  ['niI'] = 'NORMAL',
-  ['niR'] = 'NORMAL',
-  ['niV'] = 'NORMAL',
-  ['nt'] = 'NORMAL',
-  ['ntT'] = 'NORMAL',
-  ['v'] = 'VISUAL',
-  ['vs'] = 'VISUAL',
-  ['V'] = 'V-LINE',
-  ['Vs'] = 'V-LINE',
-  ['\22'] = 'V-BLOCK',
-  ['\22s'] = 'V-BLOCK',
-  ['s'] = 'SELECT',
-  ['S'] = 'S-LINE',
-  ['\19'] = 'S-BLOCK',
-  ['i'] = 'INSERT',
-  ['ic'] = 'INSERT',
-  ['ix'] = 'INSERT',
-  ['R'] = 'REPLACE',
-  ['Rc'] = 'REPLACE',
-  ['Rx'] = 'REPLACE',
-  ['Rv'] = 'V-REPLACE',
-  ['Rvc'] = 'V-REPLACE',
-  ['Rvx'] = 'V-REPLACE',
-  ['c'] = 'COMMAND',
-  ['cv'] = 'EX',
-  ['ce'] = 'EX',
-  ['r'] = 'REPLACE',
-  ['rm'] = 'MORE',
-  ['r?'] = 'CONFIRM',
-  ['!'] = 'SHELL',
-  ['t'] = 'TERMINAL',
+local mode_aliases = {
+  NORMAL = { 'n', 'no', 'nov', 'noV', 'no\22', 'niI', 'niR', 'niV', 'nt', 'ntT' },
+  VISUAL = { 'v', 'vs' },
+  ['V-LINE'] = { 'V', 'Vs' },
+  ['V-BLOCK'] = { '\22', '\22s' },
+  SELECT = { 's' },
+  ['S-LINE'] = { 'S' },
+  ['S-BLOCK'] = { '\19' },
+  INSERT = { 'i', 'ic', 'ix' },
+  REPLACE = { 'R', 'Rc', 'Rx', 'r', 'r?' },
+  ['V-REPLACE'] = { 'Rv', 'Rvc', 'Rvx' },
+  COMMAND = { 'c' },
+  EX = { 'cv', 'ce' },
+  MORE = { 'rm' },
+  CONFIRM = { 'r?' },
+  SHELL = { '!' },
+  TERMINAL = { 't' },
 }
+
+local MODE_MAP = {}
+for pretty, codes in pairs(mode_aliases) do
+  for _, c in ipairs(codes) do
+    MODE_MAP[c] = pretty
+  end
+end
 
 M.diagnostic_counts = {}
 M.diagnostic_cache = {}
@@ -484,11 +472,8 @@ function M.get_diagnostics_component(bufnr, is_active)
 end
 
 function M.get_mode_component()
-  local mode_code = vim.api.nvim_get_mode().mode
-  if MODE_MAP[mode_code] == nil then
-    return mode_code
-  end
-  return MODE_MAP[mode_code]
+  local m = vim.api.nvim_get_mode().mode
+  return MODE_MAP[m] or m
 end
 
 function M.render_statusline()
