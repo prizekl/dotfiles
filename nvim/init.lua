@@ -531,6 +531,6 @@ vim.api.nvim_create_autocmd({ 'BufReadPost', 'InsertLeave' }, {
 vim.api.nvim_set_hl(0, 'StatusLine', { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey2' })
 vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = 'NvimDarkGrey1', fg = 'NvimLightGrey3' })
 vim.api.nvim_set_hl(0, 'WinSeparator', { link = 'LineNr' })
-vim.api.nvim_set_hl(0, 'TelescopeNormal', { link = 'NormalFloat' })
 vim.api.nvim_set_hl(0, 'DiffAdd', { bg = 'NvimDarkGreen' })
 vim.api.nvim_set_hl(0, 'DiffChange', { bg = 'NvimDarkGrey4' })
+vim.api.nvim_set_hl(0, 'TelescopeNormal', { link = 'NormalFloat' })
