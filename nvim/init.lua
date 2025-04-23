@@ -57,6 +57,7 @@ require('lazy').setup({
               pin = { modes = { n = 'gb' }, index = 9, callback = 'keymaps.pin_reference' },
               next_chat = { modes = { n = 'gn' }, index = 11, callback = 'keymaps.next_chat' },
               previous_chat = { modes = { n = 'gp' }, index = 12, callback = 'keymaps.previous_chat' },
+              completion = { modes = { i = '<C-/>' }, index = 1, callback = 'keymaps.completion' },
             },
             adapter = 'anthropic',
           },
