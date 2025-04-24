@@ -38,6 +38,20 @@ vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
   {
+    'oonamo/ef-themes.nvim',
+    config = function()
+      require('ef-themes').setup {
+        modules = { gitsigns = true, render_markdown = true, telescope = true },
+        on_highlights = function(highlights, colors, name)
+          return { EndOfBuffer = { link = 'NonText' } }
+        end,
+      }
+
+      vim.cmd [[ colorscheme ef-elea-dark ]]
+    end,
+  },
+
+  {
     'olimorris/codecompanion.nvim',
     dependencies = {
       'nvim-lua/plenary.nvim',
@@ -526,12 +540,3 @@ vim.api.nvim_create_autocmd({ 'BufReadPost', 'InsertLeave' }, {
   pattern = '*.txt',
   callback = match_words,
 })
-
--- [[ Colorscheme ]]
-
-vim.api.nvim_set_hl(0, 'StatusLine', { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey2' })
-vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = 'NvimDarkGrey1', fg = 'NvimLightGrey3' })
-vim.api.nvim_set_hl(0, 'WinSeparator', { link = 'LineNr' })
-vim.api.nvim_set_hl(0, 'DiffAdd', { bg = 'NvimDarkGreen' })
-vim.api.nvim_set_hl(0, 'DiffChange', { bg = 'NvimDarkGrey4' })
-vim.api.nvim_set_hl(0, 'TelescopeNormal', { link = 'NormalFloat' })
