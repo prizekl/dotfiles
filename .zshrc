@@ -33,9 +33,3 @@ users() {
     echo "Searching for workspaces with search pattern: $searchPattern"
     npx convex run workspaces/members:_getUserWorkspaceInformation "$jsonPayload" --prod
 }
-
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/prizel/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/prizel/Downloads/google-cloud-sdk/path.zsh.inc'; fi
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/prizel/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/prizel/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
