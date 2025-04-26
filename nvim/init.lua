@@ -3,7 +3,7 @@ vim.g.maplocalleader = ' '
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
-vim.keymap.set('x', 'g/', '<Esc>/\\%V')
+-- vim.keymap.set('x', 'g/', '<Esc>/\\%V')
 -- vim.keymap.set('n', '/', 'mf/')
 
 vim.wo.number = true
@@ -127,6 +127,14 @@ require('lazy').setup({
 
   -- LSP
   {
+    'pmizio/typescript-tools.nvim',
+    dependencies = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
+    config = function()
+      require('typescript-tools').setup {}
+      vim.api.nvim_create_user_command('Or', 'TSToolsOrganizeImports', {})
+    end,
+  },
+  {
     'neovim/nvim-lspconfig',
     dependencies = {
       { 'williamboman/mason.nvim', config = true },
@@ -160,25 +168,10 @@ require('lazy').setup({
       local capabilities = vim.lsp.protocol.make_client_capabilities()
 
       local servers = {
-        ts_ls = {
-          commands = {
-            OrganizeImports = {
-              function()
-                local bufnr = vim.api.nvim_get_current_buf()
-                local client = vim.lsp.get_clients({ bufnr = bufnr, name = 'ts_ls' })[1]
-                client:exec_cmd { title = 'Orgnize Imports', command = '_typescript.organizeImports', arguments = { vim.fn.expand '%:p' } }
-              end,
-            },
-          },
-        },
         html = { filetypes = { 'html', 'twig', 'hbs' } },
-        lua_ls = {
-          Lua = {
-            diagnostics = { globals = { 'vim' }, missing_fields = false },
-            workspace = { checkThirdParty = false },
-            telemetry = { enable = false },
-          },
-        },
+        gopls = {},
+        pyright = {},
+        lua_ls = { Lua = { diagnostics = { globals = { 'vim' }, missing_fields = false } } },
       }
 
       local mason_lspconfig = require 'mason-lspconfig'
@@ -333,10 +326,7 @@ require('lazy').setup({
 vim.opt.showmode = false
 vim.opt.shortmess:append 'c'
 vim.o.winborder = 'single'
-vim.diagnostic.config {
-  jump = { float = true },
-  severity_sort = true,
-}
+vim.diagnostic.config { jump = { float = true }, severity_sort = true }
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
 
@@ -458,9 +448,7 @@ function M.get_diagnostics_component(bufnr, is_active)
     end
   end
 
-  local diagnostics_str = table.concat(parts, ' ')
-
-  diagnostics_str = diagnostics_str .. (is_active and '%#StatusLine#' or '%#StatusLineNC#')
+  local diagnostics_str = table.concat(parts or {}, ' ') .. (is_active and '%#StatusLine#' or '%#StatusLineNC#')
 
   M.diagnostic_cache[bufnr] = diagnostics_str
   return diagnostics_str
