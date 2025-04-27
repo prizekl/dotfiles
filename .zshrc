@@ -1,12 +1,12 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# # Initialization code that may require console input (password prompts, [y/n]
+# # confirmations, etc.) must go above this block; everything else may go below.
+# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+#   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+# fi
+# source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
+# # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+# [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 autoload -Uz compinit && compinit
 export VISUAL='nvim'
@@ -33,3 +33,14 @@ users() {
     echo "Searching for workspaces with search pattern: $searchPattern"
     npx convex run workspaces/members:_getUserWorkspaceInformation "$jsonPayload" --prod
 }
+
+setopt prompt_subst
+git_prompt() {
+    local branch dirty=""
+    branch=$(git symbolic-ref --quiet --short HEAD 2>/dev/null) || return
+    git status --porcelain -u 2>/dev/null | grep -q . && dirty+="*"
+    git rev-parse --verify refs/stash &>/dev/null && dirty+="\$"
+    echo " %F{green}${branch}%F{yellow}${dirty}%f%f"
+}
+PROMPT='%F{blue}%~%f$(git_prompt) %F{cyan}%#%f '
+RPROMPT='%(1j.%F{red}[%j]%f .)%F{cyan}%*%f'
