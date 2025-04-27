@@ -38,9 +38,10 @@ setopt prompt_subst
 git_prompt() {
     local branch dirty=""
     branch=$(git symbolic-ref --quiet --short HEAD 2>/dev/null) || return
-    git status --porcelain -u 2>/dev/null | grep -q . && dirty+="*"
+    git status --porcelain -u 2>/dev/null | grep -v "^??" | grep -q . && dirty+="*"
+    git status --porcelain -u 2>/dev/null | grep -q "^??" && dirty+="?"
     git rev-parse --verify refs/stash &>/dev/null && dirty+="\$"
-    echo " %F{green}${branch}%F{yellow}${dirty}%f%f"
+    echo " %F{green}${branch}%f%F{yellow}${dirty}%f"
 }
 PROMPT='%F{blue}%~%f$(git_prompt) %F{cyan}%#%f '
 RPROMPT='%(1j.%F{red}[%j]%f .)%F{cyan}%*%f'
