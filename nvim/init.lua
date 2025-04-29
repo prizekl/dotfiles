@@ -43,39 +43,35 @@ require('lazy').setup({
       'nvim-lua/plenary.nvim',
       'nvim-treesitter/nvim-treesitter',
     },
-    config = function()
-      require('codecompanion').setup {
-        display = { chat = { window = { width = 0.25 } } },
-        strategies = {
-          chat = {
-            slash_commands = {
-              ['buffer'] = { opts = { provider = 'telescope' } },
-              ['file'] = { opts = { provider = 'telescope' } },
-              ['symbols'] = { opts = { provider = 'telescope' } },
-            },
-            keymaps = {
-              pin = { modes = { n = 'gb' }, index = 9, callback = 'keymaps.pin_reference' },
-              next_chat = { modes = { n = 'gn' }, index = 11, callback = 'keymaps.next_chat' },
-              previous_chat = { modes = { n = 'gp' }, index = 12, callback = 'keymaps.previous_chat' },
-              completion = { modes = { i = '<C-/>' }, index = 1, callback = 'keymaps.completion' },
-            },
-            adapter = 'anthropic',
+    keys = {
+      { '<leader>s', '<cmd>CodeCompanionChat Toggle<cr>', mode = 'n', noremap = true, silent = true },
+      { '<leader>ae', '<cmd>CodeCompanionChat Add<cr>', mode = 'v', noremap = true, silent = true },
+      { '<leader>ac', '<cmd>CodeCompanionChat<cr>', mode = { 'n', 'v' }, noremap = true, silent = true },
+    },
+    opts = {
+      display = { chat = { window = { width = 0.25 } } },
+      strategies = {
+        chat = {
+          slash_commands = {
+            ['buffer'] = { opts = { provider = 'telescope' } },
+            ['file'] = { opts = { provider = 'telescope' } },
+            ['symbols'] = { opts = { provider = 'telescope' } },
           },
-          inline = { adapter = 'anthropic' },
+          keymaps = {
+            pin = { modes = { n = 'gb' }, index = 9, callback = 'keymaps.pin_reference' },
+            next_chat = { modes = { n = 'gn' }, index = 11, callback = 'keymaps.next_chat' },
+            previous_chat = { modes = { n = 'gp' }, index = 12, callback = 'keymaps.previous_chat' },
+            completion = { modes = { i = '<C-/>' }, index = 1, callback = 'keymaps.completion' },
+          },
+          adapter = 'anthropic',
         },
-      }
-
-      vim.api.nvim_set_keymap('v', '<leader>s', '<cmd>CodeCompanionChat Toggle<cr>', { noremap = true, silent = true })
-      vim.api.nvim_set_keymap('n', '<leader>s', '<cmd>CodeCompanionChat Toggle<cr>', { noremap = true, silent = true })
-      vim.api.nvim_set_keymap('v', '<leader>ae', '<cmd>CodeCompanionChat Add<cr>', { noremap = true, silent = true })
-      vim.api.nvim_set_keymap('n', '<leader>ac', '<cmd>CodeCompanionChat<cr>', { noremap = true, silent = true })
-      vim.api.nvim_set_keymap('v', '<leader>ac', '<cmd>CodeCompanionChat<cr>', { noremap = true, silent = true })
-    end,
+        inline = { adapter = 'anthropic' },
+      },
+    },
   },
   { 'supermaven-inc/supermaven-nvim', opts = { ignore_filetypes = { 'TelescopePrompt', 'text' } } },
 
   { 'tpope/vim-surround', keys = { 'ds', 'cs', 'ys', { 'S', mode = 'v' } } },
-  { 'windwp/nvim-autopairs', event = 'InsertEnter', config = true, opts = { map_cr = false } },
 
   -- Git
   {
@@ -91,49 +87,37 @@ require('lazy').setup({
     opts = {
       on_attach = function(bufnr)
         local gitsigns = require 'gitsigns'
+        local function map_key(modes, lhs, rhs)
+          vim.keymap.set(modes, lhs, rhs, { buffer = bufnr })
+        end
 
-        vim.keymap.set('n', ']c', function()
-          if vim.wo.diff then
-            vim.cmd.normal { ']c', bang = true }
-          else
-            gitsigns.nav_hunk 'next'
-          end
-        end, { buffer = bufnr })
+        for key, direction in pairs { [']c'] = 'next', ['[c'] = 'prev' } do
+          map_key('n', key, function()
+            if vim.wo.diff then
+              vim.cmd.normal { key, bang = true }
+            else
+              gitsigns.nav_hunk(direction)
+            end
+          end)
+        end
 
-        vim.keymap.set('n', '[c', function()
-          if vim.wo.diff then
-            vim.cmd.normal { '[c', bang = true }
-          else
-            gitsigns.nav_hunk 'prev'
-          end
-        end, { buffer = bufnr })
-
-        vim.keymap.set('n', '<leader>hp', gitsigns.preview_hunk, { buffer = bufnr })
-        vim.keymap.set('n', '<leader>hs', gitsigns.stage_hunk, { buffer = bufnr })
-        vim.keymap.set('n', '<leader>hr', gitsigns.reset_hunk, { buffer = bufnr })
-        vim.keymap.set('v', '<leader>hs', function()
+        map_key('n', '<leader>hp', gitsigns.preview_hunk)
+        map_key('n', '<leader>hs', gitsigns.stage_hunk)
+        map_key('n', '<leader>hr', gitsigns.reset_hunk)
+        map_key('n', '<leader>hR', gitsigns.reset_buffer)
+        map_key('n', '<leader>hd', gitsigns.diffthis)
+        map_key({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+        map_key('v', '<leader>hs', function()
           gitsigns.stage_hunk { vim.fn.line '.', vim.fn.line 'v' }
-        end, { buffer = bufnr })
-        vim.keymap.set('v', '<leader>hr', function()
+        end)
+        map_key('v', '<leader>hr', function()
           gitsigns.reset_hunk { vim.fn.line '.', vim.fn.line 'v' }
-        end, { buffer = bufnr })
-        vim.keymap.set('n', '<leader>hR', gitsigns.reset_buffer, { buffer = bufnr })
-        vim.keymap.set('n', '<leader>hd', gitsigns.diffthis, { buffer = bufnr })
-
-        vim.keymap.set({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+        end)
       end,
     },
   },
 
   -- LSP
-  {
-    'pmizio/typescript-tools.nvim',
-    dependencies = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
-    config = function()
-      require('typescript-tools').setup {}
-      vim.api.nvim_create_user_command('Or', 'TSToolsOrganizeImports', {})
-    end,
-  },
   {
     'neovim/nvim-lspconfig',
     dependencies = {
@@ -168,6 +152,17 @@ require('lazy').setup({
       local capabilities = vim.lsp.protocol.make_client_capabilities()
 
       local servers = {
+        ts_ls = {
+          commands = {
+            OrganizeImports = {
+              function()
+                local bufnr = vim.api.nvim_get_current_buf()
+                local client = vim.lsp.get_clients({ bufnr = bufnr, name = 'ts_ls' })[1]
+                client:exec_cmd { title = 'Orgnize Imports', command = '_typescript.organizeImports', arguments = { vim.fn.expand '%:p' } }
+              end,
+            },
+          },
+        },
         html = { filetypes = { 'html', 'twig', 'hbs' } },
         gopls = {},
         pyright = {},
@@ -195,17 +190,15 @@ require('lazy').setup({
         require('conform').format { async = true, lsp_format = 'fallback' }
       end,
     } },
-    config = function()
-      require('conform').setup {
-        formatters_by_ft = {
-          lua = { 'stylua' },
-          python = { 'isort', 'black' },
-          typescript = { 'prettierd', 'prettier', stop_after_first = true },
-          typescriptreact = { 'prettierd', 'prettier', stop_after_first = true },
-          json = { 'prettierd', 'prettier', stop_after_first = true },
-        },
-      }
-    end,
+    opts = {
+      formatters_by_ft = {
+        lua = { 'stylua' },
+        python = { 'isort', 'black' },
+        typescript = { 'prettierd', 'prettier', stop_after_first = true },
+        typescriptreact = { 'prettierd', 'prettier', stop_after_first = true },
+        json = { 'prettierd', 'prettier', stop_after_first = true },
+      },
+    },
   },
 
   {
@@ -334,14 +327,13 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
 
 vim.o.completeopt = 'menuone,noselect,noinsert,popup'
 vim.keymap.set('i', '<CR>', function()
-  local npairs = require 'nvim-autopairs'
-  return vim.fn.pumvisible() == 1 and npairs.esc '<C-y>' or npairs.autopairs_cr()
-end, { expr = true, replace_keycodes = false })
+  return vim.fn.pumvisible() == 1 and '<C-y>' or '<CR>'
+end, { expr = true })
 
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(args)
     local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
-    client.server_capabilities.completionProvider.triggerCharacters = vim.split('qwertyuiopasdfghjklzxcvbnm. ', '')
+    client.server_capabilities.completionProvider.triggerCharacters = vim.split('qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM. ', '')
     vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
   end,
 })
@@ -437,7 +429,6 @@ function M.get_diagnostics_component(bufnr, is_active)
   end
 
   local parts = {}
-
   for _, severity in ipairs(SEVERITY_ORDER) do
     local count = counts[severity] or 0
     if count > 0 then

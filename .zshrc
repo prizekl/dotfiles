@@ -40,7 +40,8 @@ git_prompt() {
     branch=$(git symbolic-ref --quiet --short HEAD 2>/dev/null) || return
     git status --porcelain -u 2>/dev/null | grep -q . && dirty+="*"
     git rev-parse --verify refs/stash &>/dev/null && dirty+="\$"
-    echo " %F{green}${branch}%f%F{yellow}${dirty}%f"
+    git status -sb 2>/dev/null | grep -q '\[ahead' && dirty+=">"
+    echo " %F{green}${branch}%f%F{red}${dirty}%f"
 }
-PROMPT='%F{blue}%~%f$(git_prompt) %F{cyan}%#%f '
-RPROMPT='%(1j.%F{red}[%j]%f .)%F{cyan}%*%f'
+PROMPT='%F{blue}%~%f$(git_prompt) %# '
+RPROMPT='%(1j.%F{red}[%j]%f .)%*'
