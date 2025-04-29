@@ -91,7 +91,7 @@ require('lazy').setup({
           vim.keymap.set(modes, lhs, rhs, { buffer = bufnr })
         end
 
-        for key, direction in pairs { [']c'] = 'next', ['[c'] = 'prev' } do
+        local function map_hunk_navigation(key, direction)
           map_key('n', key, function()
             if vim.wo.diff then
               vim.cmd.normal { key, bang = true }
@@ -101,6 +101,8 @@ require('lazy').setup({
           end)
         end
 
+        map_hunk_navigation(']c', 'next')
+        map_hunk_navigation('[c', 'prev')
         map_key('n', '<leader>hp', gitsigns.preview_hunk)
         map_key('n', '<leader>hs', gitsigns.stage_hunk)
         map_key('n', '<leader>hr', gitsigns.reset_hunk)
