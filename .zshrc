@@ -44,4 +44,4 @@ git_prompt() {
     echo " %F{green}${branch}%f%F{red}${dirty}%f"
 }
 PROMPT='%F{blue}%~%f$(git_prompt) %# '
-RPROMPT='%(1j.%F{red}[%j]%f .)%*'
+RPROMPT='%(1j.%F{cyan}[%j]%f .)%*'
