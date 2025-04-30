@@ -168,7 +168,7 @@ require('lazy').setup({
         html = { filetypes = { 'html', 'twig', 'hbs' } },
         gopls = {},
         pyright = {},
-        lua_ls = { Lua = { diagnostics = { globals = { 'vim' }, missing_fields = false } } },
+        lua_ls = { settings = { Lua = { diagnostics = { disable = { 'missing-fields' } } } } },
       }
 
       local mason_lspconfig = require 'mason-lspconfig'
