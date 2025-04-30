@@ -7,11 +7,11 @@ vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = tr
 -- vim.keymap.set('n', '/', 'mf/')
 
 vim.wo.number = true
+vim.wo.signcolumn = 'yes'
 vim.opt.clipboard = 'unnamedplus'
 vim.o.breakindent = true
 vim.o.ignorecase = true
 vim.o.smartcase = true
-vim.wo.signcolumn = 'yes'
 vim.o.updatetime = 250
 vim.o.undofile = true
 vim.o.expandtab = true
