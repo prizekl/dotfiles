@@ -1,3 +1,5 @@
+-- [[ Core settings ]]
+
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
@@ -38,6 +40,11 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
+  --- Text Editing ---
+  { 'tpope/vim-surround', keys = { 'ds', 'cs', 'ys', { 'S', mode = 'v' } } },
+
+  --- AI ---
+  { 'supermaven-inc/supermaven-nvim', opts = { ignore_filetypes = { 'TelescopePrompt', 'text' } } },
   {
     'olimorris/codecompanion.nvim',
     dependencies = {
@@ -70,11 +77,8 @@ require('lazy').setup({
       },
     },
   },
-  { 'supermaven-inc/supermaven-nvim', opts = { ignore_filetypes = { 'TelescopePrompt', 'text' } } },
 
-  { 'tpope/vim-surround', keys = { 'ds', 'cs', 'ys', { 'S', mode = 'v' } } },
-
-  -- Git
+  --- Git ---
   {
     'sindrets/diffview.nvim',
     cmd = { 'DiffviewOpen', 'DiffviewFileHistory' },
@@ -120,7 +124,7 @@ require('lazy').setup({
     },
   },
 
-  -- LSP
+  --- LSP ---
   {
     'neovim/nvim-lspconfig',
     dependencies = {
@@ -183,9 +187,7 @@ require('lazy').setup({
       }
     end,
   },
-
   {
-    -- Formatter
     'stevearc/conform.nvim',
     keys = { {
       '<leader>f',
@@ -204,6 +206,20 @@ require('lazy').setup({
     },
   },
 
+  --- File Navigation ---
+  {
+    'echasnovski/mini.files',
+    keys = {
+      {
+        '<leader>n',
+        function()
+          require('mini.files').open(vim.api.nvim_buf_get_name(0), false)
+          require('mini.files').reveal_cwd()
+        end,
+      },
+    },
+    opts = {},
+  },
   {
     'nvim-telescope/telescope.nvim',
     dependencies = {
@@ -262,6 +278,7 @@ require('lazy').setup({
     end,
   },
 
+  --- Treesitter ---
   {
     'nvim-treesitter/nvim-treesitter',
     dependencies = {
@@ -301,32 +318,15 @@ require('lazy').setup({
     main = 'nvim-treesitter.configs',
     opts = { ensure_installed = 'all', auto_install = true, sync_install = false, indent = { enable = true } },
   },
-
-  {
-    'echasnovski/mini.files',
-    keys = {
-      {
-        '<leader>n',
-        function()
-          require('mini.files').open(vim.api.nvim_buf_get_name(0), false)
-          require('mini.files').reveal_cwd()
-        end,
-      },
-    },
-    opts = {},
-  },
 }, {})
 
--- [[ Statusline and diagnostics ]]
+-- [[ Diagnostics ]]
 
-vim.opt.showmode = false
-vim.opt.shortmess:append 'c'
-vim.o.winborder = 'single'
 vim.diagnostic.config { jump = { float = true }, severity_sort = true }
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
 
--- [[ Completion ]]
+-- [[ Completion & LSP ]]
 
 vim.o.completeopt = 'menuone,noselect,noinsert,popup'
 vim.keymap.set('i', '<CR>', function()
@@ -348,7 +348,7 @@ vim.api.nvim_create_autocmd('LspDetach', {
   end,
 })
 
--- [[ Utils ]]
+-- [[ Utilities ]]
 
 vim.api.nvim_create_user_command('RelPath', function()
   local filepath = vim.fn.expand '%'
@@ -361,6 +361,48 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     vim.hl.on_yank()
   end,
 })
+
+-- Typescript compiling
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'typescript', 'typescriptreact' },
+  callback = function()
+    vim.cmd.compiler 'tsc'
+  end,
+})
+
+-- [[ UI Settings ]]
+
+vim.opt.showmode = false
+vim.opt.shortmess:append 'c'
+vim.o.winborder = 'single'
+
+local function match_words()
+  vim.cmd "syntax match Priority '\\[!\\]'"
+  vim.cmd "syntax match Ongoing '\\[o\\]'"
+  vim.cmd "syntax match Done '\\[x\\]'"
+  vim.cmd "syntax match Cancelled '\\[\\~\\]'"
+  vim.cmd "syntax match Time '\\*\\*[^\\*]\\+\\*\\*'"
+  vim.cmd "syntax match Heading '#.*'"
+end
+
+vim.api.nvim_create_autocmd({ 'BufReadPost', 'InsertLeave' }, {
+  pattern = '*.txt',
+  callback = match_words,
+})
+
+vim.api.nvim_set_hl(0, 'Priority', { fg = 'red' })
+vim.api.nvim_set_hl(0, 'Ongoing', { fg = 'orange' })
+vim.api.nvim_set_hl(0, 'Done', { fg = 'green' })
+vim.api.nvim_set_hl(0, 'Cancelled', { fg = 'magenta' })
+vim.api.nvim_set_hl(0, 'Time', { fg = 'pink' })
+vim.api.nvim_set_hl(0, 'Heading', { bold = true })
+
+vim.api.nvim_set_hl(0, 'StatusLine', { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey2' })
+vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = 'NvimDarkGrey1', fg = 'NvimLightGrey3' })
+vim.api.nvim_set_hl(0, 'WinSeparator', { link = 'LineNr' })
+vim.api.nvim_set_hl(0, 'DiffAdd', { bg = 'NvimDarkGreen' })
+vim.api.nvim_set_hl(0, 'DiffChange', { bg = 'NvimDarkGrey4' })
+vim.api.nvim_set_hl(0, 'TelescopeNormal', { link = 'NormalFloat' })
 
 -- [[ Statusline ]]
 -- inspired by Helix's statusline
@@ -481,41 +523,3 @@ vim.api.nvim_create_autocmd('DiagnosticChanged', {
     vim.cmd 'redrawstatus!'
   end,
 })
-
--- Typescript compiling
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = { 'typescript', 'typescriptreact' },
-  callback = function()
-    vim.cmd.compiler 'tsc'
-  end,
-})
-
-vim.api.nvim_set_hl(0, 'Priority', { fg = 'red' })
-vim.api.nvim_set_hl(0, 'Ongoing', { fg = 'orange' })
-vim.api.nvim_set_hl(0, 'Done', { fg = 'green' })
-vim.api.nvim_set_hl(0, 'Cancelled', { fg = 'magenta' })
-vim.api.nvim_set_hl(0, 'Time', { fg = 'pink' })
-vim.api.nvim_set_hl(0, 'Heading', { bold = true })
-
-local function match_words()
-  vim.cmd "syntax match Priority '\\[!\\]'"
-  vim.cmd "syntax match Ongoing '\\[o\\]'"
-  vim.cmd "syntax match Done '\\[x\\]'"
-  vim.cmd "syntax match Cancelled '\\[\\~\\]'"
-  vim.cmd "syntax match Time '\\*\\*[^\\*]\\+\\*\\*'"
-  vim.cmd "syntax match Heading '#.*'"
-end
-
-vim.api.nvim_create_autocmd({ 'BufReadPost', 'InsertLeave' }, {
-  pattern = '*.txt',
-  callback = match_words,
-})
-
--- [[ Colorscheme ]]
-
-vim.api.nvim_set_hl(0, 'StatusLine', { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey2' })
-vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = 'NvimDarkGrey1', fg = 'NvimLightGrey3' })
-vim.api.nvim_set_hl(0, 'WinSeparator', { link = 'LineNr' })
-vim.api.nvim_set_hl(0, 'DiffAdd', { bg = 'NvimDarkGreen' })
-vim.api.nvim_set_hl(0, 'DiffChange', { bg = 'NvimDarkGrey4' })
-vim.api.nvim_set_hl(0, 'TelescopeNormal', { link = 'NormalFloat' })
