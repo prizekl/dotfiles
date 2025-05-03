@@ -3,8 +3,9 @@ vim.g.maplocalleader = ' '
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
--- vim.keymap.set('x', 'g/', '<Esc>/\\%V')
+-- Search in visual mode selection '<Esc>/\\%V')
 -- vim.keymap.set('n', '/', 'mf/')
+-- go to end of search match //e
 
 vim.wo.number = true
 vim.wo.signcolumn = 'yes'
@@ -340,12 +341,19 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end,
 })
 
+vim.api.nvim_create_autocmd('LspDetach', {
+  callback = function(args)
+    local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
+    vim.lsp.completion.enable(false, client.id, args.buf)
+  end,
+})
+
+-- [[ Utils ]]
+
 vim.api.nvim_create_user_command('RelPath', function()
   local filepath = vim.fn.expand '%'
   vim.fn.setreg('+', filepath)
 end, {})
-
--- [[ Highlight on yank ]]
 
 vim.api.nvim_create_autocmd('TextYankPost', {
   group = vim.api.nvim_create_augroup('YankHighlight', { clear = true }),
@@ -360,10 +368,9 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- ripped mode map from lualine https://github.com/nvim-lualine/lualine.nvim/blob/master/lua/lualine/utils/mode.lua
 
 local M = {}
-
 local DIAGNOSTIC_ICONS = { ERROR = 'E:', WARN = 'W:', INFO = 'I:', HINT = 'H:' }
 local SEVERITY_ORDER = { 'ERROR', 'WARN', 'HINT', 'INFO' }
-local mode_aliases = {
+local MODE_ALIASES = {
   NORMAL = { 'n', 'no', 'nov', 'noV', 'no\22', 'niI', 'niR', 'niV', 'nt', 'ntT' },
   VISUAL = { 'v', 'vs' },
   ['V-LINE'] = { 'V', 'Vs' },
@@ -381,9 +388,8 @@ local mode_aliases = {
   SHELL = { '!' },
   TERMINAL = { 't' },
 }
-
 local MODE_MAP = {}
-for pretty, codes in pairs(mode_aliases) do
+for pretty, codes in pairs(MODE_ALIASES) do
   for _, c in ipairs(codes) do
     MODE_MAP[c] = pretty
   end
@@ -440,7 +446,6 @@ function M.get_diagnostics_component(bufnr, is_active)
   end
 
   local diagnostics_str = table.concat(parts or {}, ' ') .. (is_active and '%#StatusLine#' or '%#StatusLineNC#')
-
   M.diagnostic_cache[bufnr] = diagnostics_str
   return diagnostics_str
 end
