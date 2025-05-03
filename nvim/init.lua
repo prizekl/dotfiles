@@ -156,8 +156,6 @@ require('lazy').setup({
         end,
       })
 
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
-
       local servers = {
         ts_ls = {
           commands = {
@@ -176,6 +174,7 @@ require('lazy').setup({
         lua_ls = { settings = { Lua = { diagnostics = { disable = { 'missing-fields' } } } } },
       }
 
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
       local mason_lspconfig = require 'mason-lspconfig'
       mason_lspconfig.setup { ensure_installed = vim.tbl_keys(servers) }
       mason_lspconfig.setup_handlers {
@@ -409,7 +408,6 @@ vim.api.nvim_set_hl(0, 'TelescopeNormal', { link = 'NormalFloat' })
 -- adapted from MariaSol0s https://github.com/MariaSolOs/dotfiles/blob/main/.config/nvim/lua/statusline.lua
 -- ripped mode map from lualine https://github.com/nvim-lualine/lualine.nvim/blob/master/lua/lualine/utils/mode.lua
 
-local M = {}
 local DIAGNOSTIC_ICONS = { ERROR = 'E:', WARN = 'W:', INFO = 'I:', HINT = 'H:' }
 local SEVERITY_ORDER = { 'ERROR', 'WARN', 'HINT', 'INFO' }
 local MODE_ALIASES = {
@@ -437,6 +435,7 @@ for pretty, codes in pairs(MODE_ALIASES) do
   end
 end
 
+local M = {}
 M.diagnostic_counts = {}
 M.diagnostic_cache = {}
 M.highlight_cache = {}
