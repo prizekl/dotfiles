@@ -40,10 +40,10 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
-  --- Text Editing ---
+  -- [ Text Editing ]
   { 'tpope/vim-surround', keys = { 'ds', 'cs', 'ys', { 'S', mode = 'v' } } },
 
-  --- AI ---
+  -- [ AI ]
   { 'supermaven-inc/supermaven-nvim', opts = { ignore_filetypes = { 'TelescopePrompt', 'text' } } },
   {
     'olimorris/codecompanion.nvim',
@@ -78,7 +78,7 @@ require('lazy').setup({
     },
   },
 
-  --- Git ---
+  -- [ Git ]
   {
     'sindrets/diffview.nvim',
     cmd = { 'DiffviewOpen', 'DiffviewFileHistory' },
@@ -92,12 +92,12 @@ require('lazy').setup({
     opts = {
       on_attach = function(bufnr)
         local gitsigns = require 'gitsigns'
-        local function map_key(modes, lhs, rhs)
-          vim.keymap.set(modes, lhs, rhs, { buffer = bufnr })
+        local function map(modes, keys, func)
+          vim.keymap.set(modes, keys, func, { buffer = bufnr })
         end
 
         local function map_hunk_navigation(key, direction)
-          map_key('n', key, function()
+          map('n', key, function()
             if vim.wo.diff then
               vim.cmd.normal { key, bang = true }
             else
@@ -108,51 +108,48 @@ require('lazy').setup({
 
         map_hunk_navigation(']c', 'next')
         map_hunk_navigation('[c', 'prev')
-        map_key('n', '<leader>hp', gitsigns.preview_hunk)
-        map_key('n', '<leader>hs', gitsigns.stage_hunk)
-        map_key('n', '<leader>hr', gitsigns.reset_hunk)
-        map_key('n', '<leader>hR', gitsigns.reset_buffer)
-        map_key('n', '<leader>hd', gitsigns.diffthis)
-        map_key({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
-        map_key('v', '<leader>hs', function()
+        map('n', '<leader>hp', gitsigns.preview_hunk)
+        map('n', '<leader>hs', gitsigns.stage_hunk)
+        map('n', '<leader>hr', gitsigns.reset_hunk)
+        map('n', '<leader>hR', gitsigns.reset_buffer)
+        map('n', '<leader>hd', gitsigns.diffthis)
+        map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+        map('v', '<leader>hs', function()
           gitsigns.stage_hunk { vim.fn.line '.', vim.fn.line 'v' }
         end)
-        map_key('v', '<leader>hr', function()
+        map('v', '<leader>hr', function()
           gitsigns.reset_hunk { vim.fn.line '.', vim.fn.line 'v' }
         end)
       end,
     },
   },
 
-  --- LSP ---
+  -- [ LSP ]
   {
     'neovim/nvim-lspconfig',
     dependencies = {
       { 'williamboman/mason.nvim', config = true },
       { 'williamboman/mason-lspconfig.nvim' },
       { 'j-hui/fidget.nvim', opts = {} },
-      { 'folke/neodev.nvim' },
+      { 'folke/neodev.nvim', opts = {} },
     },
     config = function()
-      require('neodev').setup()
-
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
         callback = function(event)
-          local map = function(keys, func, mode)
-            mode = mode or 'n'
-            vim.keymap.set(mode, keys, func, { buffer = event.buf })
+          local map = function(modes, keys, func)
+            vim.keymap.set(modes, keys, func, { buffer = event.buf })
           end
 
-          map('gd', require('telescope.builtin').lsp_definitions)
-          map('gD', vim.lsp.buf.declaration)
-          map('grt', require('telescope.builtin').lsp_type_definitions)
-          map('grr', require('telescope.builtin').lsp_references)
-          map('gri', require('telescope.builtin').lsp_implementations)
-          map('gO', require('telescope.builtin').lsp_document_symbols)
-          map('<leader>t', require('telescope.builtin').lsp_dynamic_workspace_symbols)
+          map('n', 'gd', require('telescope.builtin').lsp_definitions)
+          map('n', 'gD', vim.lsp.buf.declaration)
+          map('n', 'grt', require('telescope.builtin').lsp_type_definitions)
+          map('n', 'grr', require('telescope.builtin').lsp_references)
+          map('n', 'gri', require('telescope.builtin').lsp_implementations)
+          map('n', 'gO', require('telescope.builtin').lsp_document_symbols)
+          map('n', '<leader>t', require('telescope.builtin').lsp_dynamic_workspace_symbols)
 
-          map('<C-k>', vim.lsp.buf.signature_help, { 'i', 'n' })
+          map({ 'i', 'n' }, '<C-k>', vim.lsp.buf.signature_help)
         end,
       })
 
@@ -205,7 +202,7 @@ require('lazy').setup({
     },
   },
 
-  --- File Navigation ---
+  -- [ File Navigation ]
   {
     'echasnovski/mini.files',
     keys = {
@@ -277,7 +274,7 @@ require('lazy').setup({
     end,
   },
 
-  --- Treesitter ---
+  -- [ Treesitter ]
   {
     'nvim-treesitter/nvim-treesitter',
     dependencies = {
@@ -323,7 +320,7 @@ require('lazy').setup({
 
 vim.diagnostic.config { jump = { float = true }, severity_sort = true }
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
+vim.keymap.set('n', '<leader>q', vim.diagnostic.setqflist)
 
 -- [[ Completion & LSP ]]
 
@@ -375,6 +372,21 @@ vim.opt.showmode = false
 vim.opt.shortmess:append 'c'
 vim.o.winborder = 'single'
 
+vim.api.nvim_set_hl(0, 'Normal', { bg = 'NONE' })
+vim.api.nvim_set_hl(0, 'StatusLine', { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey2' })
+vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = 'NvimDarkGrey1', fg = 'NvimLightGrey3' })
+vim.api.nvim_set_hl(0, 'WinSeparator', { link = 'LineNr' })
+vim.api.nvim_set_hl(0, 'DiffAdd', { bg = 'NvimDarkGreen' })
+vim.api.nvim_set_hl(0, 'DiffChange', { bg = 'NvimDarkGrey4' })
+vim.api.nvim_set_hl(0, 'TelescopeNormal', { link = 'NormalFloat' })
+
+vim.api.nvim_set_hl(0, 'Priority', { fg = 'red' })
+vim.api.nvim_set_hl(0, 'Ongoing', { fg = 'orange' })
+vim.api.nvim_set_hl(0, 'Done', { fg = 'green' })
+vim.api.nvim_set_hl(0, 'Cancelled', { fg = 'magenta' })
+vim.api.nvim_set_hl(0, 'Time', { fg = 'pink' })
+vim.api.nvim_set_hl(0, 'Heading', { bold = true })
+
 local function match_words()
   vim.cmd "syntax match Priority '\\[!\\]'"
   vim.cmd "syntax match Ongoing '\\[o\\]'"
@@ -388,20 +400,6 @@ vim.api.nvim_create_autocmd({ 'BufReadPost', 'InsertLeave' }, {
   pattern = '*.txt',
   callback = match_words,
 })
-
-vim.api.nvim_set_hl(0, 'Priority', { fg = 'red' })
-vim.api.nvim_set_hl(0, 'Ongoing', { fg = 'orange' })
-vim.api.nvim_set_hl(0, 'Done', { fg = 'green' })
-vim.api.nvim_set_hl(0, 'Cancelled', { fg = 'magenta' })
-vim.api.nvim_set_hl(0, 'Time', { fg = 'pink' })
-vim.api.nvim_set_hl(0, 'Heading', { bold = true })
-
-vim.api.nvim_set_hl(0, 'StatusLine', { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey2' })
-vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = 'NvimDarkGrey1', fg = 'NvimLightGrey3' })
-vim.api.nvim_set_hl(0, 'WinSeparator', { link = 'LineNr' })
-vim.api.nvim_set_hl(0, 'DiffAdd', { bg = 'NvimDarkGreen' })
-vim.api.nvim_set_hl(0, 'DiffChange', { bg = 'NvimDarkGrey4' })
-vim.api.nvim_set_hl(0, 'TelescopeNormal', { link = 'NormalFloat' })
 
 -- [[ Statusline ]]
 -- inspired by Helix's statusline
