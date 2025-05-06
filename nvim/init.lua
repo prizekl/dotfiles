@@ -24,7 +24,7 @@ vim.o.swapfile = false
 vim.o.termguicolors = true
 vim.api.nvim_command 'packadd Cfilter'
 
--- [[ Plugin Manager ]]
+-- [[ Plugins ]]
 
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
@@ -40,10 +40,10 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
-  -- [[ Text Editing ]]
+  -- [ Text Editing ]
   { 'tpope/vim-surround', keys = { 'ds', 'cs', 'ys', { 'S', mode = 'v' } } },
 
-  -- [[ AI ]]
+  -- [ AI ]
   { 'supermaven-inc/supermaven-nvim', opts = { ignore_filetypes = { 'TelescopePrompt', 'text' } } },
   {
     'olimorris/codecompanion.nvim',
@@ -78,7 +78,7 @@ require('lazy').setup({
     },
   },
 
-  -- [[ Git ]]
+  -- [ Git ]
   {
     'sindrets/diffview.nvim',
     cmd = { 'DiffviewOpen', 'DiffviewFileHistory' },
@@ -124,7 +124,7 @@ require('lazy').setup({
     },
   },
 
-  -- [[ LSP ]]
+  -- [ LSP ]
   {
     'neovim/nvim-lspconfig',
     dependencies = {
@@ -202,7 +202,7 @@ require('lazy').setup({
     },
   },
 
-  -- [[ File Navigation ]]
+  -- [ File Navigation ]
   {
     'echasnovski/mini.files',
     keys = {
@@ -274,7 +274,7 @@ require('lazy').setup({
     end,
   },
 
-  -- [[ Treesitter ]]
+  -- [ Treesitter ]
   {
     'nvim-treesitter/nvim-treesitter',
     dependencies = {
