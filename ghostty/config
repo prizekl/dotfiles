@@ -11,7 +11,5 @@ cursor-style-blink = false
 macos-option-as-alt = true
 
 theme = NvimDark
-background-opacity = 0.90
-background-blur = true
 cursor-color = magenta
 split-divider-color = gray35
