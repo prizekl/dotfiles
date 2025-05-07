@@ -156,15 +156,14 @@ require('lazy').setup({
         lua_ls = { settings = { Lua = { diagnostics = { disable = { 'missing-fields' } } } } },
       }
 
-      for name, opts in pairs(servers) do
-        vim.lsp.config(name, opts)
-        vim.lsp.enable(name)
-      end
-
       require('mason-lspconfig').setup {
-        automatic_enable = false,
+        automatic_enable = true,
         ensure_installed = vim.tbl_keys(servers),
       }
+
+      for name, opts in pairs(servers) do
+        vim.lsp.config(name, opts)
+      end
     end,
   },
   {
