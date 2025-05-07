@@ -6,7 +6,8 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 -- Search in visual mode selection '<Esc>/\\%V')
--- vim.keymap.set('n', '/', 'mf/')
+-- No eager: \{-} Start of match: \zs End of match: \ze
+-- Word boundary left: \< Word boundary right: \>
 -- go to end of search match //e
 
 vim.wo.number = true
@@ -124,46 +125,30 @@ require('lazy').setup({
     },
   },
 
-  -- [ LSP ]
+  -- [ LSP Servers ]
   {
     'neovim/nvim-lspconfig',
     dependencies = {
       { 'williamboman/mason.nvim', config = true },
       { 'williamboman/mason-lspconfig.nvim' },
       { 'j-hui/fidget.nvim', opts = {} },
-      { 'folke/neodev.nvim', opts = {} },
+      {
+        'folke/lazydev.nvim',
+        ft = 'lua',
+        opts = { library = { { path = '${3rd}/luv/library' } } },
+      },
     },
     config = function()
-      vim.api.nvim_create_autocmd('LspAttach', {
-        group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
-        callback = function(event)
-          local map = function(modes, keys, func)
-            vim.keymap.set(modes, keys, func, { buffer = event.buf })
-          end
-
-          map('n', 'gd', require('telescope.builtin').lsp_definitions)
-          map('n', 'gD', vim.lsp.buf.declaration)
-          map('n', 'grt', require('telescope.builtin').lsp_type_definitions)
-          map('n', 'grr', require('telescope.builtin').lsp_references)
-          map('n', 'gri', require('telescope.builtin').lsp_implementations)
-          map('n', 'gO', require('telescope.builtin').lsp_document_symbols)
-          map('n', '<leader>t', require('telescope.builtin').lsp_dynamic_workspace_symbols)
-
-          map({ 'i', 'n' }, '<C-k>', vim.lsp.buf.signature_help)
-        end,
-      })
-
       local servers = {
         ts_ls = {
-          commands = {
-            OrganizeImports = {
-              function()
-                local bufnr = vim.api.nvim_get_current_buf()
-                local client = vim.lsp.get_clients({ bufnr = bufnr, name = 'ts_ls' })[1]
-                client:exec_cmd { title = 'Orgnize Imports', command = '_typescript.organizeImports', arguments = { vim.fn.expand '%:p' } }
-              end,
-            },
-          },
+          on_attach = function(client)
+            vim.api.nvim_buf_create_user_command(0, 'OrganizeImports', function()
+              client:exec_cmd {
+                command = '_typescript.organizeImports',
+                arguments = { vim.fn.expand '%:p' },
+              }
+            end, {})
+          end,
         },
         html = { filetypes = { 'html', 'twig', 'hbs' } },
         gopls = {},
@@ -171,15 +156,14 @@ require('lazy').setup({
         lua_ls = { settings = { Lua = { diagnostics = { disable = { 'missing-fields' } } } } },
       }
 
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
-      local mason_lspconfig = require 'mason-lspconfig'
-      mason_lspconfig.setup { ensure_installed = vim.tbl_keys(servers) }
-      mason_lspconfig.setup_handlers {
-        function(server_name)
-          local server = servers[server_name] or {}
-          server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-          require('lspconfig')[server_name].setup(server)
-        end,
+      for name, opts in pairs(servers) do
+        vim.lsp.config(name, opts)
+        vim.lsp.enable(name)
+      end
+
+      require('mason-lspconfig').setup {
+        automatic_enable = false,
+        ensure_installed = vim.tbl_keys(servers),
       }
     end,
   },
@@ -322,7 +306,7 @@ vim.diagnostic.config { jump = { float = true }, severity_sort = true }
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setqflist)
 
--- [[ Completion & LSP ]]
+-- [[ LSP Capabilities ]]
 
 vim.o.completeopt = 'menuone,noselect,noinsert,popup'
 vim.keymap.set('i', '<CR>', function()
@@ -341,6 +325,25 @@ vim.api.nvim_create_autocmd('LspDetach', {
   callback = function(args)
     local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
     vim.lsp.completion.enable(false, client.id, args.buf)
+  end,
+})
+
+vim.api.nvim_create_autocmd('LspAttach', {
+  group = vim.api.nvim_create_augroup('keymaps-lsp-attach', { clear = true }),
+  callback = function(event)
+    local map = function(modes, keys, func)
+      vim.keymap.set(modes, keys, func, { buffer = event.buf })
+    end
+
+    map('n', 'gd', require('telescope.builtin').lsp_definitions)
+    map('n', 'gD', vim.lsp.buf.declaration)
+    map('n', 'grt', require('telescope.builtin').lsp_type_definitions)
+    map('n', 'grr', require('telescope.builtin').lsp_references)
+    map('n', 'gri', require('telescope.builtin').lsp_implementations)
+    map('n', 'gO', require('telescope.builtin').lsp_document_symbols)
+    map('n', '<leader>t', require('telescope.builtin').lsp_dynamic_workspace_symbols)
+
+    map({ 'i', 'n' }, '<C-k>', vim.lsp.buf.signature_help)
   end,
 })
 
