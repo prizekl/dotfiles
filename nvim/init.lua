@@ -157,7 +157,6 @@ require('lazy').setup({
       }
 
       require('mason-lspconfig').setup {
-        automatic_enable = true,
         ensure_installed = vim.tbl_keys(servers),
       }
 
