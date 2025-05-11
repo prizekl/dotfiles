@@ -156,9 +156,8 @@ require('lazy').setup({
         lua_ls = { settings = { Lua = { diagnostics = { disable = { 'missing-fields' } } } } },
       }
 
-      require('mason-lspconfig').setup {
-        ensure_installed = vim.tbl_keys(servers),
-      }
+      local ensure_installed = vim.tbl_keys(servers)
+      require('mason-lspconfig').setup { ensure_installed = ensure_installed }
 
       for name, opts in pairs(servers) do
         vim.lsp.config(name, opts)
@@ -199,60 +198,30 @@ require('lazy').setup({
     opts = {},
   },
   {
-    'nvim-telescope/telescope.nvim',
-    dependencies = {
-      'nvim-tree/nvim-web-devicons',
-      'nvim-lua/plenary.nvim',
-      {
-        'nvim-telescope/telescope-fzf-native.nvim',
-        build = 'make',
-        cond = function()
-          return vim.fn.executable 'make' == 1
-        end,
-      },
-    },
+    'folke/snacks.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
-      -- Temporary fix for https://github.com/nvim-telescope/telescope.nvim/issues/3436
-      vim.api.nvim_create_autocmd('User', {
-        pattern = 'TelescopeFindPre',
-        callback = function()
-          vim.opt_local.winborder = 'none'
-          vim.api.nvim_create_autocmd('WinLeave', {
-            once = true,
-            callback = function()
-              vim.opt_local.winborder = 'single'
-            end,
-          })
-        end,
-      })
-
-      pcall(require('telescope').load_extension, 'fzf')
-      require('telescope').setup {
-        defaults = {
-          path_display = { 'truncate' },
-          borderchars = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
-          layout_strategy = 'vertical',
-          vimgrep_arguments = { 'rg', '--multiline', '--color=never', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case' },
-        },
-        pickers = {
-          lsp_references = { show_line = false },
-          find_files = { previewer = false, hidden = true },
-          buffers = {
-            previewer = false,
-            ignore_current_buffer = true,
-            sort_mru = true,
-            mappings = { i = { ['<c-d>'] = require('telescope.actions').delete_buffer } },
-          },
-        },
+      require('snacks').setup {
+        picker = { ui_select = false, layout = { preset = 'vertical' } },
       }
 
-      vim.keymap.set('n', '<C-f>', require('telescope.builtin').buffers)
-      vim.keymap.set('n', '<C-p>', require('telescope.builtin').find_files)
-      vim.keymap.set('n', '<leader>gf', require('telescope.builtin').git_status)
-      vim.keymap.set('n', '<leader>gs', require('telescope.builtin').grep_string)
-      vim.keymap.set('n', '<leader>lg', require('telescope.builtin').live_grep)
-      vim.keymap.set('n', '<leader>d', require('telescope.builtin').diagnostics)
-      vim.keymap.set('n', '<leader>re', require('telescope.builtin').resume)
+      vim.keymap.set('n', '<C-f>', function()
+        require('snacks').picker.buffers {
+          current = false,
+          layout = { hidden = { 'preview' } },
+          win = { input = { keys = {
+            ['<c-d>'] = { 'bufdelete', mode = { 'i', 'n' } },
+          } } },
+        }
+      end)
+      vim.keymap.set('n', '<C-p>', function()
+        require('snacks').picker.files { layout = { hidden = { 'preview' } } }
+      end)
+      vim.keymap.set('n', '<leader>gf', require('snacks').picker.git_status)
+      vim.keymap.set('n', '<leader>lb', require('snacks').picker.grep_buffers)
+      vim.keymap.set('n', '<leader>lg', require('snacks').picker.grep)
+      vim.keymap.set('n', '<leader>d', require('snacks').picker.diagnostics)
+      vim.keymap.set('n', '<leader>re', require('snacks').picker.resume)
     end,
   },
 
@@ -333,13 +302,13 @@ vim.api.nvim_create_autocmd('LspAttach', {
       vim.keymap.set(modes, keys, func, { buffer = event.buf })
     end
 
-    map('n', 'gd', require('telescope.builtin').lsp_definitions)
+    map('n', 'gd', require('snacks').picker.lsp_definitions)
     map('n', 'gD', vim.lsp.buf.declaration)
-    map('n', 'grt', require('telescope.builtin').lsp_type_definitions)
-    map('n', 'grr', require('telescope.builtin').lsp_references)
-    map('n', 'gri', require('telescope.builtin').lsp_implementations)
-    map('n', 'gO', require('telescope.builtin').lsp_document_symbols)
-    map('n', '<leader>t', require('telescope.builtin').lsp_dynamic_workspace_symbols)
+    map('n', 'grt', require('snacks').picker.lsp_type_definitions)
+    map('n', 'grr', require('snacks').picker.lsp_references)
+    map('n', 'gri', require('snacks').picker.lsp_implementations)
+    map('n', 'gO', require('snacks').picker.lsp_symbols)
+    map('n', '<leader>t', require('snacks').picker.lsp_workspace_symbols)
 
     map({ 'i', 'n' }, '<C-k>', vim.lsp.buf.signature_help)
   end,
@@ -378,7 +347,9 @@ vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = 'NvimDarkGrey1', fg = 'NvimLightGr
 vim.api.nvim_set_hl(0, 'WinSeparator', { link = 'LineNr' })
 vim.api.nvim_set_hl(0, 'DiffAdd', { bg = 'NvimDarkGreen' })
 vim.api.nvim_set_hl(0, 'DiffChange', { bg = 'NvimDarkGrey4' })
-vim.api.nvim_set_hl(0, 'TelescopeNormal', { link = 'NormalFloat' })
+vim.api.nvim_set_hl(0, 'SnacksPickerDir', { link = 'Comment' })
+vim.api.nvim_set_hl(0, 'SnacksPickerCol', { link = 'Comment' })
+vim.api.nvim_set_hl(0, 'SnacksPickerBufFlags', { link = 'Comment' })
 
 vim.api.nvim_set_hl(0, 'Priority', { fg = 'red' })
 vim.api.nvim_set_hl(0, 'Ongoing', { fg = 'orange' })
