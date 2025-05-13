@@ -45,7 +45,7 @@ require('lazy').setup({
   { 'tpope/vim-surround', keys = { 'ds', 'cs', 'ys', { 'S', mode = 'v' } } },
 
   -- [ AI ]
-  { 'supermaven-inc/supermaven-nvim', opts = { ignore_filetypes = { 'TelescopePrompt', 'text' } } },
+  { 'supermaven-inc/supermaven-nvim', opts = { ignore_filetypes = { 'text' } } },
   {
     'olimorris/codecompanion.nvim',
     dependencies = {
@@ -62,9 +62,9 @@ require('lazy').setup({
       strategies = {
         chat = {
           slash_commands = {
-            ['buffer'] = { opts = { provider = 'telescope' } },
-            ['file'] = { opts = { provider = 'telescope' } },
-            ['symbols'] = { opts = { provider = 'telescope' } },
+            ['buffer'] = { opts = { provider = 'snacks' } },
+            ['file'] = { opts = { provider = 'snacks' } },
+            ['symbols'] = { opts = { provider = 'snacks' } },
           },
           keymaps = {
             pin = { modes = { n = 'gb' }, index = 9, callback = 'keymaps.pin_reference' },
@@ -201,8 +201,23 @@ require('lazy').setup({
     'folke/snacks.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
+      local vert_layout = {
+        layout = {
+          backdrop = false,
+          width = 0.8,
+          height = 0.8,
+          box = 'vertical',
+          border = 'rounded',
+          title = '{title} {live} {flags}',
+          title_pos = 'center',
+          { win = 'input', height = 1, border = 'bottom' },
+          { win = 'list', border = 'none' },
+          { win = 'preview', title = '{preview}', height = 0.5, border = 'top' },
+        },
+      }
+
       require('snacks').setup {
-        picker = { ui_select = false, layout = { preset = 'vertical' } },
+        picker = { ui_select = false, layout = vert_layout },
       }
 
       vim.keymap.set('n', '<C-f>', function()
