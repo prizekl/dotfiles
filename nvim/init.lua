@@ -207,7 +207,7 @@ require('lazy').setup({
           width = 0.8,
           height = 0.8,
           box = 'vertical',
-          border = 'rounded',
+          border = 'single',
           title = '{title} {live} {flags}',
           title_pos = 'center',
           { win = 'input', height = 1, border = 'bottom' },
