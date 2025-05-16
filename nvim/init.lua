@@ -317,11 +317,23 @@ vim.api.nvim_create_autocmd('LspAttach', {
       vim.keymap.set(modes, keys, func, { buffer = event.buf })
     end
 
-    map('n', 'gd', require('snacks').picker.lsp_definitions)
-    map('n', 'gD', vim.lsp.buf.declaration)
-    map('n', 'grt', require('snacks').picker.lsp_type_definitions)
-    map('n', 'grr', require('snacks').picker.lsp_references)
-    map('n', 'gri', require('snacks').picker.lsp_implementations)
+    local jump = { reuse_win = false }
+
+    map('n', 'gd', function()
+      require('snacks').picker.lsp_definitions { jump = jump }
+    end)
+    map('n', 'grt', function()
+      require('snacks').picker.lsp_type_definitions { jump = jump }
+    end)
+    map('n', 'grr', function()
+      require('snacks').picker.lsp_references { jump = jump }
+    end)
+    map('n', 'gri', function()
+      require('snacks').picker.lsp_implementations { jump = jump }
+    end)
+    map('n', 'gD', function()
+      require('snacks').picker.lsp_type_definitions { jump = jump }
+    end)
     map('n', 'gO', require('snacks').picker.lsp_symbols)
     map('n', '<leader>t', require('snacks').picker.lsp_workspace_symbols)
 
