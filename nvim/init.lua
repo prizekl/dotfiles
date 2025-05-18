@@ -45,7 +45,10 @@ require('lazy').setup({
   { 'tpope/vim-surround', keys = { 'ds', 'cs', 'ys', { 'S', mode = 'v' } } },
 
   -- [ AI ]
-  { 'supermaven-inc/supermaven-nvim', opts = { ignore_filetypes = { 'text' } } },
+  {
+    'supermaven-inc/supermaven-nvim',
+    opts = { ignore_filetypes = { 'TelescopePrompt', 'text' } },
+  },
   {
     'olimorris/codecompanion.nvim',
     dependencies = {
@@ -62,9 +65,9 @@ require('lazy').setup({
       strategies = {
         chat = {
           slash_commands = {
-            ['buffer'] = { opts = { provider = 'snacks' } },
-            ['file'] = { opts = { provider = 'snacks' } },
-            ['symbols'] = { opts = { provider = 'snacks' } },
+            ['buffer'] = { opts = { provider = 'telescope' } },
+            ['file'] = { opts = { provider = 'telescope' } },
+            ['symbols'] = { opts = { provider = 'telescope' } },
           },
           keymaps = {
             pin = { modes = { n = 'gb' }, index = 9, callback = 'keymaps.pin_reference' },
@@ -198,45 +201,40 @@ require('lazy').setup({
     opts = {},
   },
   {
-    'folke/snacks.nvim',
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    'nvim-telescope/telescope.nvim',
+    dependencies = {
+      'nvim-tree/nvim-web-devicons',
+      'nvim-lua/plenary.nvim',
+      {
+        'nvim-telescope/telescope-fzf-native.nvim',
+        build = 'make',
+        cond = function()
+          return vim.fn.executable 'make' == 1
+        end,
+      },
+    },
     config = function()
-      local vert_layout = {
-        layout = {
-          backdrop = false,
-          width = 0.8,
-          height = 0.8,
-          box = 'vertical',
-          border = 'single',
-          title = '{title} {live} {flags}',
-          title_pos = 'center',
-          { win = 'input', height = 1, border = 'bottom' },
-          { win = 'list', border = 'none' },
-          { win = 'preview', title = '{preview}', height = 0.5, border = 'top' },
+      pcall(require('telescope').load_extension, 'fzf')
+      require('telescope').setup {
+        defaults = {
+          path_display = { 'truncate' },
+          border = false,
+          layout_strategy = 'vertical',
+          -- vimgrep_arguments = { 'rg', '--multiline', '--color=never', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case' },
         },
       }
 
-      require('snacks').setup {
-        picker = { ui_select = false, layout = vert_layout },
-      }
-
+      local builtin = require 'telescope.builtin'
       vim.keymap.set('n', '<C-f>', function()
-        require('snacks').picker.buffers {
-          current = false,
-          layout = { hidden = { 'preview' } },
-          win = { input = { keys = {
-            ['<c-d>'] = { 'bufdelete', mode = { 'i', 'n' } },
-          } } },
-        }
+        builtin.buffers { ignore_current_buffer = true, sort_mru = true }
       end)
       vim.keymap.set('n', '<C-p>', function()
-        require('snacks').picker.files { layout = { hidden = { 'preview' } } }
+        builtin.find_files { previewer = false, hidden = true }
       end)
-      vim.keymap.set('n', '<leader>gf', require('snacks').picker.git_status)
-      vim.keymap.set('n', '<leader>lb', require('snacks').picker.grep_buffers)
-      vim.keymap.set('n', '<leader>lg', require('snacks').picker.grep)
-      vim.keymap.set('n', '<leader>d', require('snacks').picker.diagnostics)
-      vim.keymap.set('n', '<leader>re', require('snacks').picker.resume)
+      vim.keymap.set('n', '<leader>gf', builtin.git_status)
+      vim.keymap.set('n', '<leader>lg', builtin.live_grep)
+      vim.keymap.set('n', '<leader>d', builtin.diagnostics)
+      vim.keymap.set('n', '<leader>re', builtin.resume)
     end,
   },
 
@@ -317,26 +315,17 @@ vim.api.nvim_create_autocmd('LspAttach', {
       vim.keymap.set(modes, keys, func, { buffer = event.buf })
     end
 
-    local jump = { reuse_win = false }
-
-    map('n', 'gd', function()
-      require('snacks').picker.lsp_definitions { jump = jump }
-    end)
-    map('n', 'grt', function()
-      require('snacks').picker.lsp_type_definitions { jump = jump }
-    end)
+    local builtin = require 'telescope.builtin'
+    map('n', 'gd', builtin.lsp_definitions)
     map('n', 'grr', function()
-      require('snacks').picker.lsp_references { jump = jump }
+      builtin.lsp_references { show_line = false }
     end)
-    map('n', 'gri', function()
-      require('snacks').picker.lsp_implementations { jump = jump }
-    end)
-    map('n', 'gD', function()
-      require('snacks').picker.lsp_type_definitions { jump = jump }
-    end)
-    map('n', 'gO', require('snacks').picker.lsp_symbols)
-    map('n', '<leader>t', require('snacks').picker.lsp_workspace_symbols)
+    map('n', 'gri', builtin.lsp_implementations)
+    map('n', 'grt', builtin.lsp_type_definitions)
+    map('n', 'gO', builtin.lsp_document_symbols)
+    map('n', '<leader>t', builtin.lsp_dynamic_workspace_symbols)
 
+    map('n', 'gD', vim.lsp.buf.declaration)
     map({ 'i', 'n' }, '<C-k>', vim.lsp.buf.signature_help)
   end,
 })
@@ -374,9 +363,7 @@ vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = 'NvimDarkGrey1', fg = 'NvimLightGr
 vim.api.nvim_set_hl(0, 'WinSeparator', { link = 'LineNr' })
 vim.api.nvim_set_hl(0, 'DiffAdd', { bg = 'NvimDarkGreen' })
 vim.api.nvim_set_hl(0, 'DiffChange', { bg = 'NvimDarkGrey4' })
-vim.api.nvim_set_hl(0, 'SnacksPickerDir', { link = 'Comment' })
-vim.api.nvim_set_hl(0, 'SnacksPickerCol', { link = 'Comment' })
-vim.api.nvim_set_hl(0, 'SnacksPickerBufFlags', { link = 'Comment' })
+vim.api.nvim_set_hl(0, 'TelescopeNormal', { link = 'NormalFloat' })
 
 vim.api.nvim_set_hl(0, 'Priority', { fg = 'red' })
 vim.api.nvim_set_hl(0, 'Ongoing', { fg = 'orange' })
