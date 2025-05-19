@@ -5,6 +5,7 @@ export EDITOR="$VISUAL"
 alias ls='ls --color=auto'
 alias diffview='nvim -c :DiffviewOpen'
 export ANTHROPIC_API_KEY=$(security find-generic-password -a "$USER" -s "anthropic-api-key" -w)
+alias ai="aider --dark-mode --watch-files"
 
 setopt prompt_subst
 git_prompt() {
