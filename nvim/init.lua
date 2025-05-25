@@ -428,9 +428,8 @@ function M.get_diagnostics_component(bufnr, is_active)
 end
 
 function M.render_statusline()
-  local winid = vim.api.nvim_get_current_win()
   local statuswin = vim.g.statusline_winid
-  local is_active = (winid == statuswin)
+  local is_active = (statuswin == vim.api.nvim_get_current_win())
   local bufnr = vim.api.nvim_win_get_buf(statuswin)
   local diag = M.get_diagnostics_component(bufnr, is_active)
 
