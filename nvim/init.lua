@@ -387,40 +387,9 @@ vim.api.nvim_create_autocmd({ 'BufReadPost', 'InsertLeave' }, {
 })
 
 -- [[ Statusline ]]
--- inspired by Helix's statusline
--- adapted from MariaSol0s https://github.com/MariaSolOs/dotfiles/blob/main/.config/nvim/lua/statusline.lua
--- ripped mode map from lualine https://github.com/nvim-lualine/lualine.nvim/blob/master/lua/lualine/utils/mode.lua
 
-local DIAGNOSTIC_ICONS = { ERROR = 'E:', WARN = 'W:', INFO = 'I:', HINT = 'H:' }
 local SEVERITY_ORDER = { 'ERROR', 'WARN', 'HINT', 'INFO' }
-local MODE_ALIASES = {
-  NORMAL = { 'n', 'no', 'nov', 'noV', 'no\22', 'niI', 'niR', 'niV', 'nt', 'ntT' },
-  VISUAL = { 'v', 'vs' },
-  ['V-LINE'] = { 'V', 'Vs' },
-  ['V-BLOCK'] = { '\22', '\22s' },
-  SELECT = { 's' },
-  ['S-LINE'] = { 'S' },
-  ['S-BLOCK'] = { '\19' },
-  INSERT = { 'i', 'ic', 'ix' },
-  REPLACE = { 'R', 'Rc', 'Rx', 'r', 'r?' },
-  ['V-REPLACE'] = { 'Rv', 'Rvc', 'Rvx' },
-  COMMAND = { 'c' },
-  EX = { 'cv', 'ce' },
-  MORE = { 'rm' },
-  CONFIRM = { 'r?' },
-  SHELL = { '!' },
-  TERMINAL = { 't' },
-}
-local MODE_MAP = {}
-for pretty, codes in pairs(MODE_ALIASES) do
-  for _, c in ipairs(codes) do
-    MODE_MAP[c] = pretty
-  end
-end
-
 local M = {}
-M.diagnostic_counts = {}
-M.diagnostic_cache = {}
 M.highlight_cache = {}
 
 function M.get_color(name, attr)
@@ -440,68 +409,40 @@ function M.create_hl(hl, is_active)
   return hl_name
 end
 
-function M.update_diagnostic_counts(bufnr)
-  local counts = vim.iter(vim.diagnostic.get(bufnr)):fold({}, function(acc, diagnostic)
-    local severity = vim.diagnostic.severity[diagnostic.severity]
-    acc[severity] = (acc[severity] or 0) + 1
-    return acc
-  end)
-
-  M.diagnostic_counts[bufnr] = counts
-end
-
 function M.get_diagnostics_component(bufnr, is_active)
   if vim.startswith(vim.api.nvim_get_mode().mode, 'i') then
-    return M.diagnostic_cache[bufnr] or ''
-  end
-
-  local counts = M.diagnostic_counts[bufnr]
-  if counts == nil then
     return ''
   end
 
-  local parts = {}
-  for _, severity in ipairs(SEVERITY_ORDER) do
-    local count = counts[severity] or 0
-    if count > 0 then
-      local hl = 'Diagnostic' .. severity
-      table.insert(parts, '%#' .. M.create_hl(hl, is_active) .. '#' .. DIAGNOSTIC_ICONS[severity] .. count)
+  for _, sev in ipairs(SEVERITY_ORDER) do
+    if #vim.diagnostic.get(bufnr, { severity = vim.diagnostic.severity[sev] }) > 0 then
+      return string.format(
+        '[%s%s]',
+        '%#' .. M.create_hl('Diagnostic' .. sev, is_active) .. '#' .. sev:sub(1, 1),
+        is_active and '%#StatusLine#' or '%#StatusLineNC#'
+      )
     end
   end
 
-  local diagnostics_str = table.concat(parts or {}, ' ') .. (is_active and '%#StatusLine#' or '%#StatusLineNC#')
-  M.diagnostic_cache[bufnr] = diagnostics_str
-  return diagnostics_str
-end
-
-function M.get_mode_component()
-  local m = vim.api.nvim_get_mode().mode
-  return MODE_MAP[m] or m
+  return ''
 end
 
 function M.render_statusline()
-  local active_winid = vim.api.nvim_get_current_win()
-  local status_winid = vim.g.statusline_winid
-  local is_active = (active_winid == status_winid)
+  local winid = vim.api.nvim_get_current_win()
+  local statuswin = vim.g.statusline_winid
+  local is_active = (winid == statuswin)
+  local bufnr = vim.api.nvim_win_get_buf(statuswin)
+  local diag = M.get_diagnostics_component(bufnr, is_active)
 
-  local bufnr = vim.api.nvim_win_get_buf(status_winid)
-  local diagnostics = M.get_diagnostics_component(bufnr, is_active)
-  local mode = M.get_mode_component()
-
-  local pad = '\x20'
-
-  local components =
-    { pad, is_active and (mode:sub(1, 3) .. pad:rep(3)) or pad:rep(6), '%<%f %h%m%r', '%=', diagnostics, pad:rep(3), '%l/%L,%c%V%', pad:rep(2) }
-
-  return table.concat(components)
+  local comps = { '%<%f %h%w%m%r', diag, '%=', '%-14.(%l/%L,%c%V%) %P' }
+  return table.concat(comps)
 end
 
 _G.render_statusline = M.render_statusline
 vim.o.statusline = '%!v:lua.render_statusline()'
 
 vim.api.nvim_create_autocmd('DiagnosticChanged', {
-  callback = function(args)
-    M.update_diagnostic_counts(args.buf)
+  callback = function(_)
     vim.cmd 'redrawstatus!'
   end,
 })
