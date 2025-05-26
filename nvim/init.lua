@@ -427,7 +427,7 @@ function M.get_diagnostics_component(bufnr, is_active)
   return ''
 end
 
-function M.render_statusline()
+function _G.render_statusline()
   local statuswin = vim.g.statusline_winid
   local is_active = (statuswin == vim.api.nvim_get_current_win())
   local bufnr = vim.api.nvim_win_get_buf(statuswin)
@@ -436,7 +436,6 @@ function M.render_statusline()
   return table.concat { '%<%f %h%w%m%r', diag, '%=', '%-14.(%l/%L,%c%V%) %P' }
 end
 
-_G.render_statusline = M.render_statusline
 vim.o.statusline = '%!v:lua.render_statusline()'
 
 vim.api.nvim_create_autocmd('DiagnosticChanged', {
