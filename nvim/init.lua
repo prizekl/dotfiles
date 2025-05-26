@@ -433,8 +433,7 @@ function M.render_statusline()
   local bufnr = vim.api.nvim_win_get_buf(statuswin)
   local diag = M.get_diagnostics_component(bufnr, is_active)
 
-  local comps = { '%<%f %h%w%m%r', diag, '%=', '%-14.(%l/%L,%c%V%) %P' }
-  return table.concat(comps)
+  return table.concat { '%<%f %h%w%m%r', diag, '%=', '%-14.(%l/%L,%c%V%) %P' }
 end
 
 _G.render_statusline = M.render_statusline
