@@ -384,6 +384,7 @@ vim.api.nvim_create_autocmd({ 'BufReadPost', 'InsertLeave' }, {
 local SEVERITY_ORDER = { 'ERROR', 'WARN', 'HINT', 'INFO' }
 local M = {}
 M.highlight_cache = {}
+M.diagnostic_cache = {}
 
 function M.get_color(name, attr)
   return string.format('#%06x', vim.api.nvim_get_hl(0, { name = name, link = false })[attr])
@@ -404,20 +405,22 @@ end
 
 function M.get_diagnostics_component(bufnr, is_active)
   if vim.startswith(vim.api.nvim_get_mode().mode, 'i') then
-    return ''
+    return M.diagnostic_cache[bufnr] or ''
   end
 
+  local result = ''
   for _, sev in ipairs(SEVERITY_ORDER) do
-    if #vim.diagnostic.get(bufnr, { severity = vim.diagnostic.severity[sev] }) > 0 then
-      return string.format(
-        '[%s%s]',
-        '%#' .. M.create_hl('Diagnostic' .. sev, is_active) .. '#' .. sev:sub(1, 1),
-        is_active and '%#StatusLine#' or '%#StatusLineNC#'
-      )
+    local count = #vim.diagnostic.get(bufnr, { severity = vim.diagnostic.severity[sev] })
+    if count > 0 then
+      local hl_start = '%#' .. M.create_hl('Diagnostic' .. sev, is_active) .. '#'
+      local hl_end = is_active and '%#StatusLine#' or '%#StatusLineNC#'
+      result = string.format('[%s%s%d%s]', hl_start, sev:sub(1, 1), count, hl_end)
+      break
     end
   end
 
-  return ''
+  M.diagnostic_cache[bufnr] = result
+  return result
 end
 
 function _G.render_statusline()
