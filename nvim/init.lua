@@ -270,7 +270,12 @@ require('lazy').setup({
 
     build = ':TSUpdate',
     main = 'nvim-treesitter.configs',
-    opts = { ensure_installed = 'all', auto_install = true, sync_install = false, indent = { enable = true } },
+    opts = {
+      ensure_installed = 'all',
+      auto_install = true,
+      sync_install = false,
+      indent = { enable = true },
+    },
   },
 }, {})
 
