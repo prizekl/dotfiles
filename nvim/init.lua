@@ -1,3 +1,8 @@
+-- Search in visual mode selection '<Esc>/\\%V')
+-- No eager: \{-} Start of match: \zs End of match: \ze
+-- Word boundary left: \< Word boundary right: \>
+-- go to end of search match //e
+
 -- [[ Core settings ]]
 
 vim.g.mapleader = ' '
@@ -5,10 +10,6 @@ vim.g.maplocalleader = ' '
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
--- Search in visual mode selection '<Esc>/\\%V')
--- No eager: \{-} Start of match: \zs End of match: \ze
--- Word boundary left: \< Word boundary right: \>
--- go to end of search match //e
 
 vim.wo.number = true
 vim.wo.signcolumn = 'yes'
