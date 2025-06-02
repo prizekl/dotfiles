@@ -53,6 +53,7 @@ require('lazy').setup({
       { '<leader>s', '<cmd>CodeCompanionChat Toggle<cr>', mode = 'n', noremap = true, silent = true },
       { '<leader>ae', '<cmd>CodeCompanionChat Add<cr>', mode = 'v', noremap = true, silent = true },
       { '<leader>ac', '<cmd>CodeCompanionChat<cr>', mode = { 'n', 'v' }, noremap = true, silent = true },
+      { '<leader>ai', ':CodeCompanion ', mode = { 'v' }, noremap = true, silent = false },
     },
     opts = {
       display = { chat = { window = { width = 0.25 } } },
