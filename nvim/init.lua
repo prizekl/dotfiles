@@ -13,7 +13,7 @@ vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = tr
 
 vim.wo.number = true
 vim.wo.signcolumn = 'yes'
-vim.opt.clipboard = 'unnamedplus'
+vim.o.clipboard = 'unnamedplus'
 vim.o.breakindent = true
 vim.o.ignorecase = true
 vim.o.smartcase = true
