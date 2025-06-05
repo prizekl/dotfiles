@@ -356,7 +356,7 @@ vim.api.nvim_create_autocmd('FileType', {
 
 vim.opt.showmode = false
 vim.opt.shortmess:append 'c'
-vim.o.winborder = 'single'
+vim.o.winborder = 'rounded'
 
 vim.api.nvim_set_hl(0, 'StatusLine', { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey2' })
 vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = 'NvimDarkGrey1', fg = 'NvimLightGrey3' })
