@@ -3,7 +3,7 @@ bindkey '\e[91;5u' vi-cmd-mode # vi mode escape binding for ghostty
 export VISUAL='nvim'
 export EDITOR="$VISUAL"
 alias ls='ls --color=auto'
-alias diffview='nvim -c :DiffviewOpen'
+alias dv='nvim -c :DiffviewOpen'
 export ANTHROPIC_API_KEY=$(security find-generic-password -a "$USER" -s "anthropic-api-key" -w)
 
 setopt prompt_subst
