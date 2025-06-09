@@ -40,6 +40,7 @@ require('lazy').setup({
     'miikanissi/modus-themes.nvim',
     config = function()
       require('modus-themes').setup {
+        sign_column_background = false,
         on_highlights = function(hl, colors)
           hl.LineNr = { fg = colors.fg_dim }
           hl.FoldColumn = { fg = colors.fg_dim }
