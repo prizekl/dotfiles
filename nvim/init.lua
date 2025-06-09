@@ -42,6 +42,7 @@ require('lazy').setup({
       require('modus-themes').setup {
         on_highlights = function(hl, colors)
           hl.LineNr = { fg = colors.fg_dim }
+          hl.FoldColumn = { fg = colors.fg_dim }
           hl.DiffAdd = { bg = hl.DiffAdd.bg }
           hl.DiffChange = { bg = hl.DiffChange.bg }
           hl.TelescopeNormal = { link = 'NormalFloat' }
