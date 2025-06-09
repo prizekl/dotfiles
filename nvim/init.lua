@@ -44,6 +44,7 @@ require('lazy').setup({
           hl.LineNr = { fg = colors.fg_dim, bg = colors.bg_dim }
           hl.DiffAdd = { bg = hl.DiffAdd.bg }
           hl.DiffChange = { bg = hl.DiffChange.bg }
+          hl.TelescopeNormal = { link = 'NormalFloat' }
         end,
       }
 
