@@ -35,6 +35,22 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
+  -- [ Colorscheme ]
+  {
+    'miikanissi/modus-themes.nvim',
+    config = function()
+      require('modus-themes').setup {
+        on_highlights = function(hl, colors)
+          hl.LineNr = { fg = colors.fg_dim, bg = colors.bg_dim }
+          hl.DiffAdd = { bg = hl.DiffAdd.bg }
+          hl.DiffChange = { bg = hl.DiffChange.bg }
+        end,
+      }
+
+      vim.cmd 'colorscheme modus_vivendi'
+    end,
+  },
+
   -- [ Text Editing ]
   { 'tpope/vim-surround', keys = { 'ds', 'cs', 'ys', { 'S', mode = 'v' } } },
 
@@ -344,26 +360,11 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
--- Typescript compiling
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = { 'typescript', 'typescriptreact' },
-  callback = function()
-    vim.cmd.compiler 'tsc'
-  end,
-})
-
 -- [[ UI Settings ]]
 
 vim.opt.showmode = false
 vim.opt.shortmess:append 'c'
 vim.o.winborder = 'rounded'
-
-vim.api.nvim_set_hl(0, 'StatusLine', { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey2' })
-vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = 'NvimDarkGrey1', fg = 'NvimLightGrey3' })
-vim.api.nvim_set_hl(0, 'WinSeparator', { link = 'LineNr' })
-vim.api.nvim_set_hl(0, 'DiffAdd', { bg = 'NvimDarkGreen' })
-vim.api.nvim_set_hl(0, 'DiffChange', { bg = 'NvimDarkGrey4' })
-vim.api.nvim_set_hl(0, 'TelescopeNormal', { link = 'NormalFloat' })
 
 vim.api.nvim_set_hl(0, 'Priority', { fg = 'red' })
 vim.api.nvim_set_hl(0, 'Ongoing', { fg = 'orange' })
