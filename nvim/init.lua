@@ -376,24 +376,22 @@ local SEVERITY_ORDER = { 'ERROR', 'WARN', 'HINT', 'INFO' }
 local M = {}
 M.highlight_cache = {}
 M.diagnostic_cache = {}
-M.git_cache = {}
 
 function M.get_color(name, attr)
   return string.format('#%06x', vim.api.nvim_get_hl(0, { name = name, link = false })[attr])
 end
 
-function M.get_hl_strings(hl, is_active)
+function M.create_hl(hl, is_active)
   local hl_name = 'StatusLine' .. hl .. (is_active and 'Active' or 'Inactive')
-
-  if not M.highlight_cache[hl_name] then
-    vim.api.nvim_set_hl(0, hl_name, {
-      bg = M.get_color(is_active and 'StatusLine' or 'StatusLineNC', 'bg'),
-      fg = M.get_color(hl, 'fg'),
-    })
-    M.highlight_cache[hl_name] = true
+  if M.highlight_cache[hl_name] then
+    return hl_name
   end
 
-  return '%#' .. hl_name .. '#', is_active and '%#StatusLine#' or '%#StatusLineNC#'
+  local bg_group = is_active and 'StatusLine' or 'StatusLineNC'
+
+  vim.api.nvim_set_hl(0, hl_name, { bg = M.get_color(bg_group, 'bg'), fg = M.get_color(hl, 'fg') })
+  M.highlight_cache[hl_name] = true
+  return hl_name
 end
 
 function M.get_diagnostics_component(bufnr, is_active)
@@ -405,7 +403,8 @@ function M.get_diagnostics_component(bufnr, is_active)
   for _, sev in ipairs(SEVERITY_ORDER) do
     local count = #vim.diagnostic.get(bufnr, { severity = vim.diagnostic.severity[sev] })
     if count > 0 then
-      local hl_start, hl_end = M.get_hl_strings('Diagnostic' .. sev, is_active)
+      local hl_start = '%#' .. M.create_hl('Diagnostic' .. sev, is_active) .. '#'
+      local hl_end = is_active and '%#StatusLine#' or '%#StatusLineNC#'
       result = string.format('[%s%s%d%s]', hl_start, sev:sub(1, 1), count, hl_end)
       break
     end
@@ -415,46 +414,19 @@ function M.get_diagnostics_component(bufnr, is_active)
   return result
 end
 
-function M.get_git_component(bufnr, active)
-  local name = vim.api.nvim_buf_get_name(bufnr)
-  if name == '' then
-    return ''
-  end
-
-  if M.git_cache[name] == nil then
-    local out = vim.fn.system { 'git', 'status', '--porcelain', '--no-renames', name }
-    M.git_cache[name] = (out ~= '') and vim.v.shell_error == 0
-  end
-  if not M.git_cache[name] then
-    return ''
-  end
-
-  local gs, ge = M.get_hl_strings('@diff.plus', active)
-  return ('[%sG%s]'):format(gs, ge)
-end
-
 function _G.render_statusline()
-  local win = vim.g.statusline_winid
-  local is_active = (win == vim.api.nvim_get_current_win())
-  local bufnr = vim.api.nvim_win_get_buf(win)
-
+  local statuswin = vim.g.statusline_winid
+  local is_active = (statuswin == vim.api.nvim_get_current_win())
+  local bufnr = vim.api.nvim_win_get_buf(statuswin)
   local diag = M.get_diagnostics_component(bufnr, is_active)
-  local git = M.get_git_component(bufnr, is_active)
 
-  return table.concat { '%<%f %h%w%m%r', diag, git, '%=', '%-14.(%l/%L,%c%V%) %P' }
+  return table.concat { '%<%f %h%w%m%r', diag, '%=', '%-14.(%l/%L,%c%V%) %P' }
 end
 
 vim.o.statusline = '%!v:lua.render_statusline()'
 
 vim.api.nvim_create_autocmd('DiagnosticChanged', {
-  callback = function()
-    vim.cmd.redrawstatus()
-  end,
-})
-
-vim.api.nvim_create_autocmd('BufWritePost', {
-  callback = function()
-    M.git_cache = {}
-    vim.cmd.redrawstatus()
+  callback = function(_)
+    vim.cmd 'redrawstatus!'
   end,
 })
