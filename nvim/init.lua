@@ -372,61 +372,29 @@ vim.api.nvim_create_autocmd({ 'BufReadPost', 'InsertLeave' }, {
 
 -- [[ Statusline ]]
 
-local SEVERITY_ORDER = { 'ERROR', 'WARN', 'HINT', 'INFO' }
-local M = {}
-M.highlight_cache = {}
-M.diagnostic_cache = {}
+local cached_diagnostics = {}
 
-function M.get_color(name, attr)
-  return string.format('#%06x', vim.api.nvim_get_hl(0, { name = name, link = false })[attr])
-end
-
-function M.create_hl(hl, is_active)
-  local hl_name = 'StatusLine' .. hl .. (is_active and 'Active' or 'Inactive')
-  if M.highlight_cache[hl_name] then
-    return hl_name
+local function get_diagnostics(buf, active)
+  local k = buf .. (active and '1' or '0')
+  if vim.fn.mode():match '^i' then
+    return cached_diagnostics[k] or ''
   end
-
-  local bg_group = is_active and 'StatusLine' or 'StatusLineNC'
-
-  vim.api.nvim_set_hl(0, hl_name, { bg = M.get_color(bg_group, 'bg'), fg = M.get_color(hl, 'fg') })
-  M.highlight_cache[hl_name] = true
-  return hl_name
-end
-
-function M.get_diagnostics_component(bufnr, is_active)
-  if vim.startswith(vim.api.nvim_get_mode().mode, 'i') then
-    return M.diagnostic_cache[bufnr] or ''
-  end
-
-  local result = ''
-  for _, sev in ipairs(SEVERITY_ORDER) do
-    local count = #vim.diagnostic.get(bufnr, { severity = vim.diagnostic.severity[sev] })
-    if count > 0 then
-      local hl_start = '%#' .. M.create_hl('Diagnostic' .. sev, is_active) .. '#'
-      local hl_end = is_active and '%#StatusLine#' or '%#StatusLineNC#'
-      result = string.format('[%s%s%d%s]', hl_start, sev:sub(1, 1), count, hl_end)
-      break
+  local parts, bg, counts = {}, active and 'StatusLine' or 'StatusLineNC', vim.diagnostic.count(buf)
+  for _, sev in ipairs { 'ERROR', 'WARN', 'HINT', 'INFO' } do
+    local n = counts[vim.diagnostic.severity[sev]] or 0
+    if n > 0 then
+      parts[#parts + 1] = '%#' .. bg .. '#%#Diagnostic' .. sev .. '#' .. sev:sub(1, 1) .. ':' .. n .. '%#' .. bg .. '#'
     end
   end
-
-  M.diagnostic_cache[bufnr] = result
-  return result
+  cached_diagnostics[k] = #parts > 0 and (table.concat(parts, ' ') .. '  ') or ''
+  return cached_diagnostics[k]
 end
 
 function _G.render_statusline()
-  local statuswin = vim.g.statusline_winid
-  local is_active = (statuswin == vim.api.nvim_get_current_win())
-  local bufnr = vim.api.nvim_win_get_buf(statuswin)
-  local diag = M.get_diagnostics_component(bufnr, is_active)
-
-  return table.concat { '%<%f %h%w%m%r', diag, '%=', '%-14.(%l/%L,%c%V%) %P' }
+  local winid, curwin = vim.g.statusline_winid, vim.api.nvim_get_current_win()
+  local d = get_diagnostics(vim.api.nvim_win_get_buf(winid), winid == curwin)
+  return table.concat { '%<', '%f %h%w%m%r', '%=', d, '%-14.(%l/%L,%c%V%) %P' }
 end
 
 vim.o.statusline = '%!v:lua.render_statusline()'
-
-vim.api.nvim_create_autocmd('DiagnosticChanged', {
-  callback = function(_)
-    vim.cmd 'redrawstatus!'
-  end,
-})
+vim.api.nvim_create_autocmd('DiagnosticChanged', { command = 'redrawstatus!' })
