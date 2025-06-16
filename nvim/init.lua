@@ -35,7 +35,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
-  -- [ Text Editing ]
+  -- [ Text editing ]
   { 'tpope/vim-surround', keys = { 'ds', 'cs', 'ys', { 'S', mode = 'v' } } },
 
   -- [ AI ]
@@ -123,7 +123,7 @@ require('lazy').setup({
     },
   },
 
-  -- [ LSP Servers ]
+  -- [ LSP servers ]
   {
     'neovim/nvim-lspconfig',
     dependencies = {
@@ -181,7 +181,7 @@ require('lazy').setup({
     },
   },
 
-  -- [ File Navigation ]
+  -- [ File navigation ]
   {
     'stevearc/oil.nvim',
     opts = { view_options = { show_hidden = true } },
@@ -278,7 +278,7 @@ vim.diagnostic.config { jump = { float = true }, severity_sort = true }
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setqflist)
 
--- [[ LSP Capabilities ]]
+-- [[ LSP capabilities ]]
 
 vim.o.completeopt = 'menuone,noselect,noinsert,popup'
 vim.keymap.set('i', '<CR>', function()
@@ -336,7 +336,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
--- [[ UI Settings ]]
+-- [[ UI settings ]]
 
 vim.opt.showmode = false
 vim.opt.shortmess:append 'c'
