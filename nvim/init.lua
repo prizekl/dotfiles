@@ -373,7 +373,6 @@ vim.api.nvim_create_autocmd({ 'BufReadPost', 'InsertLeave' }, {
 -- [[ Statusline ]]
 
 local cached_diagnostics = {}
-
 local function get_diagnostics(buf, active)
   local k = buf .. (active and '1' or '0')
   if vim.fn.mode():match '^i' then
