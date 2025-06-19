@@ -372,11 +372,11 @@ vim.api.nvim_create_autocmd({ 'BufReadPost', 'InsertLeave' }, {
 
 -- [[ Statusline ]]
 
-local cached_diagnostics = {}
+local cached_diag = {}
 local function get_diagnostics(buf, active)
   local k = buf .. (active and '1' or '0')
   if vim.fn.mode():match '^i' then
-    return cached_diagnostics[k] or ''
+    return cached_diag[k] or ''
   end
   local parts, bg, counts = {}, active and 'StatusLine' or 'StatusLineNC', vim.diagnostic.count(buf)
   for _, sev in ipairs { 'ERROR', 'WARN', 'HINT', 'INFO' } do
@@ -385,8 +385,8 @@ local function get_diagnostics(buf, active)
       parts[#parts + 1] = '%#' .. bg .. '#%#Diagnostic' .. sev .. '#' .. sev:sub(1, 1) .. ':' .. n .. '%#' .. bg .. '#'
     end
   end
-  cached_diagnostics[k] = #parts > 0 and (table.concat(parts, ' ') .. '  ') or ''
-  return cached_diagnostics[k]
+  cached_diag[k] = #parts > 0 and (table.concat(parts, ' ') .. '  ') or ''
+  return cached_diag[k]
 end
 
 function _G.render_statusline()
