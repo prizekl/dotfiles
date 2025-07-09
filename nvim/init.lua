@@ -296,8 +296,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
 vim.api.nvim_create_autocmd('LspDetach', {
   callback = function(args)
-    local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
-    vim.lsp.completion.enable(false, client.id, args.buf)
+    vim.lsp.completion.enable(false, args.data.client_id, args.buf)
   end,
 })
 
