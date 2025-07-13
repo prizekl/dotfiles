@@ -187,6 +187,7 @@ require('lazy').setup({
     'stevearc/oil.nvim',
     opts = { view_options = { show_hidden = true } },
     keys = { { '<leader>n', '<CMD>Oil<CR>' } },
+    lazy = false,
   },
   {
     'nvim-telescope/telescope.nvim',
