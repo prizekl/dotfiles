@@ -27,6 +27,11 @@ vim.o.swapfile = false
 vim.o.termguicolors = true
 vim.api.nvim_command 'packadd Cfilter'
 
+vim.o.completeopt = 'menuone,noselect,noinsert,popup'
+vim.keymap.set('i', '<CR>', function()
+  return vim.fn.pumvisible() == 1 and '<C-y>' or '<CR>'
+end, { expr = true })
+
 -- [[ Plugins ]]
 
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
@@ -281,11 +286,6 @@ vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setqflist)
 
 -- [[ LSP capabilities ]]
-
-vim.o.completeopt = 'menuone,noselect,noinsert,popup'
-vim.keymap.set('i', '<CR>', function()
-  return vim.fn.pumvisible() == 1 and '<C-y>' or '<CR>'
-end, { expr = true })
 
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(args)
