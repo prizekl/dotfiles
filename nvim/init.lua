@@ -86,7 +86,10 @@ require('lazy').setup({
   -- [ Git ]
   {
     'sindrets/diffview.nvim',
-    cmd = { 'DiffviewOpen', 'DiffviewFileHistory' },
+    keys = {
+      { '<leader>go', ':DiffviewOpen<CR>' },
+      { '<leader>gc', ':DiffviewClose<CR>' },
+    },
     opts = {
       default_args = { DiffviewOpen = { '--imply-local' } },
       view = { merge_tool = { layout = 'diff1_plain', disable_diagnostics = false } },
