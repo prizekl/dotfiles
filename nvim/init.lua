@@ -215,7 +215,6 @@ require('lazy').setup({
       require('telescope').setup {
         defaults = {
           path_display = { 'truncate' },
-          border = false,
           layout_strategy = 'vertical',
           -- vimgrep_arguments = { 'rg', '--multiline', '--color=never', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case' },
         },
