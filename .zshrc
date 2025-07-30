@@ -1,5 +1,5 @@
 autoload -Uz compinit && compinit
-bindkey '\e[91;5u' vi-cmd-mode # vi mode escape binding for ghostty
+bindkey -v; bindkey -M viins '^[[91;5u' vi-cmd-mode
 export VISUAL='nvim'
 export EDITOR="$VISUAL"
 alias ls='ls --color=auto'
