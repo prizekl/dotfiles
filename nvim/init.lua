@@ -39,44 +39,9 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   -- [ Text editing ]
   { 'tpope/vim-surround', keys = { 'ds', 'cs', 'ys', { 'S', mode = 'v' } } },
-
-  -- [ AI ]
   {
     'supermaven-inc/supermaven-nvim',
     opts = { ignore_filetypes = { 'TelescopePrompt', 'text' } },
-  },
-  {
-    'olimorris/codecompanion.nvim',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      'nvim-treesitter/nvim-treesitter',
-    },
-    keys = {
-      { '<leader>s', '<cmd>CodeCompanionChat Toggle<cr>', mode = 'n', noremap = true, silent = true },
-      { '<leader>ae', '<cmd>CodeCompanionChat Add<cr>', mode = 'v', noremap = true, silent = true },
-      { '<leader>ac', '<cmd>CodeCompanionChat<cr>', mode = { 'n', 'v' }, noremap = true, silent = true },
-      { '<leader>ai', ':CodeCompanion ', mode = { 'v' }, noremap = true, silent = false },
-    },
-    opts = {
-      display = { chat = { window = { width = 0.25 } } },
-      strategies = {
-        chat = {
-          slash_commands = {
-            ['buffer'] = { opts = { provider = 'telescope' } },
-            ['file'] = { opts = { provider = 'telescope' } },
-            ['symbols'] = { opts = { provider = 'telescope' } },
-          },
-          keymaps = {
-            pin = { modes = { n = 'gb' }, index = 9, callback = 'keymaps.pin_reference' },
-            next_chat = { modes = { n = 'gn' }, index = 11, callback = 'keymaps.next_chat' },
-            previous_chat = { modes = { n = 'gp' }, index = 12, callback = 'keymaps.previous_chat' },
-            completion = { modes = { i = '<C-x><C-o>' }, index = 1, callback = 'keymaps.completion' },
-          },
-          adapter = 'anthropic',
-        },
-        inline = { adapter = 'anthropic' },
-      },
-    },
   },
 
   -- [ Git ]
@@ -85,6 +50,7 @@ require('lazy').setup({
     keys = {
       { '<leader>go', ':DiffviewOpen<CR>' },
       { '<leader>gc', ':DiffviewClose<CR>' },
+      { '<leader>gh', mode = { 'n', 'v' }, ':DiffviewFileHistory %<CR>' },
     },
     opts = {
       default_args = { DiffviewOpen = { '--imply-local' } },
@@ -212,7 +178,7 @@ require('lazy').setup({
         defaults = {
           path_display = { 'truncate' },
           layout_strategy = 'vertical',
-          -- vimgrep_arguments = { 'rg', '--multiline', '--color=never', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case' },
+          vimgrep_arguments = { 'rg', '--multiline', '--color=never', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case' },
         },
       }
 
