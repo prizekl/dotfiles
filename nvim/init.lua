@@ -321,18 +321,16 @@ vim.api.nvim_set_hl(0, 'Cancelled', { fg = 'magenta' })
 vim.api.nvim_set_hl(0, 'Time', { fg = 'pink' })
 vim.api.nvim_set_hl(0, 'Heading', { bold = true })
 
-local function match_words()
-  vim.cmd "syntax match Priority '\\[!\\]'"
-  vim.cmd "syntax match Ongoing '\\[o\\]'"
-  vim.cmd "syntax match Done '\\[x\\]'"
-  vim.cmd "syntax match Cancelled '\\[\\~\\]'"
-  vim.cmd "syntax match Time '\\*\\*[^\\*]\\+\\*\\*'"
-  vim.cmd "syntax match Heading '#.*'"
-end
-
 vim.api.nvim_create_autocmd({ 'BufReadPost', 'InsertLeave' }, {
   pattern = '*.txt',
-  callback = match_words,
+  callback = function()
+    vim.cmd "syntax match Priority '\\[!\\]'"
+    vim.cmd "syntax match Ongoing '\\[o\\]'"
+    vim.cmd "syntax match Done '\\[x\\]'"
+    vim.cmd "syntax match Cancelled '\\[\\~\\]'"
+    vim.cmd "syntax match Time '\\*\\*[^\\*]\\+\\*\\*'"
+    vim.cmd "syntax match Heading '#.*'"
+  end,
 })
 
 -- [[ Statusline ]]
