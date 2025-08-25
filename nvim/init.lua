@@ -4,8 +4,6 @@
 -- go to end of search match //e
 -- PCRE (?-i) case sensitive
 
--- [[ Core settings ]]
-
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.wo.number = true
@@ -22,13 +20,26 @@ vim.o.tabstop = 4
 vim.o.swapfile = false
 vim.o.termguicolors = true
 vim.api.nvim_command 'packadd Cfilter'
+vim.opt.showmode = false
+vim.opt.shortmess:append 'c'
+vim.o.winborder = 'rounded'
 
 vim.o.completeopt = 'menuone,noselect,noinsert,popup'
 vim.keymap.set('i', '<CR>', function()
   return vim.fn.pumvisible() == 1 and '<C-y>' or '<CR>'
 end, { expr = true })
 
--- [[ Plugins ]]
+vim.api.nvim_create_user_command('RelPath', function()
+  local filepath = vim.fn.expand '%'
+  vim.fn.setreg('+', filepath)
+end, {})
+
+vim.api.nvim_create_autocmd('TextYankPost', {
+  group = vim.api.nvim_create_augroup('YankHighlight', { clear = true }),
+  callback = function()
+    vim.hl.on_yank()
+  end,
+})
 
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -37,14 +48,12 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
-  -- [ Text editing ]
   { 'tpope/vim-surround', keys = { 'ds', 'cs', 'ys', { 'S', mode = 'v' } } },
   {
     'supermaven-inc/supermaven-nvim',
     opts = { ignore_filetypes = { 'TelescopePrompt', 'text' } },
   },
 
-  -- [ Git ]
   {
     'sindrets/diffview.nvim',
     keys = {
@@ -94,7 +103,6 @@ require('lazy').setup({
     },
   },
 
-  -- [ LSP servers ]
   {
     'neovim/nvim-lspconfig',
     dependencies = {
@@ -152,7 +160,6 @@ require('lazy').setup({
     },
   },
 
-  -- [ File navigation ]
   {
     'stevearc/oil.nvim',
     opts = { view_options = { show_hidden = true } },
@@ -196,7 +203,6 @@ require('lazy').setup({
     end,
   },
 
-  -- [ Treesitter ]
   {
     'nvim-treesitter/nvim-treesitter',
     dependencies = {
@@ -243,13 +249,9 @@ require('lazy').setup({
   },
 }, {})
 
--- [[ Diagnostics ]]
-
 vim.diagnostic.config { jump = { float = true }, severity_sort = true }
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setqflist)
-
--- [[ LSP capabilities ]]
 
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(args)
@@ -287,26 +289,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end,
 })
 
--- [[ Utilities ]]
-
-vim.api.nvim_create_user_command('RelPath', function()
-  local filepath = vim.fn.expand '%'
-  vim.fn.setreg('+', filepath)
-end, {})
-
-vim.api.nvim_create_autocmd('TextYankPost', {
-  group = vim.api.nvim_create_augroup('YankHighlight', { clear = true }),
-  callback = function()
-    vim.hl.on_yank()
-  end,
-})
-
--- [[ UI settings ]]
-
-vim.opt.showmode = false
-vim.opt.shortmess:append 'c'
-vim.o.winborder = 'rounded'
-
 vim.api.nvim_set_hl(0, 'StatusLine', { bg = 'NvimDarkGrey3', fg = 'NvimLightGrey2' })
 vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = 'NvimDarkGrey1', fg = 'NvimLightGrey3' })
 vim.api.nvim_set_hl(0, 'WinSeparator', { link = 'LineNr' })
@@ -332,8 +314,6 @@ vim.api.nvim_create_autocmd({ 'BufReadPost', 'InsertLeave' }, {
     vim.cmd "syntax match Heading '#.*'"
   end,
 })
-
--- [[ Statusline ]]
 
 local cached_diag = {}
 local function get_diagnostics(buf, active)
