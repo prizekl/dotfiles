@@ -71,34 +71,33 @@ require('lazy').setup({
     opts = {
       on_attach = function(bufnr)
         local gitsigns = require 'gitsigns'
-        local function map(modes, keys, func)
-          vim.keymap.set(modes, keys, func, { buffer = bufnr })
-        end
-
+        local opts = { buffer = bufnr }
         local function map_hunk_navigation(key, direction)
-          map('n', key, function()
+          vim.keymap.set('n', key, function()
             if vim.wo.diff then
               vim.cmd.normal { key, bang = true }
             else
               gitsigns.nav_hunk(direction)
             end
-          end)
+          end, opts)
         end
 
         map_hunk_navigation(']c', 'next')
         map_hunk_navigation('[c', 'prev')
-        map('n', '<leader>hp', gitsigns.preview_hunk)
-        map('n', '<leader>hs', gitsigns.stage_hunk)
-        map('n', '<leader>hr', gitsigns.reset_hunk)
-        map('n', '<leader>hR', gitsigns.reset_buffer)
-        map('n', '<leader>hd', gitsigns.diffthis)
-        map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
-        map('v', '<leader>hs', function()
+        vim.keymap.set('n', '<leader>hp', gitsigns.preview_hunk, opts)
+        vim.keymap.set('n', '<leader>hs', gitsigns.stage_hunk, opts)
+        vim.keymap.set('n', '<leader>hr', gitsigns.reset_hunk, opts)
+        vim.keymap.set('n', '<leader>hR', gitsigns.reset_buffer, opts)
+        vim.keymap.set('n', '<leader>hd', gitsigns.diffthis, opts)
+        vim.keymap.set({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>', {
+          buffer = bufnr,
+        })
+        vim.keymap.set('v', '<leader>hs', function()
           gitsigns.stage_hunk { vim.fn.line '.', vim.fn.line 'v' }
-        end)
-        map('v', '<leader>hr', function()
+        end, opts)
+        vim.keymap.set('v', '<leader>hr', function()
           gitsigns.reset_hunk { vim.fn.line '.', vim.fn.line 'v' }
-        end)
+        end, opts)
       end,
     },
   },
@@ -270,22 +269,18 @@ vim.api.nvim_create_autocmd('LspDetach', {
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('keymaps-lsp-attach', { clear = true }),
   callback = function(event)
-    local map = function(modes, keys, func)
-      vim.keymap.set(modes, keys, func, { buffer = event.buf })
-    end
-
+    local opts = { buffer = event.buf }
     local builtin = require 'telescope.builtin'
-    map('n', 'gd', builtin.lsp_definitions)
-    map('n', 'grr', function()
+    vim.keymap.set('n', 'gd', builtin.lsp_definitions, opts)
+    vim.keymap.set('n', 'grr', function()
       builtin.lsp_references { show_line = false }
-    end)
-    map('n', 'gri', builtin.lsp_implementations)
-    map('n', 'grt', builtin.lsp_type_definitions)
-    map('n', 'gO', builtin.lsp_document_symbols)
-    map('n', '<leader>t', builtin.lsp_dynamic_workspace_symbols)
-
-    map('n', 'gD', vim.lsp.buf.declaration)
-    map({ 'i', 'n' }, '<C-k>', vim.lsp.buf.signature_help)
+    end, opts)
+    vim.keymap.set('n', 'gri', builtin.lsp_implementations, opts)
+    vim.keymap.set('n', 'grt', builtin.lsp_type_definitions, opts)
+    vim.keymap.set('n', 'gO', builtin.lsp_document_symbols, opts)
+    vim.keymap.set('n', '<leader>t', builtin.lsp_dynamic_workspace_symbols, opts)
+    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+    vim.keymap.set({ 'i', 'n' }, '<C-k>', vim.lsp.buf.signature_help, opts)
   end,
 })
 
