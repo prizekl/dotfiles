@@ -129,7 +129,7 @@ require('lazy').setup({
         html = { filetypes = { 'html', 'twig', 'hbs' } },
         gopls = {},
         pyright = {},
-        lua_ls = { settings = { Lua = { diagnostics = { disable = { 'missing-fields' } } } } },
+        lua_ls = {},
       }
 
       local ensure_installed = vim.tbl_keys(servers)
@@ -142,21 +142,20 @@ require('lazy').setup({
   },
   {
     'stevearc/conform.nvim',
-    keys = { {
-      '<leader>f',
-      function()
+    config = function()
+      require('conform').setup {
+        formatters_by_ft = {
+          lua = { 'stylua' },
+          python = { 'isort', 'black' },
+          typescript = { 'prettierd', 'prettier', stop_after_first = true },
+          typescriptreact = { 'prettierd', 'prettier', stop_after_first = true },
+          json = { 'prettierd', 'prettier', stop_after_first = true },
+        },
+      }
+      vim.keymap.set('n', '<leader>f', function()
         require('conform').format { async = true, lsp_format = 'fallback' }
-      end,
-    } },
-    opts = {
-      formatters_by_ft = {
-        lua = { 'stylua' },
-        python = { 'isort', 'black' },
-        typescript = { 'prettierd', 'prettier', stop_after_first = true },
-        typescriptreact = { 'prettierd', 'prettier', stop_after_first = true },
-        json = { 'prettierd', 'prettier', stop_after_first = true },
-      },
-    },
+      end)
+    end,
   },
 
   {
@@ -208,25 +207,23 @@ require('lazy').setup({
       {
         'nvim-treesitter/nvim-treesitter-context',
         config = function()
-          vim.api.nvim_set_hl(0, 'TreesitterContext', { bg = 'NONE' })
-          vim.api.nvim_set_hl(0, 'TreesitterContextSeparator', { link = 'LineNr' })
-
-          vim.keymap.set('n', '[t', function()
-            require('treesitter-context').go_to_context(vim.v.count1)
-          end, { silent = true })
-
           require('treesitter-context').setup {
             multiwindow = true,
             multiline_threshold = 1,
             separator = '─',
           }
+          vim.keymap.set('n', '[t', function()
+            require('treesitter-context').go_to_context(vim.v.count1)
+          end, { silent = true })
+
+          vim.api.nvim_set_hl(0, 'TreesitterContext', { bg = 'NONE' })
+          vim.api.nvim_set_hl(0, 'TreesitterContextSeparator', { link = 'LineNr' })
         end,
       },
       {
         'Wansmer/treesj',
         config = function()
           require('treesj').setup { use_default_keymaps = false }
-
           vim.keymap.set('n', '<leader>m', require('treesj').toggle)
           vim.keymap.set('n', '<leader>M', function()
             require('treesj').toggle { split = { recursive = true } }
@@ -290,25 +287,6 @@ vim.api.nvim_set_hl(0, 'WinSeparator', { link = 'LineNr' })
 vim.api.nvim_set_hl(0, 'DiffAdd', { bg = 'NvimDarkGreen' })
 vim.api.nvim_set_hl(0, 'DiffChange', { bg = 'NvimDarkGrey4' })
 vim.api.nvim_set_hl(0, 'TelescopeNormal', { link = 'NormalFloat' })
-
-vim.api.nvim_set_hl(0, 'Priority', { fg = 'red' })
-vim.api.nvim_set_hl(0, 'Ongoing', { fg = 'orange' })
-vim.api.nvim_set_hl(0, 'Done', { fg = 'green' })
-vim.api.nvim_set_hl(0, 'Cancelled', { fg = 'magenta' })
-vim.api.nvim_set_hl(0, 'Time', { fg = 'pink' })
-vim.api.nvim_set_hl(0, 'Heading', { bold = true })
-
-vim.api.nvim_create_autocmd({ 'BufReadPost', 'InsertLeave' }, {
-  pattern = '*.txt',
-  callback = function()
-    vim.cmd "syntax match Priority '\\[!\\]'"
-    vim.cmd "syntax match Ongoing '\\[o\\]'"
-    vim.cmd "syntax match Done '\\[x\\]'"
-    vim.cmd "syntax match Cancelled '\\[\\~\\]'"
-    vim.cmd "syntax match Time '\\*\\*[^\\*]\\+\\*\\*'"
-    vim.cmd "syntax match Heading '#.*'"
-  end,
-})
 
 local cached_diag = {}
 local function get_diagnostics(buf, active)
