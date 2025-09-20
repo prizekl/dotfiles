@@ -10,6 +10,6 @@ shell-integration-features = no-cursor
 cursor-style-blink = false
 macos-option-as-alt = true
 
-theme = NvimDark
+theme = Nvim Dark
 cursor-color = magenta
 split-divider-color = gray35
