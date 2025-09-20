@@ -1,8 +1,8 @@
--- Search in visual mode selection '<Esc>/\\%V')
--- No eager: \{-} Start of match: \zs End of match: \ze
+-- Search in visual mode selection: '<Esc>/\\%V'
+-- No eager: \{-}, Start of match: \zs, End of match: \ze
 -- Word boundary left: \< Word boundary right: \>
--- go to end of search match //e
--- PCRE (?-i) case sensitive
+-- go to end of search match: //e
+-- case sensitive: PCRE (?-i), multiline: \s*
 
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
