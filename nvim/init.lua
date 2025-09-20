@@ -30,8 +30,7 @@ vim.keymap.set('i', '<CR>', function()
 end, { expr = true })
 
 vim.api.nvim_create_user_command('RelPath', function()
-  local filepath = vim.fn.expand '%'
-  vim.fn.setreg('+', filepath)
+  vim.fn.setreg('+', vim.fn.expand '%')
 end, {})
 
 vim.api.nvim_create_autocmd('TextYankPost', {
