@@ -249,10 +249,13 @@ vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setqflist)
 
 vim.api.nvim_create_autocmd('LspAttach', {
-  callback = function(args)
-    local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
+  callback = function(ev)
+    local client = vim.lsp.get_client_by_id(ev.data.client_id)
+    if not (client and client.server_capabilities.completionProvider) then
+      return
+    end
     client.server_capabilities.completionProvider.triggerCharacters = vim.split('qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM. ', '')
-    vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
+    vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
   end,
 })
 
