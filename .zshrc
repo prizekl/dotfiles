@@ -31,3 +31,15 @@ users() {
     echo "Searching for workspaces with search pattern: $searchPattern"
     npx convex run workspaces/members:_getUserWorkspaceInformation "$jsonPayload" --prod
 }
+function lfc() {
+    if [ "$#" -lt 1 ]; then
+        echo "Usage: lfcontact <contact_id>"
+        return 1
+    fi
+    local contact_id="$*"
+    local filter="metadata;stringObject;contactId;=;$contact_id"
+    local encoded_filter=$(printf '%s' "$filter" | python3 -c "import sys, urllib.parse; print(urllib.parse.quote(sys.stdin.read().strip()))")
+    local url="https://cloud.langfuse.com/project/clqpk29x10000tzmpeyudr9ql/traces?filter=$encoded_filter"
+    echo "Opening Langfuse with contact ID: $contact_id"
+    open "$url"
+}
