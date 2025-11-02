@@ -49,8 +49,12 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   { 'tpope/vim-surround', keys = { 'ds', 'cs', 'ys', { 'S', mode = 'v' } } },
   {
-    'supermaven-inc/supermaven-nvim',
-    opts = { ignore_filetypes = { 'TelescopePrompt', 'text' } },
+    'zbirenbaum/copilot.lua',
+    config = function()
+      require('copilot').setup {
+        suggestion = { auto_trigger = true, keymap = { accept = '<tab>' } },
+      }
+    end,
   },
 
   {
@@ -248,15 +252,15 @@ vim.diagnostic.config { jump = { float = true }, severity_sort = true }
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setqflist)
 
-vim.api.nvim_create_autocmd('LspAttach', {
-  callback = function(ev)
-    local client = vim.lsp.get_client_by_id(ev.data.client_id)
-    if client and client.server_capabilities.completionProvider then
-      client.server_capabilities.completionProvider.triggerCharacters = vim.split('qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM. ', '')
-      vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
-    end
-  end,
-})
+-- vim.api.nvim_create_autocmd('LspAttach', {
+--   callback = function(ev)
+--     local client = vim.lsp.get_client_by_id(ev.data.client_id)
+--     if client and client.server_capabilities.completionProvider then
+--       client.server_capabilities.completionProvider.triggerCharacters = vim.split('qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM. ', '')
+--       vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
+--     end
+--   end,
+-- })
 
 vim.api.nvim_create_autocmd('LspDetach', {
   callback = function(args)
