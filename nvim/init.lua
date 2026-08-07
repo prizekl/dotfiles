@@ -206,8 +206,6 @@ require('treesitter-context').setup {
 vim.keymap.set('n', '[t', function()
     require('treesitter-context').go_to_context(vim.v.count1)
 end, { silent = true })
-vim.api.nvim_set_hl(0, 'TreesitterContext', { bg = 'NONE' })
-vim.api.nvim_set_hl(0, 'TreesitterContextSeparator', { link = 'LineNr' })
 
 require('treesj').setup { use_default_keymaps = false }
 vim.keymap.set('n', '<leader>m', require('treesj').toggle)
