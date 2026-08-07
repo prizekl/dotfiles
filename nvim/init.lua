@@ -222,20 +222,7 @@ vim.api.nvim_create_autocmd('FileType', {
     end,
 })
 
-vim.diagnostic.config {
-    jump = {
-        on_jump = function(diagnostic, bufnr)
-            if diagnostic then
-                vim.diagnostic.open_float {
-                    bufnr = bufnr,
-                    scope = 'cursor',
-                    focus = false,
-                }
-            end
-        end,
-    },
-    severity_sort = true,
-}
+vim.diagnostic.config { jump = { float = true }, severity_sort = true }
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setqflist)
 
@@ -291,5 +278,4 @@ function _G.render_statusline()
     local d = get_diagnostics(vim.api.nvim_win_get_buf(vim.g.statusline_winid))
     return table.concat { '%<', '%f %h%w%m%r', '%=', d, '%-14.(%l/%L,%c%V%) %P' }
 end
-
 vim.o.statusline = '%!v:lua.render_statusline()'
