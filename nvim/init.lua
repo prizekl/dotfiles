@@ -241,11 +241,6 @@ vim.diagnostic.config {
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setqflist)
 
-local completion_triggers = {}
-for i = 32, 126 do
-    completion_triggers[#completion_triggers + 1] = string.char(i)
-end
-
 vim.api.nvim_create_autocmd('LspAttach', {
     group = vim.api.nvim_create_augroup('native-lsp-completion', { clear = true }),
     callback = function(e)
@@ -253,11 +248,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
         if not client or not client:supports_method 'textDocument/completion' then
             return
         end
-
+        local completion_triggers = {}
+        for i = 32, 126 do completion_triggers[#completion_triggers + 1] = string.char(i) end
         client.server_capabilities.completionProvider.triggerCharacters = completion_triggers
-        vim.lsp.completion.enable(true, client.id, e.buf, {
-            autotrigger = true,
-        })
+        vim.lsp.completion.enable(true, client.id, e.buf, { autotrigger = true })
     end,
 })
 
