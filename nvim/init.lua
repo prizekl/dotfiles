@@ -133,33 +133,24 @@ require('mason').setup()
 require('fidget').setup {}
 require('lazydev').setup { library = { { path = '${3rd}/luv/library' } } }
 
-do
-    local servers = {
-        ts_ls = {
-            on_attach = function(client)
-                vim.api.nvim_buf_create_user_command(0, 'OrganizeImports', function()
-                    client:exec_cmd {
-                        command = '_typescript.organizeImports',
-                        arguments = { vim.fn.expand '%:p' },
-                    }
-                end, {})
-            end,
-        },
-        html = { filetypes = { 'html', 'twig', 'hbs' } },
-        gopls = {},
-        pyright = {},
-        lua_ls = {},
-    }
-
-    for name, opts in pairs(servers) do
-        vim.lsp.config(name, opts)
-    end
-
-    require('mason-lspconfig').setup {
-        ensure_installed = vim.tbl_keys(servers),
-        automatic_enable = true,
-    }
-end
+local servers = {
+    ts_ls = {
+        on_attach = function(client)
+            vim.api.nvim_buf_create_user_command(0, 'OrganizeImports', function()
+                client:exec_cmd {
+                    command = '_typescript.organizeImports',
+                    arguments = { vim.fn.expand '%:p' },
+                }
+            end, {})
+        end,
+    },
+    html = { filetypes = { 'html', 'twig', 'hbs' } },
+    gopls = {},
+    pyright = {},
+    lua_ls = {},
+}
+for name, opts in pairs(servers) do vim.lsp.config(name, opts) end
+require('mason-lspconfig').setup { ensure_installed = vim.tbl_keys(servers) }
 
 require('conform').setup {
     formatters_by_ft = {
@@ -226,17 +217,16 @@ vim.diagnostic.config { jump = { float = true }, severity_sort = true }
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setqflist)
 
+local ascii_triggers = {}
+for i = 32, 126 do ascii_triggers[#ascii_triggers + 1] = string.char(i) end
 vim.api.nvim_create_autocmd('LspAttach', {
     group = vim.api.nvim_create_augroup('native-lsp-completion', { clear = true }),
     callback = function(e)
         local client = vim.lsp.get_client_by_id(e.data.client_id)
-        if not client or not client:supports_method 'textDocument/completion' then
-            return
+        if client and client:supports_method 'textDocument/completion' then
+            client.server_capabilities.completionProvider.triggerCharacters = ascii_triggers
+            vim.lsp.completion.enable(true, client.id, e.buf, { autotrigger = true })
         end
-        local completion_triggers = {}
-        for i = 32, 126 do completion_triggers[#completion_triggers + 1] = string.char(i) end
-        client.server_capabilities.completionProvider.triggerCharacters = completion_triggers
-        vim.lsp.completion.enable(true, client.id, e.buf, { autotrigger = true })
     end,
 })
 
@@ -278,4 +268,5 @@ function _G.render_statusline()
     local d = get_diagnostics(vim.api.nvim_win_get_buf(vim.g.statusline_winid))
     return table.concat { '%<', '%f %h%w%m%r', '%=', d, '%-14.(%l/%L,%c%V%) %P' }
 end
+
 vim.o.statusline = '%!v:lua.render_statusline()'
