@@ -33,6 +33,9 @@ vim.api.nvim_create_user_command('RelPath', function()
     vim.fn.setreg('+', vim.fn.expand '%')
 end, {})
 
+vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'CursorHold', 'CursorHoldI' },
+    { command = "if mode() != 'c' | checktime | endif" })
+
 vim.api.nvim_create_autocmd('TextYankPost', {
     group = vim.api.nvim_create_augroup('YankHighlight', { clear = true }),
     callback = function()
@@ -253,19 +256,9 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end,
 })
 
-local cached_diag = {}
-local function get_diagnostics(buf)
-    local k = tostring(buf)
-    if vim.fn.mode():match '^i' then
-        return cached_diag[k] or ''
-    end
-    local status = vim.diagnostic.status(buf)
-    cached_diag[k] = status ~= '' and (status .. '  ') or ''
-    return cached_diag[k]
-end
-
 function _G.render_statusline()
-    local d = get_diagnostics(vim.api.nvim_win_get_buf(vim.g.statusline_winid))
+    local status = vim.diagnostic.status(vim.api.nvim_win_get_buf(vim.g.statusline_winid))
+    local d = status ~= '' and (status .. '  ') or ''
     return table.concat { '%<', '%f %h%w%m%r', '%=', d, '%-14.(%l/%L,%c%V%) %P' }
 end
 
