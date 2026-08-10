@@ -1,2 +1,3 @@
 font-size = 14
 macos-option-as-alt = true
+font-feature = -calt
