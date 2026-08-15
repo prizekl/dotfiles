@@ -168,6 +168,11 @@ local fzf_lua = require 'fzf-lua'
 fzf_lua.setup {
     winopts = { preview = { layout = 'vertical' } },
     grep = { rg_opts = '--column --line-number --no-heading --color=always --smart-case --multiline' },
+    keymap = { builtin = {
+            ['<C-d>'] = 'preview-page-down',
+            ['<C-u>'] = 'preview-page-up',
+        },
+    },
 }
 
 vim.keymap.set('n', '<C-f>', function()
