@@ -53,9 +53,7 @@ vim.api.nvim_create_autocmd('PackChanged', {
         if kind ~= 'install' and kind ~= 'update' then
             return
         end
-        if name == 'telescope-fzf-native.nvim' then
-            vim.system({ 'make' }, { cwd = ev.data.path }):wait()
-        elseif name == 'nvim-treesitter' then
+        if name == 'nvim-treesitter' then
             require('nvim-treesitter.install').update({}, { summary = true })
         end
     end,
@@ -73,19 +71,14 @@ vim.pack.add {
     gh 'folke/lazydev.nvim',
     gh 'stevearc/conform.nvim',
     gh 'stevearc/oil.nvim',
-    gh 'nvim-telescope/telescope.nvim',
+    gh 'ibhagwan/fzf-lua',
     gh 'nvim-mini/mini.icons',
-    gh 'nvim-lua/plenary.nvim',
     gh 'nvim-treesitter/nvim-treesitter-context',
     gh 'Wansmer/treesj',
     gh 'folke/ts-comments.nvim',
     gh 'windwp/nvim-ts-autotag',
     { src = gh 'nvim-treesitter/nvim-treesitter', version = 'main' },
 }
-
-if vim.fn.executable 'make' == 1 then
-    vim.pack.add { gh 'nvim-telescope/telescope-fzf-native.nvim' }
-end
 
 require('copilot').setup {
     suggestion = { auto_trigger = true, hide_during_completion = false, keymap = { accept = '<tab>' } },
@@ -173,26 +166,22 @@ end)
 require('oil').setup { view_options = { show_hidden = true } }
 vim.keymap.set('n', '<leader>n', '<CMD>Oil<CR>')
 
-pcall(require('telescope').load_extension, 'fzf')
-require('telescope').setup {
-    defaults = {
-        path_display = { 'truncate' },
-        layout_strategy = 'vertical',
-        vimgrep_arguments = { 'rg', '--multiline', '--color=never', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case' },
-    },
+local fzf_lua = require 'fzf-lua'
+fzf_lua.setup {
+    winopts = { preview = { layout = 'vertical' } },
+    grep = { rg_opts = '--column --line-number --no-heading --color=always --smart-case --multiline' },
 }
 
-local builtin = require 'telescope.builtin'
 vim.keymap.set('n', '<C-f>', function()
-    builtin.buffers { ignore_current_buffer = true, sort_mru = true }
+    fzf_lua.buffers { previewer = false, ignore_current_buffer = true, sort_lastused = true }
 end)
 vim.keymap.set('n', '<C-p>', function()
-    builtin.find_files { previewer = false, hidden = true }
+    fzf_lua.files { fd_opts = '--color=never --type f --type l --hidden --exclude .git' }
 end)
-vim.keymap.set('n', '<leader>gf', builtin.git_status)
-vim.keymap.set('n', '<leader>lg', builtin.live_grep)
-vim.keymap.set('n', '<leader>d', builtin.diagnostics)
-vim.keymap.set('n', '<leader>re', builtin.resume)
+vim.keymap.set('n', '<leader>gf', fzf_lua.git_status)
+vim.keymap.set('n', '<leader>lg', fzf_lua.live_grep)
+vim.keymap.set('n', '<leader>d', fzf_lua.diagnostics_workspace)
+vim.keymap.set('n', '<leader>re', fzf_lua.resume)
 
 require('treesitter-context').setup {
     multiwindow = true,
@@ -245,14 +234,12 @@ vim.api.nvim_create_autocmd('LspAttach', {
     group = vim.api.nvim_create_augroup('keymaps-lsp-attach', { clear = true }),
     callback = function(e)
         local opts = { buffer = e.buf }
-        vim.keymap.set('n', 'gd', builtin.lsp_definitions, opts)
-        vim.keymap.set('n', 'grr', function()
-            builtin.lsp_references { show_line = false }
-        end, opts)
-        vim.keymap.set('n', 'gri', builtin.lsp_implementations, opts)
-        vim.keymap.set('n', 'grt', builtin.lsp_type_definitions, opts)
-        vim.keymap.set('n', 'gO', builtin.lsp_document_symbols, opts)
-        vim.keymap.set('n', '<leader>t', builtin.lsp_dynamic_workspace_symbols, opts)
+        vim.keymap.set('n', 'gd', fzf_lua.lsp_definitions, opts)
+        vim.keymap.set('n', 'grr', fzf_lua.lsp_references, opts)
+        vim.keymap.set('n', 'gri', fzf_lua.lsp_implementations, opts)
+        vim.keymap.set('n', 'grt', fzf_lua.lsp_typedefs, opts)
+        vim.keymap.set('n', 'gO', fzf_lua.lsp_document_symbols, opts)
+        vim.keymap.set('n', '<leader>t', fzf_lua.lsp_live_workspace_symbols, opts)
         vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
         vim.keymap.set({ 'i', 'n' }, '<C-k>', vim.lsp.buf.signature_help, opts)
     end,
