@@ -168,9 +168,9 @@ fzf_lua.setup {
     winopts = { preview = { layout = 'vertical' } },
     grep = { rg_opts = '--column --line-number --no-heading --color=always --smart-case --multiline' },
     keymap = { builtin = {
-            ['<C-d>'] = 'preview-page-down',
-            ['<C-u>'] = 'preview-page-up',
-        },
+        ['<C-d>'] = 'preview-page-down',
+        ['<C-u>'] = 'preview-page-up',
+    },
     },
 }
 
@@ -204,9 +204,7 @@ require('ts-comments').setup()
 require('nvim-ts-autotag').setup {}
 
 vim.api.nvim_create_autocmd('FileType', {
-    callback = function()
-        pcall(vim.treesitter.start)
-    end,
+    callback = function() pcall(vim.treesitter.start) end
 })
 
 vim.diagnostic.config { jump = { float = true }, severity_sort = true }
