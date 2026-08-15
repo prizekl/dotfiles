@@ -67,14 +67,14 @@ vim.pack.add {
     gh 'sindrets/diffview.nvim',
     gh 'lewis6991/gitsigns.nvim',
     gh 'neovim/nvim-lspconfig',
-    gh 'williamboman/mason.nvim',
-    gh 'williamboman/mason-lspconfig.nvim',
+    gh 'mason-org/mason.nvim',
+    gh 'mason-org/mason-lspconfig.nvim',
     gh 'j-hui/fidget.nvim',
     gh 'folke/lazydev.nvim',
     gh 'stevearc/conform.nvim',
     gh 'stevearc/oil.nvim',
     gh 'nvim-telescope/telescope.nvim',
-    gh 'nvim-tree/nvim-web-devicons',
+    gh 'nvim-mini/mini.icons',
     gh 'nvim-lua/plenary.nvim',
     gh 'nvim-treesitter/nvim-treesitter-context',
     gh 'Wansmer/treesj',
@@ -132,6 +132,8 @@ require('gitsigns').setup {
     end,
 }
 
+require('mini.icons').setup()
+require('mini.icons').mock_nvim_web_devicons()
 require('mason').setup()
 require('fidget').setup {}
 require('lazydev').setup { library = { { path = '${3rd}/luv/library' } } }
