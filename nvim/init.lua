@@ -43,9 +43,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     end,
 })
 
-local function gh(repo)
-    return 'https://github.com/' .. repo
-end
+local function gh(repo) return 'https://github.com/' .. repo end
 
 vim.api.nvim_create_autocmd('PackChanged', {
     callback = function(ev)
