@@ -20,7 +20,6 @@ vim.o.swapfile = false
 vim.o.termguicolors = true
 vim.api.nvim_command 'packadd Cfilter'
 vim.opt.showmode = false
-vim.opt.shortmess:append 'c'
 vim.o.winborder = 'rounded'
 
 vim.o.completeopt = 'menuone,noselect,noinsert,popup'
