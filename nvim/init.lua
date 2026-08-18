@@ -50,7 +50,9 @@ vim.api.nvim_create_autocmd('PackChanged', {
             return
         end
         if name == 'nvim-treesitter' then
-            require('nvim-treesitter.install').update({}, { summary = true })
+            if not ev.data.active then vim.cmd.packadd 'nvim-treesitter' end
+            vim.cmd 'TSUpdate'
+            return
         end
     end,
 })
