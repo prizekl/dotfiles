@@ -36,9 +36,7 @@ vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'CursorHold', 'CursorHo
 
 vim.api.nvim_create_autocmd('TextYankPost', {
     group = vim.api.nvim_create_augroup('YankHighlight', { clear = true }),
-    callback = function()
-        vim.hl.on_yank()
-    end,
+    callback = function() vim.hl.hl_op() end,
 })
 
 local function gh(repo) return 'https://github.com/' .. repo end
